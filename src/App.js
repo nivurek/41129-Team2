@@ -10,7 +10,7 @@ const Services = () => <h1>Our Services</h1>;
 const Contact = () => <h1>Contact Us</h1>;
 
 function App() {
-  const isAuth = false;
+  const isAuth = true;
   
   return (
     <div className="App">
