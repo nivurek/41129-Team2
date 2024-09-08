@@ -24,3 +24,8 @@ yarn-error.log*
 
 # environment (if not using vscode, please add your IDE settings here)
 .vscode
+
+
+#credentials ^0^
+server/config.env
+
