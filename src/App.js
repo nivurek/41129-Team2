@@ -17,7 +17,7 @@ function App() {
       <Router>
       <div>
         <Navbar authorised={isAuth} />
-        <Container style={{ marginTop: '7em', width: "100%", backgroundColor: 'orange' }}>
+        <Container>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
