@@ -8,6 +8,10 @@ html, body, #root, .App {
   padding: 0;
 }
 
+.primaryContainer {
+  display: flex;
+}
+
 .navbar-container {
   padding: 1.2em;
 }
