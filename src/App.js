@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import LoginPage from './pages/loginPage';
+import LoginPage_mui from './pages/loginPage_mui';
+import LoginPage_prime from './pages/loginPage_prime';
 
 // import testData from './testdata.json';
 
@@ -61,6 +63,8 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin}/>} />
+            <Route path="/loginmui" element={<LoginPage_mui userData={userObjects} handleLogin={handleLogin}/>} />
+            <Route path="/loginprime" element={<LoginPage_prime userData={userObjects} handleLogin={handleLogin}/>} />
           </Routes>
         </Container>
     </Router>
