@@ -1,8 +1,8 @@
 import React from "react";
 
-import ScreenshotUpload from '/src/components/screenshotUploadComponent'
-import NotAuthorised from '/src/components/notAuthorisedComponent'
-import ResultsComponent from '/src/components/resultsComponent'
+import ScreenshotUpload from './components/ScreenshotUploadComponent'
+import NotAuthorised from '../shared/NotAuthorisedComponent'
+import ResultsComponent from './components/ResultsComponent'
 
 
 const Main = ({authorised}) => {
