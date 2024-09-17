@@ -1,104 +1,73 @@
 import React, { useState } from 'react';
-import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  ButtonGroup,
+  Form,
+  Grid,
+  Header,
+  Icon,
+  Message,
+  Menu,
+  MenuItem,
+  Segment,
+} from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 
+import LoginGrid from '../components/loginComponent';
+import SignupGrid from '../components/signupComponent';
+
+
 const LoginPage = ({userData, handleLogin}) => {
-  const navigate = useNavigate();
 
-  // State to hold form values
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  });
-
-  // State to handle error messages (optional)
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Handle form input changes
-  const handleInputChange = (e, { name, value }) => {
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  // Handle form submission
-  const handleSubmit = () => {
-    const { username, password } = formData;
-    console.log('Form Data:', formData);
-
-    // Mock login logic (replace with your API call)
-    const userObject = userData[username];
-    console.log("Found user >", userObject);
-    if (userObject === undefined) {
-      setErrorMessage("Invalid username or password");
-    } else {
-      if (userObject.Password === password) {
-        console.log("Success");
-        setErrorMessage("");
-        navigate('/');
-        handleLogin(userObject);
-      } else {
-        console.log("Fail");
-        setErrorMessage("Invalid username or password");
-      }
-    }
-  };
+  const [loginMode, setLoginMode] = useState(true);
 
   return (
-    <Grid textAlign="center" style={{ height: '100%', paddingTop: "50px" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          Log in to your account
-        </Header>
-        <Form size="large" onSubmit={handleSubmit}>
-          <Segment style={{ padding: "30px" }}>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Username"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-            />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-
-            <Button color="teal" fluid size="large">
-              Login
-            </Button>
-          </Segment>
-        </Form>
+    <div className='landingPages'>
+      <div className='rightSideBox' >
         
-        <Segment>
-        <Button
-          content={'Don\'t have an account? Sign up'}
-          icon={'right arrow'}
-          labelPosition='right'
-          fluid
-          basic
-          color='white'
-        />
-        </Segment>
+        <Grid style={{ paddingTop: "200px" }}>
+          <Grid.Column style={{ margin: "40px" }}>
 
-        {errorMessage && (
-          <Message error icon style={{fontWeight: "bold"}} onClick={()=> {setErrorMessage("")}}>
-            <Icon name='warning sign' size='mini'/>
-            {errorMessage}
-          </Message>
-        )}
-      </Grid.Column>
-    </Grid>
+            <Grid.Row columns={2}>
+              <Grid.Column width={2}>
+                <Menu
+                  secondary
+                  style= {{ backgroundColor: "rgb(241, 241, 241)", borderRadius: "10px" }}
+                >
+                  <MenuItem
+                    style={{ width: "50%", display: "flex", justifyContent: "center", alignItems: "center" }}
+                  >
+                    <Button fluid basic style={{ boxShadow: "none" }} active={!loginMode} onClick={() => setLoginMode(false)}>
+                      Sign Up
+                    </Button>
+                  </MenuItem>
+                  <MenuItem
+                    style={{ width: "50%", display: "flex", justifyContent: "center", alignItems: "center" }}
+                  >
+                    <Button fluid basic style={{ boxShadow: "none" }} active={loginMode} onClick={() => setLoginMode(true)}>
+                      Log In
+                    </Button>
+                  </MenuItem>
+                </Menu>
+                
+              </Grid.Column>
+            </Grid.Row>
+            
+            <Grid.Row>
+              {loginMode ? (
+                <LoginGrid userData={userData} handleLogin={handleLogin} />
+              ) : (
+                <SignupGrid/>
+              )}
+            </Grid.Row>
+
+          </Grid.Column>
+        </Grid>
+        
+      </div>
+    </div>
   );
 };
+
 
 export default LoginPage;

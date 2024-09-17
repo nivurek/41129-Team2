@@ -3,13 +3,43 @@ html, body, #root, .App {
   margin: 0;
 }
 
-.App {
+/* .App {
   background-color: rgb(223, 223, 223);
   padding: 0;
-}
+} */
 
 .primaryContainer {
   display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.ui.container {
+  margin: 0 !important;
+}
+
+.grid {
+  height: 100%;
+  width: 100%;
+}
+
+.landingPages {
+  display: flex;
+  justify-content: flex-end; /* Aligns flex-box to the right */
+  height: 100vh; /* 100% of the viewport height */
+  width: 100%;
+}
+
+.rightSideBox {
+  width: 50%;
+  height: 100%;
+  background-color: rgb(255, 255, 255); /* For visual representation, you can change this */
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  display: flex;
+  justify-content: center; /* Center content horizontally inside the box */
+  align-items: center; /* Center content vertically inside the box */
 }
 
 .navbar-container {
@@ -19,4 +49,12 @@ html, body, #root, .App {
 .navbar-container .ui.menu {
   font-size: 20px;
   background-color: rgb(154, 154, 154);
+}
+
+.loginBackgroundBanner {
+  background-image: url('./assets/background_banner.png');
+  background-size: cover;
+  background-position: center;
+  /* height: 100vh;
+  width: 100vw; */
 }
