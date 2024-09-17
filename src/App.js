@@ -1,9 +1,9 @@
 import './App.css';
 import React from 'react';
-import Navbar from './pages/navbar/navbarComponent';
+import Navbar from './pages/Navbar/components/NavbarComponent';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
-import Main from './pages/primaryScreenshot/primaryInputPage'
+import Main from './pages/PrimaryScreenshot/PrimaryInputPage'
 const Home = () => <h1>Home Page</h1>;
 const About = () => <h1>About Us</h1>;
 const Services = () => <h1>Our Services</h1>;
