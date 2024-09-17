@@ -27,7 +27,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
       style={{
         backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: '10% center',
         height: '100%',
         width: '100%',
       }}
