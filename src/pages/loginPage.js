@@ -15,11 +15,17 @@ import { useNavigate } from 'react-router-dom';
 
 import LoginGrid from '../components/loginComponent';
 import SignupGrid from '../components/signupComponent';
+import SwitchComponent from '../components/switchComponent';
 
 
 const LoginPage = ({userData, handleLogin}) => {
 
   const [loginMode, setLoginMode] = useState(true);
+
+  const handleToggle = (option) => {
+    console.log(`Toggled to: ${option}`)
+    // You can perform any action here based on the selected option
+  }
 
   return (
     <div className='landingPages'>
@@ -28,9 +34,10 @@ const LoginPage = ({userData, handleLogin}) => {
         <Grid style={{ paddingTop: "200px" }}>
           <Grid.Column style={{ margin: "40px" }}>
 
-            <Grid.Row columns={2}>
-              <Grid.Column width={2}>
-                <Menu
+            <Grid.Row>
+              <Grid.Column className='thisisparent'>
+                <SwitchComponent onToggle={handleToggle} />
+                {/* <Menu
                   secondary
                   style= {{ backgroundColor: "rgb(241, 241, 241)", borderRadius: "10px" }}
                 >
@@ -48,7 +55,7 @@ const LoginPage = ({userData, handleLogin}) => {
                       Log In
                     </Button>
                   </MenuItem>
-                </Menu>
+                </Menu> */}
                 
               </Grid.Column>
             </Grid.Row>
