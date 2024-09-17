@@ -36,8 +36,8 @@ const LoginPage = ({userData, handleLogin}) => {
 
             <Grid.Row>
               <Grid.Column className='thisisparent'>
-                <SwitchComponent onToggle={handleToggle} />
-                {/* <Menu
+                {/* <SwitchComponent onToggle={handleToggle} /> */}
+                <Menu
                   secondary
                   style= {{ backgroundColor: "rgb(241, 241, 241)", borderRadius: "10px" }}
                 >
@@ -55,7 +55,7 @@ const LoginPage = ({userData, handleLogin}) => {
                       Log In
                     </Button>
                   </MenuItem>
-                </Menu> */}
+                </Menu>
                 
               </Grid.Column>
             </Grid.Row>
