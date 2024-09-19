@@ -3,7 +3,7 @@ import {
 	Menu,
 	Icon
 } from "semantic-ui-react";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 
 const Profile = ({isLoggedIn}) => {
