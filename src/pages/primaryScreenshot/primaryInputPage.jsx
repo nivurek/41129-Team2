@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
-import ScreenshotUpload from './components/ScreenshotUploadComponent'
+import ScreenshotUploadComponent from './components/ScreenshotUploadComponent'
 import NotAuthorised from '../shared/NotAuthorisedComponent'
 import ResultsComponent from './components/ResultsComponent'
 
 
 const Main = ({authorised}) => {
-  
-  
+  const [results, setResults] = useState({});
+
+  const updateResults = (data) => {
+    setResults({...data});
+  }
 
   if (authorised) return (
-    <div className="page-container">
-        <div className="screenshot-upload-container">
-            <ScreenshotUpload />
+    <div className="grid h-full">
+        <div className="col-8">
+            <div className="screenshot-upload-container">
+              <ScreenshotUploadComponent updateResults={updateResults} />
+            </div>
         </div>
-        <div className="results-container">
-            <ResultsComponent />
+        <div className="col-4">
+          <div className="results-container">
+            <ResultsComponent results={results} />
+          </div>
         </div>
     </div>
     
