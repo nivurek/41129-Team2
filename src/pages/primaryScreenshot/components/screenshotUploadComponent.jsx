@@ -5,22 +5,7 @@ import { usePalette } from 'react-palette'
 const ScreenshotUpload = ({updateResults}) => {
     const [imageUrl, setImageUrl] = useState('');
 
-    const { data, loading, error } = usePalette(imageUrl);
-
-    // Vibrant.from('path/to/image').getPalette()
-    // .then((palette) => console.log(palette))
-
-    // useEffect(() => {
-    //     fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data);
-    //             setColours(data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         });
-    // }, []);
+    const { data } = usePalette(imageUrl);
 
     useEffect(() => {
         console.log('data', data);

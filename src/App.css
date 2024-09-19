@@ -9,17 +9,18 @@ html, body, #root, .App {
 }
 
 .navbar-container {
-  padding: 1.2em;
+  padding: 1em;
 }
 
 .navbar-container .ui.menu {
   font-size: 20px;
   background-color: rgb(154, 154, 154);
+  height: 60px;
 }
 
 .content-container {
-  padding: 1.2em;
-  height: 100%;
+  padding: 1em;
+  height: calc(100% - 88px);
 }
 
 .screenshot-upload-container {
