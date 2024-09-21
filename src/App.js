@@ -1,17 +1,21 @@
 import './App.css';
 import './styles/globals.css';
 import React, { useState, useEffect } from 'react';
-import Navbar from './components/navbarComponent';
+import Navbar from './pages/Navbar/components/NavbarComponent';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import LoginPage from './pages/loginPage';
-import LoginPage_mui from './pages/loginPage_mui';
-import LoginPage_prime from './pages/loginPage_prime';
 
 import backgroundBanner from './assets/background_banner.png'; 
+import Main from './pages/primaryScreenshot/primaryInputPage.jsx';
+import { PrimeReactProvider } from 'primereact/api';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.css';
+import 'primeflex/primeflex.css';
 
-const Home = () => <h1>Home Page</h1>;
+
 const About = () => <h1>About Us</h1>;
 const Services = () => <h1>Our Services</h1>;
 const Contact = () => <h1>Contact Us</h1>;
@@ -20,34 +24,36 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
   const location = useLocation();
   const isLoginPage = ['/login', '/loginmui', '/loginprime'].includes(location.pathname);
   console.log("islogin?", isLoginPage);
+
+  const isAuth = false;
   
 
   return (
-    <div
-      className="App"
-      style={{
-        backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: '10% center',
-        height: '100%',
-        width: '100%',
-      }}
-    >
-      {!isLoginPage && (
-        <Navbar authorisedUser={loggedInUser} userObjects={userObjects} handleLogout={handleLogout} />
-      ) }
-      <div className='primaryContainer'>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin}/>} />
-          <Route path="/loginmui" element={<LoginPage_mui userData={userObjects} handleLogin={handleLogin}/>} />
-          <Route path="/loginprime" element={<LoginPage_prime userData={userObjects} handleLogin={handleLogin}/>} />
-        </Routes>
+    <PrimeReactProvider>
+      <div
+        className="App"
+        style={{
+          backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: '10% center',
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <Router>
+          <Navbar authorised={isAuth} />
+          <div className="content-container">
+            <Routes>
+              <Route path="/" element={<Main authorised={isAuth}/>} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </div>
+        </Router>
       </div>
-    </div>
+    </PrimeReactProvider>
   );
 };
 
