@@ -42,9 +42,14 @@ html, body, #root, .App {
   padding: 1rem;
 }
 
+.react-colorful {
+  position: absolute !important;
+  margin-left: 0.5rem;
+}
+
 .palette-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 
