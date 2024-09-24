@@ -1,7 +1,7 @@
 {
   "User": {
     "ID": 1,
-    "Name": "Tony",
+    "Name": "Alice",
     "Address": "alice@testmail.com",
     "Password": "asd",
     "Projects": [

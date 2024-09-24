@@ -42,7 +42,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
       >
         {!isLoginPage ? (
           <>
-            <Navbar authorised={isAuth} activeUser={activeUser} />
+            <Navbar authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
             <div className="content-container">
               <Routes>
                 <Route path="/" element={<Main authorised={isAuth}/>} />
