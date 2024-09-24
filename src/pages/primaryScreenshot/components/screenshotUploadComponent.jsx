@@ -9,12 +9,14 @@ const ScreenshotUpload = ({updateImageColorPalette}) => {
 
     useEffect(() => {
         console.log('data', data);
+        delete data.lightMuted;
+
         updateImageColorPalette({...data});
     }, [data])
 
     const onUpload = (event) => {console.log(event);};
 
-    const onRemove = (event) => {setImageUrl('');};
+    const onRemove = () => {setImageUrl('');};
     
     const uploadHandler = (event) => {
         setImageUrl(event.files[0].objectURL);

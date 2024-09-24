@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Splitter, SplitterPanel } from 'primereact/splitter';
 
 import ScreenshotUploadComponent from './components/ScreenshotUploadComponent'
 import NotAuthorised from '../shared/NotAuthorisedComponent'
@@ -10,18 +11,14 @@ const Main = ({authorised}) => {
 
     if (authorised) return (
 
-        <div className="grid h-full">
-            <div className="col-8">
-                <div className="screenshot-upload-container">
-                    <ScreenshotUploadComponent updateImageColorPalette={updateImageColorPalette} />
-                </div>
-            </div>
-            <div className="col-4">
-                <div className="results-container">
-                    <ResultsComponent imageColorPalette={imageColorPalette} />
-                </div>
-            </div>
-        </div>
+        <Splitter className="h-full">
+            <SplitterPanel className="screenshot-upload-container" size={65} minSize={35}>
+                <ScreenshotUploadComponent updateImageColorPalette={updateImageColorPalette} />
+            </SplitterPanel>
+            <SplitterPanel className="results-container" size={35} minSize={15}>
+                <ResultsComponent imageColorPalette={imageColorPalette} />
+            </SplitterPanel>
+        </Splitter>
 
     ); else return (
         <NotAuthorised />

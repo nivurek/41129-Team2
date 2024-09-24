@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tooltip } from "primereact/tooltip";
 import { Button } from 'primereact/button';
+import { Divider } from 'primereact/divider';
 import * as Color from '../../../utils/color.helpers';
 import { HexColorPicker } from 'react-colorful';
 import _, { set } from 'lodash';
@@ -37,7 +38,7 @@ const Results = ({imageColorPalette}) => {
                                     Color.hexToRgb(updatedImageColorPalette.lightVibrant ?? imageColorPalette.lightVibrant),
                                     Color.hexToRgb(updatedImageColorPalette.darkVibrant ?? imageColorPalette.darkVibrant),
                                     Color.hexToRgb(updatedImageColorPalette.muted ?? imageColorPalette.muted),
-                                    Color.hexToRgb(updatedImageColorPalette.lightMuted ?? imageColorPalette.lightMuted),
+                                    // Color.hexToRgb(updatedImageColorPalette.lightMuted ?? imageColorPalette.lightMuted),
                                     Color.hexToRgb(updatedImageColorPalette.darkMuted ?? imageColorPalette.darkMuted)
                                 ];
 
@@ -89,7 +90,7 @@ const Results = ({imageColorPalette}) => {
         <div>
             <h1>Results</h1>
             <div className="your-palette">
-                <div className="flex mb-3">
+                <div className="flex mb-3" style={{height: '2.5rem'}}>
                     <h2 className="mb-0 mr-3">Your Palette</h2>
                     {_.isEqual(updatedImageColorPalette, imageColorPalette) ? null :
                         <Button label="Reset Palette" icon="pi pi-refresh" size="small" outlined severity="danger" onClick={resetImageColorPalette} />
@@ -110,22 +111,33 @@ const Results = ({imageColorPalette}) => {
                         </div>
                     )})}
                 </div>
+            </div>
+            <div className="suggested-palettes mt-3">
                 <h2>Suggested Palettes</h2>
-                {colormindSuggestions.map((suggestion, i) => {
-                    return (
-                        <div className="palette-container" key={i}>
-                            {suggestion.map((color, j) => {
-                                return (
-                                    <div key={j}>
-                                        <Tooltip target={`.palette-color-colormind-${i}-${j}`} content={color} position="bottom" />
-                                        <div className={`palette-color-colormind-${i}-${j}`} style={{backgroundColor: color}}></div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    )
-                })}
-                <Button label="Generate New Suggestion" icon="pi pi-plus" size="small" severity="info" onClick={generateNewSuggestion} />
+                <div className="flex flex-nowrap">
+                    <Divider layout="vertical" />
+                    <div>
+                        {colormindSuggestions.map((suggestion, i) => {
+                            return (
+                                <div className="palette-container" key={i}>
+                                    {suggestion.map((color, j) => {
+                                        return (
+                                            <div key={j}>
+                                                <Tooltip target={`.palette-color-colormind-${i}-${j}`} content={color} position="bottom" />
+                                                <div className={`palette-color-colormind-${i}-${j}`} style={{backgroundColor: color}}></div>
+                                            </div>
+                                        )
+                                    })}
+                                    {_.isEqual(updatedImageColorPalette, suggestion) ? <div class="palette-button" /> :
+                                        <Button className="palette-button" icon="pi pi-upload" severity="info" tooltipOptions={{ position: 'bottom' }} tooltip="Set as your palette" text onClick={() => setUpdatedImageColorPalette(suggestion)} />
+                                    }
+                                    <Button className="palette-button" icon="pi pi-times" severity="danger" tooltipOptions={{ position: 'bottom' }} tooltip="Delete suggestion" text onClick={() => setColormindSuggestions(colormindSuggestions.filter((_, index) => index !== i))} />
+                                </div>
+                            )
+                        })}
+                        <Button label="Generate New Suggestion" className="mt-3" icon="pi pi-plus" size="small" severity="info" onClick={generateNewSuggestion} />
+                    </div>
+                </div>
             </div>
         </div>
     ); else return (
