@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 const LoginGrid = ({userData, handleLogin}) => {
+
+  console.log('LoginGrid:', userData, handleLogin);
+  
   const navigate = useNavigate();
 
   // State to hold form values

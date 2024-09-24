@@ -23,10 +23,10 @@ const Contact = () => <h1>Contact Us</h1>;
 const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) => {
   const location = useLocation();
   const isLoginPage = ['/login', '/loginmui', '/loginprime'].includes(location.pathname);
-  console.log("islogin?", isLoginPage);
+  console.log("isloginpage?", isLoginPage);
 
-  const isAuth = false;
-  
+  const isAuth = loggedInUser !== null;
+  const activeUser = (loggedInUser && loggedInUser.Name) ?? "";
 
   return (
     <PrimeReactProvider>
@@ -40,18 +40,25 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
           width: '100%',
         }}
       >
-        <Router>
-          <Navbar authorised={isAuth} />
-          <div className="content-container">
+        {!isLoginPage ? (
+          <>
+            <Navbar authorised={isAuth} activeUser={activeUser} />
+            <div className="content-container">
+              <Routes>
+                <Route path="/" element={<Main authorised={isAuth}/>} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </div>
+          </>
+        ) : (
+          <div>
             <Routes>
-              <Route path="/" element={<Main authorised={isAuth}/>} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin} />} />
             </Routes>
           </div>
-        </Router>
+        )}
       </div>
     </PrimeReactProvider>
   );

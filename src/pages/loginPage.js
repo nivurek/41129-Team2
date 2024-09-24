@@ -20,6 +20,8 @@ import SwitchComponent from '../components/switchComponent';
 
 const LoginPage = ({userData, handleLogin}) => {
 
+  console.log('LoginPage:', userData, handleLogin);
+
   const [loginMode, setLoginMode] = useState(true);
 
   const handleToggle = (option) => {

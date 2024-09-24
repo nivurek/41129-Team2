@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import {
 	Menu,
 	Icon
@@ -6,17 +7,32 @@ import {
 // import { Link } from 'react-router-dom';
 
 
-const Profile = ({isLoggedIn}) => {
-
+const Profile = ({isLoggedIn, activeUser, active, onClickMethod}) => {
+	console.log("profile comp - isloggedin?", isLoggedIn);
+	
 	return (
 		<>
 			{isLoggedIn ? (
-				<Menu.Item position="right" >
+				<Menu.Item
+					active={active}
+					position="right"
+					name="profile"
+					onClick={onClickMethod}
+					as={Link}
+					to='/login'
+				>
 					<Icon name="user" />
-					Profile
+					{activeUser	}
 				</Menu.Item>
 			) : (
-				<Menu.Item position="right" >
+				<Menu.Item
+					active={active}
+					position="right"
+					name="profile"
+					onClick={onClickMethod}
+					as={Link}
+					to='/login'
+				>
 					<Icon name="user" />
 					Log In
 				</Menu.Item>

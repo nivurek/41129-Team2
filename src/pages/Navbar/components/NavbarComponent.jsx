@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Profile from "./ProfileComponent";
 
 
-const Navbar = ({authorised}) => {
+const Navbar = ({authorised, activeUser}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
   // const [isAuth, setIsAuth] = React.useState(authorised);
@@ -48,7 +48,12 @@ const Navbar = ({authorised}) => {
             to='/contact'
           />
 
-          <Profile />
+          <Profile
+            isLoggedIn={authorised}
+            activeUser={activeUser}
+            active={activeItem === 'profile'}
+            onClickMethod={handleItemClick}
+          />
 
         </Menu>
     </div>
