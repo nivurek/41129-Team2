@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { usePalette } from 'react-palette'
 
-const ScreenshotUpload = ({updateResults}) => {
+const ScreenshotUpload = ({updateImageColorPalette}) => {
     const [imageUrl, setImageUrl] = useState('');
 
     const { data } = usePalette(imageUrl);
 
     useEffect(() => {
         console.log('data', data);
-        updateResults(data);
+        delete data.lightMuted;
+
+        updateImageColorPalette({...data});
     }, [data])
 
     const onUpload = (event) => {console.log(event);};
 
-    const onRemove = (event) => {setImageUrl('');};
+    const onRemove = () => {setImageUrl('');};
     
     const uploadHandler = (event) => {
         setImageUrl(event.files[0].objectURL);

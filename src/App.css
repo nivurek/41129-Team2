@@ -4,7 +4,7 @@ html, body, #root, .App {
 }
 
 .App {
-  background-color: rgb(223, 223, 223);
+  background-color: #f9fafb;
   padding: 0;
 }
 
@@ -14,7 +14,7 @@ html, body, #root, .App {
 
 .navbar-container .ui.menu {
   font-size: 20px;
-  background-color: rgb(154, 154, 154);
+  background-color: #f9fafb;
   height: 60px;
 }
 
@@ -27,8 +27,6 @@ html, body, #root, .App {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #c3c3c3;
-  border-radius: 5px;
   height: 100%;
   padding: 1rem;
 }
@@ -36,16 +34,20 @@ html, body, #root, .App {
 .results-container {
   display: flex;
   flex-direction: column;
-  border: 1px solid #c3c3c3;
-  border-radius: 5px;
   height: 100%;
   padding: 1rem;
 }
 
+.react-colorful {
+  position: absolute !important;
+  margin-left: 0.5rem;
+}
+
 .palette-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  /* justify-content: center; */
+  align-items: center;
 }
 
 .palette-container div[class^='palette-color-'], div[class*=' palette-color-'] {
@@ -55,4 +57,16 @@ html, body, #root, .App {
   border-radius: 5px;
   border: 1px solid #c3c3c3;
   cursor: pointer;
+}
+
+.palette-container div[class^='palette-color-user-'], div[class*=' palette-color-user-'] {
+  width: 75px;
+  height: 75px;
+}
+
+.palette-button {
+  width: 30px;
+  height: 30px;
+  margin: 0.5rem;
+  padding: 0;
 }
