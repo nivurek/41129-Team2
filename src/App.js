@@ -22,7 +22,7 @@ const Contact = () => <h1>Contact Us</h1>;
 
 const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) => {
   const location = useLocation();
-  const isLoginPage = ['/login', '/loginmui', '/loginprime'].includes(location.pathname);
+  const isLoginPage = ['/login'].includes(location.pathname);
   console.log("isloginpage?", isLoginPage);
 
   const isAuth = loggedInUser !== null;
