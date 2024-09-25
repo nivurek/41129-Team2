@@ -8,7 +8,7 @@ import { Container } from 'semantic-ui-react';
 import LoginPage from './pages/Login/LoginPage';
 
 import backgroundBanner from './assets/background_banner.png'; 
-import PrimaryInputComponent from './pages/PrimaryScreenshot/PrimaryInputPage.jsx';
+import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
@@ -45,7 +45,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
             <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
             <div className="content-container">
               <Routes>
-                <Route path="/" element={<PrimaryInputComponent authorised={isAuth}/>} />
+                <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
