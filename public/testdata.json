@@ -1,0 +1,94 @@
+{
+  "User": {
+    "ID": 1,
+    "Name": "Alice",
+    "Address": "alice@testmail.com",
+    "Password": "asd",
+    "Projects": [
+      {
+        "Name": "Website Redesign",
+        "Pages": [
+          {
+            "Name": "Home",
+            "Results": [
+              {
+                "ID": 101,
+                "Screenshot": "image_ref_101.png",
+                "Description": "Initial homepage design",
+                "Palettes": [
+                  {
+                    "ID": 201,
+                    "HexColours": ["#FF5733", "#33FF57", "#3357FF"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "About",
+            "Results": [
+              {
+                "ID": 102,
+                "Screenshot": "image_ref_102.png",
+                "Description": "About us page layout",
+                "Palettes": [
+                  {
+                    "ID": 202,
+                    "HexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "CreatedDate": "2024-09-01"
+      }
+    ]
+  },
+  "User2": {
+    "ID": 2,
+    "Name": "Bob",
+    "Address": "bob@testmail.com",
+    "Password": "asd",
+    "Projects": [
+      {
+        "Name": "Mobile App Mockups",
+        "Pages": [
+          {
+            "Name": "Login",
+            "Results": [
+              {
+                "ID": 103,
+                "Screenshot": "image_ref_103.png",
+                "Description": "Login screen concept",
+                "Palettes": [
+                  {
+                    "ID": 203,
+                    "HexColours": ["#000000", "#FFFFFF", "#CCCCCC"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Dashboard",
+            "Results": [
+              {
+                "ID": 104,
+                "Screenshot": "image_ref_104.png",
+                "Description": "User dashboard UI",
+                "Palettes": [
+                  {
+                    "ID": 204,
+                    "HexColours": ["#FF5733", "#33FFBD", "#5733FF"]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "CreatedDate": "2024-09-03"
+      }
+    ]
+  }
+}

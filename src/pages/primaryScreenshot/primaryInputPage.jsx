@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 
-import ScreenshotUploadComponent from './components/ScreenshotUploadComponent'
-import NotAuthorised from '../shared/NotAuthorisedComponent'
-import ResultsComponent from './components/ResultsComponent'
+import ScreenshotUploadComponent from './components/ScreenshotUploadComponent';
+import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
+import ResultsComponent from "./components/ResultsComponent";
 
-
-const Main = ({authorised}) => {
+const PrimaryInputComponent = ({authorised}) => {
     const [imageColorPalette, updateImageColorPalette] = useState({});
 
     if (authorised) return (
@@ -21,8 +20,8 @@ const Main = ({authorised}) => {
         </Splitter>
 
     ); else return (
-        <NotAuthorised />
+        <NotAuthorisedComponent />
     )
 };
 
-export default Main;
+export default PrimaryInputComponent;

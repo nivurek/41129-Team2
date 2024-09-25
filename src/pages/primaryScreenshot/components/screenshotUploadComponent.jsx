@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { usePalette } from 'react-palette'
 
-const ScreenshotUpload = ({updateImageColorPalette}) => {
+const ScreenshotUploadComponent = ({updateImageColorPalette}) => {
     const [imageUrl, setImageUrl] = useState('');
 
     const { data } = usePalette(imageUrl);
@@ -27,4 +27,4 @@ const ScreenshotUpload = ({updateImageColorPalette}) => {
     );
 };
 
-export default ScreenshotUpload;
+export default ScreenshotUploadComponent;
