@@ -14,7 +14,10 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 
-const SignupGrid = ({userData, handleLogin}) => {
+const LoginGridComponent = ({userData, handleLogin}) => {
+
+  console.log('LoginGrid:', userData, handleLogin);
+  
   const navigate = useNavigate();
 
   // State to hold form values
@@ -62,9 +65,6 @@ const SignupGrid = ({userData, handleLogin}) => {
 
         <Grid.Row>
           <Form onSubmit={handleSubmit} style={{ marginTop: "30px" }}>
-            <p style={{ textAlign: "center", fontWeight: "bold", color: "gray" }}>
-              Enter your email and confirm a password to sign up.
-            </p>
             <Form.Input
               fluid
               icon="user"
@@ -84,19 +84,9 @@ const SignupGrid = ({userData, handleLogin}) => {
               value={formData.password}
               onChange={handleInputChange}
             />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Confirm Password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
 
             <Button fluid size="large" style={{ backgroundColor: "rgb(229,185,75)" }}>
-              Sign Up
+              Login
             </Button>
 
             {errorMessage && (
@@ -108,9 +98,45 @@ const SignupGrid = ({userData, handleLogin}) => {
           </Form>
         </Grid.Row>
 
+        <Grid.Row columns={2} style={{fontWeight: "bold" }}>
+          {/* <Grid.Column>
+            x
+          </Grid.Column>
+          <Grid.Column>
+            x
+          </Grid.Column> */}
+          {/* <Segment>
+          <Grid columns={2}>
+            <Grid.Column textAlign='right'>
+              Forgot your password?
+            </Grid.Column>
+            <Grid.Column style={{ color: "rgb(229,185,75)" }}>
+              Reset password
+            </Grid.Column>
+          </Grid>
+          </Segment> */}
+
+
+          <Grid stackable style={{ paddingTop: "40px" }}>
+            <Grid.Row columns={2} style={{ fontWeight: 'bold' }}>
+              {/* Outer columns */}
+              <Grid.Column width={8} style={{ display: 'flex', justifyContent: 'right' }}>
+                <div style={{ textAlign: 'center'}}>
+                  Forgot your password?
+                </div>
+              </Grid.Column>
+              <Grid.Column width={8} style={{ display: 'flex', justifyContent: 'left' }}>
+                <div style={{ textAlign: 'center', color: 'rgb(229,185,75)' }}>
+                  Reset Password
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Grid.Row>
+
       </Grid.Column>
     
   )
 }
 
-export default SignupGrid;
+export default LoginGridComponent;

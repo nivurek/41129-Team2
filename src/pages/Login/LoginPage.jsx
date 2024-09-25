@@ -13,9 +13,9 @@ import {
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 
-import LoginGrid from '../components/loginComponent';
-import SignupGrid from '../components/signupComponent';
-import SwitchComponent from '../components/switchComponent';
+import SignupGridComponent from './components/SignupGridComponent';
+import SwitchComponent from './components/SwitchComponent';
+import LoginGridComponent from './components/LoginComponent';
 
 
 const LoginPage = ({userData, handleLogin}) => {
@@ -82,9 +82,9 @@ const LoginPage = ({userData, handleLogin}) => {
               
               <Grid.Row>
                 {loginMode ? (
-                  <LoginGrid userData={userData} handleLogin={handleLogin} />
+                  <LoginGridComponent userData={userData} handleLogin={handleLogin} />
                 ) : (
-                  <SignupGrid/>
+                  <SignupGridComponent/>
                 )}
               </Grid.Row>
 

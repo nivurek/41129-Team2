@@ -6,7 +6,7 @@ import * as Color from '../../../utils/color.helpers';
 import { HexColorPicker } from 'react-colorful';
 import _, { set } from 'lodash';
 
-const Results = ({imageColorPalette}) => {
+const ResultsComponent = ({imageColorPalette}) => {
 
     // State Hooks
     const [colormindSuggestions, setColormindSuggestions] = useState([]);
@@ -147,4 +147,4 @@ const Results = ({imageColorPalette}) => {
     )
 };
 
-export default Results;
+export default ResultsComponent;

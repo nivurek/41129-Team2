@@ -2,10 +2,10 @@ import React from "react";
 import { Menu } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 
-import Profile from "./ProfileComponent";
+import ProfileComponent from "./ProfileComponent";
 
 
-const Navbar = ({authorised, activeUser, onLogoutMethod}) => {
+const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
   // const [isAuth, setIsAuth] = React.useState(authorised);
@@ -48,7 +48,7 @@ const Navbar = ({authorised, activeUser, onLogoutMethod}) => {
             to='/contact'
           />
 
-          <Profile
+          <ProfileComponent
             isLoggedIn={authorised}
             activeUser={activeUser}
             onLogoutMethod={onLogoutMethod}
@@ -62,4 +62,4 @@ const Navbar = ({authorised, activeUser, onLogoutMethod}) => {
   );
 };
 
-export default Navbar;
+export default NavbarComponent;

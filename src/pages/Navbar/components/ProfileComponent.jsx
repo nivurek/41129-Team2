@@ -8,7 +8,7 @@ import {
 // import { Link } from 'react-router-dom';
 
 
-const Profile = ({isLoggedIn, activeUser, onLogoutMethod, active, onClickMethod}) => {
+const ProfileComponent = ({isLoggedIn, activeUser, onLogoutMethod, active, onClickMethod}) => {
 	console.log("profile comp - isloggedin?", isLoggedIn);
 	
 	return (
@@ -48,4 +48,4 @@ const Profile = ({isLoggedIn, activeUser, onLogoutMethod, active, onClickMethod}
 	);
 };
 
-export default Profile;
+export default ProfileComponent;

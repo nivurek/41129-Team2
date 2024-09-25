@@ -1,14 +1,14 @@
 import './App.css';
 import './styles/globals.css';
 import React, { useState, useEffect } from 'react';
-import Navbar from './pages/Navbar/components/NavbarComponent';
+import NavbarComponent from './pages/Navbar/components/NavbarComponent';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
-import LoginPage from './pages/loginPage';
+import LoginPage from './pages/Login/LoginPage';
 
 import backgroundBanner from './assets/background_banner.png'; 
-import Main from './pages/primaryScreenshot/primaryInputPage.jsx';
+import PrimaryInputComponent from './pages/PrimaryScreenshot/PrimaryInputPage.jsx';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
@@ -42,10 +42,10 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
       >
         {!isLoginPage ? (
           <>
-            <Navbar authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
+            <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
             <div className="content-container">
               <Routes>
-                <Route path="/" element={<Main authorised={isAuth}/>} />
+                <Route path="/" element={<PrimaryInputComponent authorised={isAuth}/>} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
