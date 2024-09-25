@@ -5,7 +5,7 @@ import ScreenshotUploadComponent from './components/ScreenshotUploadComponent';
 import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
 import ResultsComponent from "./components/ResultsComponent";
 
-const PrimaryInputComponent = ({authorised}) => {
+const PrimaryScreenshotPage = ({authorised}) => {
     const [imageColorPalette, updateImageColorPalette] = useState({});
 
     if (authorised) return (
@@ -24,4 +24,4 @@ const PrimaryInputComponent = ({authorised}) => {
     )
 };
 
-export default PrimaryInputComponent;
+export default PrimaryScreenshotPage;
