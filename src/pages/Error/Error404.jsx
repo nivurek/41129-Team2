@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Header } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
-import backgroundBanner from '../../assets/background_banner.png'; // Correct path to the image
+import backgroundBanner from '../../assets/background_banner.png';
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const Error404 = () => {
     navigate('/');
   };
 
-  // Global CSS reset to remove default margins and paddings
   useEffect(() => {
     document.body.style.margin = '0';
     document.body.style.padding = '0';
@@ -27,9 +26,9 @@ const Error404 = () => {
       style={{
         height: '100vh',
         width: '100vw',
-        margin: 0,  // Ensure there's no margin
-        padding: 0,  // Ensure there's no padding
-        boxSizing: 'border-box',  // Include padding and border in the element's total width and height
+        margin: 0,  
+        padding: 0,  
+        boxSizing: 'border-box',  
         backgroundImage: `url(${backgroundBanner})`,
         backgroundSize: 'cover',
         backgroundPosition: 'left',
@@ -40,7 +39,7 @@ const Error404 = () => {
         paddingRight: '200px',
       }}
     >
-      {/* Error message and button */}
+      {/* Error message */}
       <div
         className="contentBox"
         style={{
@@ -50,14 +49,12 @@ const Error404 = () => {
       >
         <Grid textAlign="center" verticalAlign="middle">
           <Grid.Column>
-            {/* Oops text at 110pt (~7.33em) */}
             <Header as="h1" style={{ fontSize: '11em', marginBottom: '20px', color: '#fff' }}>
               Oops!
             </Header>
             <Header as="h2" style={{ fontSize: '3.5em', maxWidth: '600px', color: '#fff' }}>
               404 - PAGE NOT FOUND
             </Header>
-            {/* Paragraph with limited width and black color */}
             <p style={{ fontSize: '1.5em', color: '#000', maxWidth: '600px', margin: '0 auto' }}>
               Sorry, the page you are looking for doesn’t seem to exist. It might have been removed, had its name changed, or is temporarily unavailable.
             </p>
