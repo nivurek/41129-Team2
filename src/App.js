@@ -14,6 +14,7 @@ import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
+import Error404 from './pages/Error/Error404';
 
 
 const About = () => <h1>About Us</h1>;
@@ -24,7 +25,8 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
   const location = useLocation();
   const isLoginPage = ['/login'].includes(location.pathname);
   console.log("isloginpage?", isLoginPage);
-
+  const knownPaths = ['/', '/about', '/services', '/contact', '/login', '/profile'];
+  const isKnownPath = knownPaths.includes(location.pathname);
   const isAuth = loggedInUser !== null;
   const activeUser = (loggedInUser && loggedInUser.Name) ?? "";
 
@@ -40,28 +42,23 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
           width: '100%',
         }}
       >
-        {!isLoginPage ? (
-          <>
-            <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
-            <div className="content-container">
-              <Routes>
-                <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
-            </div>
-          </>
-        ) : (
-          <div>
-            <Routes>
-              <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin} />} />
-            </Routes>
-          </div>
-        )}
+      {!isLoginPage && isKnownPath && (
+        <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
+      )}
+
+      <div className="content-container">
+        <Routes>
+          <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin} />} />"
+          <Route path="*" element={<Error404 />} />
+        </Routes>
       </div>
-    </PrimeReactProvider>
-  );
+    </div>
+  </PrimeReactProvider>
+);
 };
 
 function App() {
