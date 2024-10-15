@@ -3,10 +3,10 @@ html, body, #root, .App {
   margin: 0;
 }
 
-/* .App {
-  background-color: rgb(223, 223, 223);
-  padding: 0;
-} */
+.App {
+  background-color: rgb(195, 167, 160);
+  /* padding: 0; */
+}
 
 .primaryContainer {
   display: flex;
@@ -44,7 +44,7 @@ html, body, #root, .App {
 }
 
 .navbar-container {
-  padding: 1em;
+  /* padding: 1em; */
 }
 
 .navbar-container .ui.menu {

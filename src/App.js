@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import { Container } from 'semantic-ui-react';
 
 import LoginPage from './pages/Login/LoginPage';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 import backgroundBanner from './assets/background_banner.png'; 
 import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
@@ -40,7 +41,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
           width: '100%',
         }}
       >
-        {!isLoginPage ? (
+        {!isLoginPage ? ( // These pages render with a navbar
           <>
             <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
             <div className="content-container">
@@ -49,10 +50,11 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/profile" element={<ProfilePage authorised={isAuth} />} />
               </Routes>
             </div>
           </>
-        ) : (
+        ) : ( // These pages do not contain a navbar
           <div>
             <Routes>
               <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin} />} />
