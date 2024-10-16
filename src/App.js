@@ -3,7 +3,6 @@ import './styles/globals.css';
 import React, { useState, useEffect } from 'react';
 import NavbarComponent from './pages/Navbar/components/NavbarComponent';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { Container } from 'semantic-ui-react';
 
 import LoginPage from './pages/Login/LoginPage';
 

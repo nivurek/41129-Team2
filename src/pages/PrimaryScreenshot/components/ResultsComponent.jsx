@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import * as Color from '../../../utils/color.helpers';
 import { HexColorPicker } from 'react-colorful';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 
 const ResultsComponent = ({imageColorPalette}) => {
 
