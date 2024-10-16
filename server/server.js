@@ -10,6 +10,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use("/record", records);
+app.use("/auth", AuthRoute)
 
 // start the Express server
 app.listen(PORT, () => {
