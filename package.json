@@ -10,7 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.4.4",
     "lodash": "^4.17.21",
-    "node-vibrant": "^3.2.1-alpha.1",
+    "node-vibrant": "^3.1.6",
     "opencv-react": "^0.0.6",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
