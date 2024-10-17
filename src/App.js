@@ -29,7 +29,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
   const activeUser = (loggedInUser && loggedInUser.Name) ?? "";
 
   return (
-    <PrimeReactProvider>
+    // <PrimeReactProvider>
       <div
         className="App"
         style={{
@@ -46,6 +46,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
             <div className="content-container">
               <Routes>
                 <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
+                {/* <Route path='/' element={<h1>Nothing to see here</h1>} /> */}
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
@@ -61,7 +62,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
           </div>
         )}
       </div>
-    </PrimeReactProvider>
+    // {/* </PrimeReactProvider> */}
   );
 };
 
