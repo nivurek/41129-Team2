@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
 import {
   Button,
-  ButtonGroup,
   Form,
   Grid,
   Header,
   Icon,
   Message,
-  Menu,
-  MenuItem,
   Segment,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-
-const LoginGridComponent = ({userData, handleLogin}) => {
-
-  console.log('LoginGrid:', userData, handleLogin);
-  
+const LoginGridComponent = () => {
   const navigate = useNavigate();
 
   // State to hold form values
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
 
@@ -38,105 +32,67 @@ const LoginGridComponent = ({userData, handleLogin}) => {
   };
 
   // Handle form submission
-  const handleSubmit = () => {
-    const { username, password } = formData;
-    console.log('Form Data:', formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
 
-    // Mock login logic (replace with your API call)
-    const userObject = userData[username];
-    console.log("Found user >", userObject);
-    if (userObject === undefined) {
-      setErrorMessage("Invalid username or password");
-    } else {
-      if (userObject.Password === password) {
-        console.log("Success");
-        setErrorMessage("");
-        navigate('/');
-        handleLogin(userObject);
-      } else {
-        console.log("Fail");
-        setErrorMessage("Invalid username or password");
+    try {
+      // Make API call to login route
+      const response = await axios.post('http://localhost:5050/auth/login', { email, password });
+
+      // Handle successful login
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem('token', token); // Store the token in local storage
+        navigate('/'); // Navigate to home page
       }
+    } catch (error) {
+      // Handle error during login
+      setErrorMessage(error.response?.data?.msg || 'Login failed. Please try again.');
     }
   };
 
   return (
-      <Grid.Column>
-
-        <Grid.Row>
-          <Form onSubmit={handleSubmit} style={{ marginTop: "30px" }}>
+    <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Header as='h2' color='teal' textAlign='center'>
+          <Icon name='user' /> Log-in to your account
+        </Header>
+        <Form size='large' onSubmit={handleSubmit}>
+          <Segment stacked>
             <Form.Input
               fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="Username"
-              name="username"
-              value={formData.username}
+              icon='mail'
+              iconPosition='left'
+              placeholder='E-mail address'
+              name='email'
+              value={formData.email}
               onChange={handleInputChange}
             />
             <Form.Input
               fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-              name="password"
+              icon='lock'
+              iconPosition='left'
+              placeholder='Password'
+              type='password'
+              name='password'
               value={formData.password}
               onChange={handleInputChange}
             />
-
-            <Button fluid size="large" style={{ backgroundColor: "rgb(229,185,75)" }}>
+            <Button color='teal' fluid size='large'>
               Login
             </Button>
-
-            {errorMessage && (
-              <Message error icon style={{fontWeight: "bold"}} onClick={()=> {setErrorMessage("")}}>
-                <Icon name='warning sign' size='mini'/>
-                {errorMessage}
-              </Message>
-            )}
-          </Form>
-        </Grid.Row>
-
-        <Grid.Row columns={2} style={{fontWeight: "bold" }}>
-          {/* <Grid.Column>
-            x
-          </Grid.Column>
-          <Grid.Column>
-            x
-          </Grid.Column> */}
-          {/* <Segment>
-          <Grid columns={2}>
-            <Grid.Column textAlign='right'>
-              Forgot your password?
-            </Grid.Column>
-            <Grid.Column style={{ color: "rgb(229,185,75)" }}>
-              Reset password
-            </Grid.Column>
-          </Grid>
-          </Segment> */}
-
-
-          <Grid stackable style={{ paddingTop: "40px" }}>
-            <Grid.Row columns={2} style={{ fontWeight: 'bold' }}>
-              {/* Outer columns */}
-              <Grid.Column width={8} style={{ display: 'flex', justifyContent: 'right' }}>
-                <div style={{ textAlign: 'center'}}>
-                  Forgot your password?
-                </div>
-              </Grid.Column>
-              <Grid.Column width={8} style={{ display: 'flex', justifyContent: 'left' }}>
-                <div style={{ textAlign: 'center', color: 'rgb(229,185,75)' }}>
-                  Reset Password
-                </div>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Grid.Row>
-
+          </Segment>
+        </Form>
+        {errorMessage && (
+          <Message error>
+            <Icon name='warning sign' />
+            {errorMessage}
+          </Message>
+        )}
       </Grid.Column>
-    
-  )
-}
+    </Grid>
+  );
+};
 
 export default LoginGridComponent;
