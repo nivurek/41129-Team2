@@ -83,7 +83,7 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
 
     // Rendered Component
     return (
-        <div>
+        <>
             <div className="your-palette">
                 <div className="flex mb-3" style={{height: '2.5rem'}}>
                     <h2 className="mb-0 mr-3">Your Palette</h2>
@@ -95,8 +95,8 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                     {Object.keys(updatedImageColorPalette).map((key, i) => {
                     return (
                         <div key={i}>
-                            <Tooltip target={`.palette-color-user-${i}`} content={updatedImageColorPalette[key]} position="bottom" />
-                            <div onClick={(e) => handlePaletteClick(key)} className={`palette-color-user-${i}`} style={{backgroundColor: updatedImageColorPalette[key]}}></div>
+                            <Tooltip target={`.palette-${i}`} content={updatedImageColorPalette[key]} position="bottom" />
+                            <div onClick={(e) => handlePaletteClick(key)} className={`palette-color-user palette-${i}`} style={{backgroundColor: updatedImageColorPalette[key]}}></div>
                             { displayColorPicker === key ? 
                                 <div style={ styles.popover }>
                                     <div style={ styles.cover } onClick={handlePaletteClose} />
@@ -118,8 +118,8 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                                     {suggestion.map((color, j) => {
                                         return (
                                             <div key={j}>
-                                                <Tooltip target={`.palette-color-colormind-${i}-${j}`} content={color} position="bottom" />
-                                                <div className={`palette-color-colormind-${i}-${j}`} style={{backgroundColor: color}}></div>
+                                                <Tooltip target={`.palette-${i}-${j}`} content={color} position="bottom" />
+                                                <div className={`palette-color-colormind palette-${i}-${j}`} style={{backgroundColor: color}}></div>
                                             </div>
                                         )
                                     })}
@@ -134,7 +134,7 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 };
 

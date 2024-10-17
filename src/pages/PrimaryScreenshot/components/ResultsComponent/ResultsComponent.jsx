@@ -12,8 +12,9 @@ const ResultsComponent = ({imageColorPalette}) => {
         <div>
             <h1>Results</h1>
             <ColorPaletteComponent imageColorPalette={imageColorPalette} />
+            <ColorContrastComponent />
         </div>
-        
+
     ); else return (
         <div className="mx-4 my-auto">
             <h2>Upload a screenshot on the left to start your ChromaUX journey...</h2>
