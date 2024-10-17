@@ -38,7 +38,7 @@ const ProfilePage = ({authorised, userData}) => {
         <ProjectListComponent projectData={userProjects} changeDepth={setInfoDepth} setIndex={setProjectIndex}/>
       )}
       {infoDepth == 1 && (
-        <PageListComponent pageData={userProjects[projectIndex]} changeDepth={setInfoDepth} setIndex={setPageIndex} />
+        <PageListComponent pageData={userProjects[projectIndex]} projectName={userProjects[projectIndex].Name} changeDepth={setInfoDepth} setIndex={setPageIndex} />
       )}
       {infoDepth == 2 && (
         <PageInformationComponent pageInformation={userProjects[projectIndex][pageIndex]} changeDepth={setInfoDepth} />
