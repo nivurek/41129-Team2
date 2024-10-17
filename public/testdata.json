@@ -71,7 +71,29 @@
               {
                 "id": 102,
                 "screenshot": "image_ref_102.png",
-                "description": "About us page layout",
+                "description": "Version 1",
+                "palettes": [
+                  {
+                    "id": 202,
+                    "hexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
+                  }
+                ]
+              },
+              {
+                "id": 102,
+                "screenshot": "image_ref_102.png",
+                "description": "Version 2",
+                "palettes": [
+                  {
+                    "id": 202,
+                    "hexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
+                  }
+                ]
+              },
+              {
+                "id": 102,
+                "screenshot": "image_ref_102.png",
+                "description": "Version 3",
                 "palettes": [
                   {
                     "id": 202,

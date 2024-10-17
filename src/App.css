@@ -24,6 +24,10 @@ html, body, #root, .App {
   width: 100%;
 }
 
+.alignedGrid {
+  margin: 0px !important;
+}
+
 .landingPages {
   display: flex;
   justify-content: flex-end; /* Aligns flex-box to the right */

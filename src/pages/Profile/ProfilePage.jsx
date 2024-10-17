@@ -33,7 +33,7 @@ const ProfilePage = ({authorised, userData}) => {
   
 
   if (authorised && (userData != null)) return (
-    <div style={{padding: "10px"}}>
+    <div style={{padding: "10px", height: "100%"}}>
       {infoDepth == 0 && (
         <ProjectListComponent projectData={userProjects} changeDepth={setInfoDepth} setIndex={setProjectIndex}/>
       )}
