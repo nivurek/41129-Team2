@@ -35,6 +35,7 @@ const ScreenshotUploadComponent = ({updateImageColorPalette}) => {
     const onRemove = () => {setImageUrl('');};
     
     const uploadHandler = (event) => {
+        updateImageColorPalette({});
         setImageUrl(event.files[0].objectURL);
     };
 

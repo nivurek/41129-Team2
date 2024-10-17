@@ -60,11 +60,6 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
         }
     }
 
-    // Use Effect Hooks
-    // useEffect(() => {
-    //     setUpdatedImageColorPalette({...imageColorPalette});
-    // }, [imageColorPalette]);
-
     useEffect(() => {
         setUpdatedImageColorPalette({...imageColorPalette});
         setColormindSuggestions([]);
@@ -89,7 +84,6 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
     // Rendered Component
     return (
         <div>
-            <h1>Results</h1>
             <div className="your-palette">
                 <div className="flex mb-3" style={{height: '2.5rem'}}>
                     <h2 className="mb-0 mr-3">Your Palette</h2>

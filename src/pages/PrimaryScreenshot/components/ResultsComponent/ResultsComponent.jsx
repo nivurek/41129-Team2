@@ -8,11 +8,12 @@ const ResultsComponent = ({imageColorPalette}) => {
 
     // Rendered Component
     if (Object.keys(imageColorPalette).length > 0) return (
-        <div>
-            <ColorPaletteComponent imageColorPalette={imageColorPalette} />
-            
-        </div>
 
+        <div>
+            <h1>Results</h1>
+            <ColorPaletteComponent imageColorPalette={imageColorPalette} />
+        </div>
+        
     ); else return (
         <div className="mx-4 my-auto">
             <h2>Upload a screenshot on the left to start your ChromaUX journey...</h2>
