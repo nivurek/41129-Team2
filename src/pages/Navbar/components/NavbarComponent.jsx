@@ -24,7 +24,7 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
             to='/'           // Set route for Home
           >
             <Icon name='home' />
-            homexd
+            Home
           </Menu.Item>
           {authorised && (
             <Menu.Item
