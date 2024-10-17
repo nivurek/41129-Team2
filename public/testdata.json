@@ -1,151 +1,151 @@
 {
-  "User": {
-    "ID": 1,
-    "Name": "Alice",
-    "Address": "alice@testmail.com",
-    "Password": "asd",
-    "Projects": [
+  "user": {
+    "id": 1,
+    "name": "Alice",
+    "address": "alice@testmail.com",
+    "password": "asd",
+    "projects": [
       {
-        "Name": "Website Redesign",
-        "Description": "My first website! I don't know what to write here :(",
-        "Pages": [
+        "name": "Website Redesign",
+        "description": "My first website! I don't know what to write here :(",
+        "pages": [
           {
-            "Name": "Home",
-            "Results": [
+            "name": "Home",
+            "results": [
               {
-                "ID": 101,
-                "Screenshot": "image_ref_101.png",
-                "Description": "Initial homepage design",
-                "Palettes": [
+                "id": 101,
+                "screenshot": "image_ref_101.png",
+                "description": "Initial homepage design",
+                "palettes": [
                   {
-                    "ID": 201,
-                    "HexColours": ["#FF5733", "#33FF57", "#3357FF"]
+                    "id": 201,
+                    "hexColours": ["#FF5733", "#33FF57", "#3357FF"]
                   }
                 ]
               }
             ]
           },
           {
-            "Name": "About",
-            "Results": [
+            "name": "About",
+            "results": [
               {
-                "ID": 102,
-                "Screenshot": "image_ref_102.png",
-                "Description": "About us page layout",
-                "Palettes": [
+                "id": 102,
+                "screenshot": "image_ref_102.png",
+                "description": "About us page layout",
+                "palettes": [
                   {
-                    "ID": 202,
-                    "HexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
+                    "id": 202,
+                    "hexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
                   }
                 ]
               }
             ]
           }
         ],
-        "CreatedDate": "2024-09-01",
-        "LastEditedDate": "2024-09-01"
+        "createdDate": "2024-09-01",
+        "lastEditedDate": "2024-09-01"
       },
       {
-        "Name": "Other Website",
-        "Description": "This is the other one...",
-        "Pages": [
+        "name": "Other Website",
+        "description": "This is the other one...",
+        "pages": [
           {
-            "Name": "Home",
-            "Results": [
+            "name": "Home",
+            "results": [
               {
-                "ID": 101,
-                "Screenshot": "image_ref_101.png",
-                "Description": "Initial homepage design",
-                "Palettes": [
+                "id": 101,
+                "screenshot": "image_ref_101.png",
+                "description": "Initial homepage design",
+                "palettes": [
                   {
-                    "ID": 201,
-                    "HexColours": ["#FF5733", "#33FF57", "#3357FF"]
+                    "id": 201,
+                    "hexColours": ["#FF5733", "#33FF57", "#3357FF"]
                   }
                 ]
               }
             ]
           },
           {
-            "Name": "About",
-            "Results": [
+            "name": "About",
+            "results": [
               {
-                "ID": 102,
-                "Screenshot": "image_ref_102.png",
-                "Description": "About us page layout",
-                "Palettes": [
+                "id": 102,
+                "screenshot": "image_ref_102.png",
+                "description": "About us page layout",
+                "palettes": [
                   {
-                    "ID": 202,
-                    "HexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
+                    "id": 202,
+                    "hexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
                   }
                 ]
               }
             ]
           },
           {
-            "Name": "Extra",
-            "Results": [
+            "name": "Extra",
+            "results": [
               {
-                "ID": 102,
-                "Screenshot": "image_ref_104.png",
-                "Description": "About us page layout",
-                "Palettes": [
+                "id": 102,
+                "screenshot": "image_ref_104.png",
+                "description": "About us page layout",
+                "palettes": [
                   {
-                    "ID": 203,
-                    "HexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
+                    "id": 203,
+                    "hexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
                   }
                 ]
               }
             ]
           }
         ],
-        "CreatedDate": "2024-09-01",
-        "LastEditedDate": "2024-09-01"
+        "createdDate": "2024-09-01",
+        "lastEditedDate": "2024-09-01"
       }
     ]
   },
-  "User2": {
-    "ID": 2,
-    "Name": "Bob",
-    "Address": "bob@testmail.com",
-    "Password": "asd",
-    "Projects": [
+  "user2": {
+    "id": 2,
+    "name": "Bob",
+    "address": "bob@testmail.com",
+    "password": "asd",
+    "projects": [
       {
-        "Name": "Mobile App Mockups",
-        "Pages": [
+        "name": "Mobile App Mockups",
+        "pages": [
           {
-            "Name": "Login",
-            "Results": [
+            "name": "Login",
+            "results": [
               {
-                "ID": 103,
-                "Screenshot": "image_ref_103.png",
-                "Description": "Login screen concept",
-                "Palettes": [
+                "id": 103,
+                "screenshot": "image_ref_103.png",
+                "description": "Login screen concept",
+                "palettes": [
                   {
-                    "ID": 203,
-                    "HexColours": ["#000000", "#FFFFFF", "#CCCCCC"]
+                    "id": 203,
+                    "hexColours": ["#000000", "#FFFFFF", "#CCCCCC"]
                   }
                 ]
               }
             ]
           },
           {
-            "Name": "Dashboard",
-            "Results": [
+            "name": "Dashboard",
+            "results": [
               {
-                "ID": 104,
-                "Screenshot": "image_ref_104.png",
-                "Description": "User dashboard UI",
-                "Palettes": [
+                "id": 104,
+                "screenshot": "image_ref_104.png",
+                "description": "User dashboard UI",
+                "palettes": [
                   {
-                    "ID": 204,
-                    "HexColours": ["#FF5733", "#33FFBD", "#5733FF"]
+                    "id": 204,
+                    "hexColours": ["#FF5733", "#33FFBD", "#5733FF"]
                   }
                 ]
               }
             ]
           }
         ],
-        "CreatedDate": "2024-09-03"
+        "createdDate": "2024-09-03"
       }
     ]
   }

@@ -18,7 +18,7 @@ const ProfilePage = ({authorised, userData}) => {
   
   console.log('Entered profile page with userdata:', userData);
 
-  const [userProjects, _] = useState(userData?.Projects);
+  const [userProjects, _] = useState(userData?.projects);
 
   // Infodepth determins which view we are looking at.
   // 0 -> Project list
@@ -33,17 +33,17 @@ const ProfilePage = ({authorised, userData}) => {
   
 
   if (authorised && (userData != null)) return (
-    <>
+    <div style={{padding: "10px"}}>
       {infoDepth == 0 && (
         <ProjectListComponent projectData={userProjects} changeDepth={setInfoDepth} setIndex={setProjectIndex}/>
       )}
       {infoDepth == 1 && (
-        <PageListComponent pageData={userProjects[projectIndex]} projectName={userProjects[projectIndex].Name} changeDepth={setInfoDepth} setIndex={setPageIndex} />
+        <PageListComponent pageData={userProjects[projectIndex]} projectName={userProjects[projectIndex].name} changeDepth={setInfoDepth} setIndex={setPageIndex} />
       )}
       {infoDepth == 2 && (
         <PageInformationComponent pageInformation={userProjects[projectIndex][pageIndex]} changeDepth={setInfoDepth} />
       )}
-    </>
+    </div>
 
   ); else return (
       <NotAuthorisedComponent />

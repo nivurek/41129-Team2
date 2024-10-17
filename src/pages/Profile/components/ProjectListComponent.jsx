@@ -23,17 +23,17 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
           <Card key={idx} onClick={() => selectProject(idx)}>
             <Image src='https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' wrapped ui={false} />
             <CardContent>
-              <CardHeader>{project.Name}</CardHeader>
+              <CardHeader>{project.name}</CardHeader>
               <CardMeta>
-                <span className='date'>Last edited {project.LastEditedDate}</span>
+                <span className='date'>Last edited {project.lastEditedDate}</span>
               </CardMeta>
               <CardDescription>
-                {project.Description}
+                {project.description}
               </CardDescription>
             </CardContent>
             <CardContent extra>
               <Icon name='file' />
-              {project.Pages.length} pages
+              {project.pages.length} pages
             </CardContent>
           </Card>
         ))}

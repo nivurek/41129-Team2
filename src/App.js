@@ -96,7 +96,7 @@ function App() {
 
   let userObjects = {};
   for (let key in userData) {
-    userObjects[userData[key].Address] = userData[key];
+    userObjects[userData[key].address] = userData[key];
   }
 
   return (

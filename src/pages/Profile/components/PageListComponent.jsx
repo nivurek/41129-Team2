@@ -45,13 +45,13 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
       <Segment style={{width: "100%", height: "100%"}}>
         <h3>Pages</h3>
         <Card.Group>
-          {pageData.Pages.map((page, idx) => (
+          {pageData.pages.map((page, idx) => (
             <Card key={idx}>
               <Image src='https://replicate.delivery/mgxm/8b4d747d-feca-477d-8069-ee4d5f89ad8e/a_high_detail_shot_of_a_cat_wearing_a_suit_realism_8k_-n_9_.png' wrapped ui={false} />
               <CardContent>
-                <CardHeader>{page.Name}</CardHeader>
+                <CardHeader>{page.name}</CardHeader>
                 <CardMeta>
-                  <span className='date'>Last edited {page.LastEditedDate}</span>
+                  <span className='date'>Last edited {page.lastEditedDate}</span>
                 </CardMeta>
                 {/* <CardDescription>
                   {page.Description}
@@ -59,7 +59,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
               </CardContent>
               <CardContent extra>
                 <Icon name='file' />
-                {page.Results.length} versions
+                {page.results.length} versions
               </CardContent>
             </Card>
           ))}

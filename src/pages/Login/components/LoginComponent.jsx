@@ -11,8 +11,6 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginGridComponent = ({userData, handleLogin}) => {
 
-  // console.log('LoginGrid:', userData, handleLogin);
-  
   const navigate = useNavigate();
 
   // State to hold form values
@@ -35,7 +33,7 @@ const LoginGridComponent = ({userData, handleLogin}) => {
   // Handle form submission
   const handleSubmit = () => {
     const { username, password } = formData;
-    console.log('Form Data:', formData);
+    console.log('Form Data:', formData, "Data:", userData);
 
     // Mock login logic (replace with your API call)
     const userObject = userData[username];
@@ -43,7 +41,7 @@ const LoginGridComponent = ({userData, handleLogin}) => {
     if (userObject === undefined) {
       setErrorMessage("Invalid username or password");
     } else {
-      if (userObject.Password === password) {
+      if (userObject.password === password) {
         console.log("Success");
         setErrorMessage("");
         navigate('/');
@@ -54,6 +52,9 @@ const LoginGridComponent = ({userData, handleLogin}) => {
       }
     }
   };
+
+  console.log("Errormsg:", errorMessage);
+  
 
   return (
       <Grid.Column>
@@ -83,13 +84,6 @@ const LoginGridComponent = ({userData, handleLogin}) => {
             <Button fluid size="large" style={{ backgroundColor: "rgb(229,185,75)" }}>
               Login
             </Button>
-
-            {errorMessage && (
-              <Message error icon style={{fontWeight: "bold"}} onClick={()=> {setErrorMessage("")}}>
-                <Icon name='warning sign' size='mini'/>
-                {errorMessage}
-              </Message>
-            )}
           </Form>
         </Grid.Row>
 
@@ -128,8 +122,14 @@ const LoginGridComponent = ({userData, handleLogin}) => {
             </Grid.Row>
           </Grid>
         </Grid.Row>
-
+        {errorMessage && (
+          <Message error icon style={{fontWeight: "bold"}} onClick={() => {setErrorMessage("")}}>
+            <Icon name='warning sign' size='mini'/>
+            {errorMessage}
+          </Message>
+        )}
       </Grid.Column>
+      
     
   )
 }
