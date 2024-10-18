@@ -25,6 +25,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
   )
 
   const returnToProjectList = () => {
+    console.log("returnToProjectList");
     changeDepth(0);
   }
 
@@ -33,7 +34,10 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
     useEffect(() => {
       // Simulate loading for 2 seconds - this will be replaced by an async fetch request for the actual image
       const timer = setTimeout(() => {
-        setLoadingData(loadingData.map((value, i) => i === idx ? !value : value));
+        console.log("useEffect");
+        if (loadingData[idx] == false) {
+          setLoadingData(loadingData.map((value, i) => i === idx ? !value : value));
+        }
       }, 2000);
   
       // Cleanup the timer when component unmounts
@@ -102,7 +106,8 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
           {/* Each page will be represented by a 'Card' which itself is the trigger for a popup modal. */}
           {pageData.pages.map((page, pageIndex) => (
             <Modal
-              style={{width: '80vw'}}
+              key={pageIndex}
+              style={{width: '90vw'}}
               open={openModalIdx === pageIndex}
               dimmer={'blurring'}
               onClose={() => setOpenModalIdx(null)}
@@ -116,7 +121,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
                 {page.name}
               </Modal.Header>
 
-              <Modal.Content style={{backgroundColor: '#d4d2d2', height: '70vh', padding: '0px'}}>
+              <Modal.Content style={{backgroundColor: '#d4d2d2', height: '80vh', padding: '0px'}}>
                 <PageInformationComponent pageInformation={page} />
               </Modal.Content>
 
