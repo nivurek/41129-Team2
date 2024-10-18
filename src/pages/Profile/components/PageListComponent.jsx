@@ -90,7 +90,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
   
   
   return (
-    <Segment.Group style={{width: "100%", height: "100%"}}>
+    <Segment.Group style={{width: '100%', height: '100%'}}>
       <Segment secondary>
         <Grid columns={3}>
           <Grid.Column width={3}>
@@ -104,7 +104,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
             </Button>
           </Grid.Column>
           <Grid.Column width={10}>
-            <h1 style={{textAlign: "center"}}>{projectName} - Pages</h1>
+            <h1 style={{textAlign: 'center'}}>{projectName} - Pages</h1>
           </Grid.Column>
           <Grid.Column width={3}>
 
@@ -112,26 +112,26 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
         </Grid>
       </Segment>
       {/* ========================================================== */}
-      <Segment style={{height: "100%"}}>
+      <Segment style={{height: '100%'}}>
         <h3>Pages</h3>
         <Card.Group>
           {pageData.pages.map((page, pageIndex) => (
             <Modal
-              style={{width: "80vw"}}
+              style={{width: '80vw'}}
               open={openModalIdx === pageIndex}
               dimmer={'blurring'}
               onClose={() => selectModal(null)}
               onOpen={() => selectModal(pageIndex)}
               trigger={<CardElement page={page} idx={pageIndex} onClick={() => selectModal(pageIndex)} />}
             >
-              <Modal.Header style={{backgroundColor: "#b5b5b5", borderBottom: "3px solid grey"}}>
+              <Modal.Header style={{backgroundColor: '#b5b5b5', borderBottom: '3px solid grey'}}>
                 {page.name}
               </Modal.Header>
-              <Modal.Content style={{backgroundColor: "#d4d2d2", height: "70vh", padding: "0px"}}>
-                <Grid className="alignedGrid">
-                  <Grid.Row stretched>
-                    <Grid.Column width={10}>
-                        <Segment>
+              <Modal.Content style={{backgroundColor: '#d4d2d2', height: '70vh', padding: '0px'}}>
+                <Grid className='alignedGrid'>
+                  <Grid.Row stretched style={{ height: '100%' }}>
+                    <Grid.Column width={10} style={{ height: 'inherit' }}>
+                        <Segment style={{ overflowY: 'auto' }}>
                           <Image src='https://react.semantic-ui.com/images/wireframe/image.png' fluid />
                           {(openModalIdx != null) && (openResultIdx != null) && (
                               <h3>{pageData.pages[openModalIdx].results[openResultIdx].description}</h3>
@@ -142,7 +142,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
                     <Grid.Column width={6}>
                       <Segment style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                         <div>
-                          <h2 style={{textAlign: "center"}}>Version History</h2>
+                          <h2 style={{textAlign: 'center'}}>Version History</h2>
                         </div>
                         <Grid
                           className="alignedGrid"
@@ -150,15 +150,15 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
                           style={{ flexGrow: 1, overflowY: 'auto' }} // Makes the grid take up remaining space
                         >
                           {page.results.map((result, resultIndex) => (
-                            <Grid.Row key={resultIndex} style={{maxHeight: "200px"}}>
+                            <Grid.Row key={resultIndex} style={{maxHeight: '200px'}}>
                               <Transition
-                                animation="pulse"
+                                animation='pulse'
                                 duration={100}
                                 visible={animate[pageIndex][resultIndex]}
                               >
                                 {(openResultIdx === resultIndex) ? (
                                   <Segment
-                                    style={{ width: "100%", backgroundColor: "#a8a8a8" }}
+                                    style={{ width: '100%', backgroundColor: '#a8a8a8' }}
                                     secondary
                                     onClick={()=>{toggleAnimate(pageIndex, resultIndex)}}
                                   >
@@ -166,7 +166,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
                                   </Segment>
                                 ) : (
                                   <Segment
-                                    style={{ width: "100%" }}
+                                    style={{ width: '100%' }}
                                     secondary
                                     onClick={()=>{toggleAnimate(pageIndex, resultIndex)}}
                                   >
