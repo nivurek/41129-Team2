@@ -11,6 +11,7 @@
         "pages": [
           {
             "name": "Home",
+            "lastEditedDate": "2024-09-01",
             "results": [
               {
                 "id": 101,
@@ -27,6 +28,7 @@
           },
           {
             "name": "About",
+            "lastEditedDate": "2024-09-01",
             "results": [
               {
                 "id": 102,
@@ -51,6 +53,7 @@
         "pages": [
           {
             "name": "Home",
+            "lastEditedDate": "2024-09-01",
             "results": [
               {
                 "id": 101,
@@ -67,6 +70,7 @@
           },
           {
             "name": "About",
+            "lastEditedDate": "2024-09-01",
             "results": [
               {
                 "id": 102,
@@ -105,18 +109,8 @@
           },
           {
             "name": "Extra",
+            "lastEditedDate": "2024-09-01",
             "results": [
-              {
-                "id": 102,
-                "screenshot": "image_ref_104.png",
-                "description": "About us page layout",
-                "palettes": [
-                  {
-                    "id": 203,
-                    "hexColours": ["#FF5733", "#FFC300", "#DAF7A6"]
-                  }
-                ]
-              }
             ]
           }
         ],
