@@ -1,17 +1,26 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import useEyeDropper from 'use-eye-dropper'
-import colorContrast from 'color-contrast'
+import { calcAPCA } from 'apca-w3';
 import { HexColorPicker } from 'react-colorful';
 import { Button } from 'primereact/button';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { InputMask } from 'primereact/inputmask';
 import { FaEyeDropper } from "react-icons/fa";
 
+const CONTRAST_LOOKUP_TABLE = {
+  LARGE_AA: 45,
+  SMALL_AA: 60,
+  LARGE_AAA: 60,
+  SMALL_AAA: 75,
+  ENHANCED: 90,
+  OPTIMAL: 100
+}
+
 const ColorContrastComponent = () => {
     const { open, isSupported } = useEyeDropper()
     const [foreground, setForeground] = useState('')
     const [background, setBackground] = useState('')
-    const [contrastValue, setContrastValue] = useState()
+    const [contrastValue, setContrastValue] = useState(null)
     const [displayColorPicker, setDisplayColorPicker] = useState(null);
     const [error, setError] = useState()
 
@@ -46,7 +55,8 @@ const ColorContrastComponent = () => {
 
     useEffect(() => {
       if (foreground && background) {
-        setContrastValue(colorContrast(foreground, background))
+        // setContrastValue(colorContrast(foreground, background))
+        setContrastValue(Math.abs(calcAPCA(foreground, background)))
       }
     }, [foreground, background])
 
@@ -57,16 +67,15 @@ const ColorContrastComponent = () => {
               <h2 className="mb-0">Color Contrast</h2>
               <Button icon="pi pi-question-circle" rounded text onClick={(e) => helpPanel.current.toggle(e)} />
               <OverlayPanel ref={helpPanel} pt={{root: {className: 'w-3'}}}>
-                <p>This analysis is based on the Web Content Accessibility Guidelines (WCAG).</p>
-                <p>The standard defines two levels of contrast ratio: AA (minimum contrast) and AAA (enhanced contrast).</p>
-                <p>AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.</p>
-                <p>AAA requires a contrast ratio of at least 7:1 for normal text and 4.5:1 for large text or bold text.</p>
-                <a href="https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines" class="link link--primary link--hover-underlined link--blank-icon" target="_blank">Learn more</a>
+                <p>This analysis is based on the beta implementation of the APCA Guidlines that will be used in WCAG 3.</p>
+                <p>The current WCAG 2 contrast is proven to be incorrect for human vision perception. The ACPA Guidlines provide a substantial improvement to this analysis.</p>
+                <p>Readability is rated by the <a href="https://raw.githubusercontent.com/Myndex/apca-w3/master/images/APCAtableLegend.jpeg" target="_blank">translation of the ACPA values to the current WCAG 2 guidlines.</a></p>
+                <a href="https://readtech.org/ARC/" target="_blank">Learn more</a>
               </OverlayPanel>
             </div>
             {isSupported() ?
               <div className="flex flex-column mt-2">
-                <div className="flex flex-nowrap align-items-center justify-content-center mb-2">
+                <div className="flex flex-nowrap align-items-center justify-content-center mb-3">
 
                   {/* Foreground color selection */}
                   <div className="mr-1">
@@ -99,7 +108,7 @@ const ColorContrastComponent = () => {
                   </div>
 
                 </div>
-                {contrastValue ? 
+                {contrastValue !== null ? 
                   <div className="flex flex-column">
                     <div className="contrast-overall">
                       <div className="contrast-overall-value">
@@ -107,10 +116,10 @@ const ColorContrastComponent = () => {
                       </div>
                       <div className="contrast-overall-rating">
                         <i className={`pi pi-star-fill`}></i>
-                        <i className={`pi ${contrastValue > 3 ? 'pi-star-fill' : "pi-star"}`}></i>
-                        <i className={`pi ${contrastValue > 4.5 ? 'pi-star-fill' : "pi-star"}`}></i>
-                        <i className={`pi ${contrastValue > 7 ? 'pi-star-fill' : "pi-star"}`}></i>
-                        <i className={`pi ${contrastValue > 12 ? 'pi-star-fill' : "pi-star"}`}></i>
+                        <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.LARGE_AA ? 'pi-star-fill' : "pi-star"}`}></i>
+                        <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.SMALL_AA ? 'pi-star-fill' : "pi-star"}`}></i>
+                        <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.SMALL_AAA ? 'pi-star-fill' : "pi-star"}`}></i>
+                        <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.OPTIMAL ? 'pi-star-fill' : "pi-star"}`}></i>
                       </div>
                     </div>
                     <div className="flex flex-nowrap">
@@ -118,16 +127,16 @@ const ColorContrastComponent = () => {
                         <span>Small Text</span>
                         <div className="contrast-small-rating">
                           <i className={`pi pi-star-fill`}></i>
-                          <i className={`pi ${contrastValue > 4.5 ? 'pi-star-fill' : "pi-star"}`}></i>
-                          <i className={`pi ${contrastValue > 7 ? 'pi-star-fill' : "pi-star"}`}></i>
+                          <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.SMALL_AA ? 'pi-star-fill' : "pi-star"}`}></i>
+                          <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.SMALL_AAA ? 'pi-star-fill' : "pi-star"}`}></i>
                         </div>
                       </div>
                       <div className="contrast-large">
                         <span>Large Text</span>
                         <div className="contrast-large-rating">
                           <i className={`pi pi-star-fill`}></i>
-                          <i className={`pi ${contrastValue > 3 ? 'pi-star-fill' : "pi-star"}`}></i>
-                          <i className={`pi ${contrastValue > 4.5 ? 'pi-star-fill' : "pi-star"}`}></i>
+                          <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.LARGE_AA ? 'pi-star-fill' : "pi-star"}`}></i>
+                          <i className={`pi ${contrastValue > CONTRAST_LOOKUP_TABLE.LARGE_AAA ? 'pi-star-fill' : "pi-star"}`}></i>
                         </div>
                       </div>
                     </div>
