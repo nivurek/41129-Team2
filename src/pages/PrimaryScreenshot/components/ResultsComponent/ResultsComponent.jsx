@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 
 import ColorPaletteComponent from './components/ColorPaletteComponent';
 import ColorContrastComponent from './components/ColorContrastComponent';

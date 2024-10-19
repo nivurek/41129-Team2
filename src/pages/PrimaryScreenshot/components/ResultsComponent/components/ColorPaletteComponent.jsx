@@ -66,21 +66,6 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
         generateNewSuggestion();
     }, [imageColorPalette]);
 
-    // Component Styles
-    const styles = {
-        popover: {
-            position: 'absolute',
-            zIndex: '2',
-        },
-        cover: {
-            position: 'fixed',
-            top: '0px',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-        }
-    }
-
     // Rendered Component
     return (
         <>
@@ -98,9 +83,9 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                             <Tooltip target={`.palette-${i}`} content={updatedImageColorPalette[key]} position="bottom" />
                             <div onClick={(e) => handlePaletteClick(key)} className={`palette-color-user palette-${i}`} style={{backgroundColor: updatedImageColorPalette[key]}}></div>
                             { displayColorPicker === key ? 
-                                <div style={ styles.popover }>
-                                    <div style={ styles.cover } onClick={handlePaletteClose} />
-                                    <HexColorPicker color={updatedImageColorPalette[key]} onChange={(e) => updateImageColorPalette(key, e)} />
+                                <div className="popover ml-2">
+                                    <div className="cover" onClick={handlePaletteClose} />
+                                    <HexColorPicker className="right-0" color={updatedImageColorPalette[key]} onChange={(e) => updateImageColorPalette(key, e)} />
                                 </div>
                             : null}
                         </div>

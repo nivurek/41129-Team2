@@ -37,6 +37,31 @@ html, body, #root, .App {
   flex-direction: column; 
 }
 
+.p-inputgroup .p-button-outlined {
+  border-color: #d1d5db;
+}
+
+/* Hex Color Picker Styles */
+.popover {
+  position: absolute;
+  z-index: 2;
+}
+
+.cover {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.p-inputgroup-hexpicker {
+  background-color: #fff;
+  border-color: #d1d5db;
+  border-left: none;
+  border-right: none;
+}
+
 /* Navbar Styles */
 
 .navbar-container {
@@ -104,12 +129,10 @@ html, body, #root, .App {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 100%;
   padding: 1rem;
-}
-
-.react-colorful {
-  position: absolute !important;
-  margin-left: 0.5rem;
+  overflow-y: auto;
+  min-width: min-content;
 }
 
 .palette-container {
@@ -142,12 +165,6 @@ html, body, #root, .App {
   padding: 0;
 }
 
-.contrast-container {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
 .contrast-color {
   margin: 0.5rem;
   border-radius: 5px;
@@ -155,4 +172,51 @@ html, body, #root, .App {
   cursor: pointer;
   width: 100px;
   height: 50px;
+}
+
+.contrast-overall, .contrast-small, .contrast-large {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem;
+  height: 50px;
+  width: 50%;
+  border: 1px solid #c3c3c3;
+}
+
+.contrast-overall {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.contrast-small {
+  width: 50%;
+  margin-right: 0.125rem;
+  border-bottom-left-radius: 4px;
+  cursor: help;
+}
+
+.contrast-large {
+  width: 50%;
+  margin-left: 0.125rem;
+  border-bottom-right-radius: 4px;
+  cursor: help;
+}
+
+.no-contrast-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  /* 0.5rem added for margin between contrast elements */
+  height: calc(100px + 0.5rem);
+  border: 1px solid #c3c3c3;
+  border-radius: 4px;
 }
