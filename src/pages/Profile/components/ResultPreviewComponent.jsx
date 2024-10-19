@@ -12,7 +12,7 @@ const ResultPreviewComponent = ({data, idx, active, setOpenResultIdx}) => {
       onClick={() => setOpenResultIdx(idx)}
       style={{
         height: "100px",
-        backgroundColor: active ? "#c4ffde" : undefined, 
+        backgroundColor: active ? "#c7c9ff" : undefined, 
       }}
     >
 

@@ -12,6 +12,7 @@ import {
   Modal,
   Placeholder,
   PlaceholderImage,
+  Label,
 } from "semantic-ui-react";
 import PageInformationComponent from "./PageInformationComponent";
 
@@ -79,7 +80,7 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
   return (
     <Segment.Group style={{width: '100%', height: '100%'}}>
       <Segment secondary>
-        <Grid columns={3}>
+        <Grid className='alignedGrid' columns={3}>
           <Grid.Column width={3}>
             <Button
               onClick={()=>{returnToProjectList()}}
@@ -106,7 +107,7 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
           {pageData.pages.map((page, pageIndex) => (
             <Modal
               key={pageIndex}
-              style={{width: '90vw'}}
+              style={{ width: '90vw', position: 'relative' }}
               open={openModalIdx === pageIndex}
               dimmer={'blurring'}
               onClose={() => setOpenModalIdx(null)}
@@ -115,11 +116,37 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
                 <CardElement page={page} idx={pageIndex} onClick={() => setOpenModalIdx(pageIndex)} />
               }
             >
+              <Label
+                as='a'
+                color='orange'
+                ribbon='right'
+                onClick={() => setOpenModalIdx(null)}
+                style={{ 
+                  fontSize: '15px',
+                  border: '1px solid black',
+                  paddingTop: '10px',
+                  position: 'absolute',
+                  top: '10px',
+                  left: 'calc(100% + 1rem + 0.35em)' // dont ask
+                }}
+              >
+                Close Editor
+                <Icon name='close' style={{ marginLeft: '10px' }} color="white" />
+              </Label>
 
-              <Modal.Header style={{backgroundColor: '#b5b5b5', borderBottom: '3px solid grey'}}>
+              <Modal.Header
+                style={{
+                  backgroundColor: '#b5b5b5',
+                  borderBottom: '3px solid grey',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
                 {page.name}
               </Modal.Header>
-
+              
+              {/* Define Contents of Modal in PageInformationComponent */}
               <Modal.Content style={{backgroundColor: '#d4d2d2', height: '80vh', padding: '0px'}}>
                 <PageInformationComponent pageInformation={page} />
               </Modal.Content>

@@ -109,3 +109,10 @@ html, body, #root, .App {
   margin: 0.5rem;
   padding: 0;
 }
+
+.deleteConfirm .ui.primary.button {
+  background-color: rgb(190, 0, 0);
+}
+.deleteConfirm .ui.primary.button:hover {
+  background-color: rgb(128, 0, 0);
+}

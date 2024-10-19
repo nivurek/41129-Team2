@@ -16,6 +16,8 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
   const [isHoveringDelete, setIsHoveringDelete] = useState(false);
 
+  const localData = pageInformation.results[openResultIdx];
+
   // ===================================================================
   // ============= Controls for the 'Delete Result' modal ==============
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -36,12 +38,12 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
   // ===================================================================
   // =========== Controls for changing the name of a result ============
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [inputValue, setInputValue] = useState(openResultIdx ? pageInformation.results[openResultIdx].description : "");
+  const [inputValue, setInputValue] = useState(openResultIdx ? localData.description : "");
   
   // Watch openResultIdx and results and auto-update the form value.
   useEffect(() => {
-    if (openResultIdx !== null && pageInformation.results[openResultIdx]) {
-      setInputValue(pageInformation.results[openResultIdx].description);
+    if (openResultIdx !== null && localData) {
+      setInputValue(localData.description);
     }
     setIsEditingTitle(false);
   }, [openResultIdx, pageInformation.results]); 
@@ -52,7 +54,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
 
   const cancelEdit = (e) => {
     e.preventDefault();
-    setInputValue(pageInformation.results[openResultIdx].description);
+    setInputValue(localData.description);
     setIsEditingTitle(false);
   }
 
@@ -65,9 +67,9 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
   // ===================================================================
 
   return (
-    <Grid.Column width={10} style={{ height: 'inherit' }}>
+    <Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
       {/* =============================== HEADER =============================== */}
-      <Segment style={{ maxHeight: '72px' }}>
+      <Segment style={{ maxHeight: '72px', backgroundColor: '#b5b8ff' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {isEditingTitle ? (
             <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
@@ -83,7 +85,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
           ) : (
             <div>
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
-                {(openResultIdx != null) && pageInformation.results[openResultIdx].description}
+                {(openResultIdx != null) && localData.description}
               </span>
               <Icon
                 name="edit"
@@ -107,8 +109,13 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
             onMouseLeave={() => setIsHoveringDelete(false)}
           />
           <Confirm
+            className="deleteConfirm"
             open={isDeleteConfirmOpen}
+            header={`Delete ${localData.description}?`}
+            content={"Are you sure you want to delete this result? This action is irreversible."}
+            size={"small"}
             onConfirm={() => handDeleteConfirm()}
+            confirmButton={"Delete"}
             onCancel={() => setIsDeleteConfirmOpen(false)}
           />
         </div>
@@ -117,14 +124,21 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
       {/* =============================== BODY =============================== */}
 
       <div style={{ display: 'flex', flexDirection: 'column'}} >
-        <Segment style={{  overflowY: 'auto', flexGrow: 1, marginBottom: '0px' }}>
-          <div>
-            Screenshot data
-          </div>
+        <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
+          {localData.screenshot != "" ? (
+            <div>
+              Screenshot data goes here
+            </div>
+          ) : (
+            <Button>
+              {"(Screenshot uploader goes here)"}
+            </Button>
+          )}
+          
         </Segment>
-        <Segment style={{ overflowY: 'auto', flexGrow: 1 }}>
+        <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto'}}>
           <div>
-            AI Generated data
+            AI Generated data goes here
           </div>
         </Segment>
       </div>

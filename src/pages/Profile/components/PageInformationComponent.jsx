@@ -53,7 +53,7 @@ const PageInformationComponent = ({pageInformation}) => {
         {(openResultIdx != null) ? (
           <ResultInformationViewComponent openResultIdx={openResultIdx} setOpenResultIdx={setOpenResultIdx} pageInformation={pageInformation} />
         ) : (
-          <Grid.Column width={10} style={{ height: 'inherit' }}>
+          <Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
             <div style={{ display: 'flex', flexDirection: 'column'}} >
               <h3>No result selected</h3>
             </div>
