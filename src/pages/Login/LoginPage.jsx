@@ -6,10 +6,6 @@ import {
   MenuItem,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button, Grid, Menu,
-  MenuItem
-} from 'semantic-ui-react';
 
 import LoginGridComponent from './components/LoginComponent';
 import SignupGridComponent from './components/SignupGridComponent';
