@@ -7,7 +7,6 @@ import {
   Icon,
   Input,
   Image,
-  Label,
   Segment,
   Confirm,
 } from "semantic-ui-react";
@@ -15,14 +14,14 @@ import ResultPreviewComponent from "./ResultPreviewComponent";
 
 const PageInformationComponent = ({pageInformation}) => {
   const [openResultIdx, setOpenResultIdx] = useState(pageInformation.results.length == 0 ? null : 0);
-  const [hoveringEdit, setHoveringEdit] = useState(false);
-  const [hoveringDelete, setHoveringDelete] = useState(false);
+  const [isHoveringEdit, setIsHoveringEdit] = useState(false);
+  const [isHoveringDelete, setIsHoveringDelete] = useState(false);
 
   // ===================================================================
+  // ============= Controls for the 'Delete Result' modal ==============
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   const handDeleteConfirm = () => {
-    // Handle delete here
     setIsDeleteConfirmOpen(false);
   }
 
@@ -31,15 +30,16 @@ const PageInformationComponent = ({pageInformation}) => {
     setOpenResultIdx(value);
   }
   // ===================================================================
-  // Local state for the input value
+  // =========== Controls for changing the name of a result ============
   const [editingTitle, setEditingTitle] = useState(false);
   const [inputValue, setInputValue] = useState(openResultIdx ? pageInformation.results[openResultIdx].description : "");
-  // useEffect to watch for changes in openResultIdx and update inputValue
+  
+  // Watch openResultIdx and results and auto-update the form value.
   useEffect(() => {
     if (openResultIdx !== null && pageInformation.results[openResultIdx]) {
       setInputValue(pageInformation.results[openResultIdx].description);
     }
-  }, [openResultIdx, pageInformation.results]); // Dependency array watches openResultIdx and results
+  }, [openResultIdx, pageInformation.results]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -59,7 +59,7 @@ const PageInformationComponent = ({pageInformation}) => {
   };
   // ===================================================================
 
-  console.log('openres', openResultIdx);
+  console.log('openResultIdx', openResultIdx);
 
   return (
     <Grid className='alignedGrid'>
@@ -75,10 +75,10 @@ const PageInformationComponent = ({pageInformation}) => {
                     value={inputValue}
                     onChange={handleInputChange}
                     placeholder="Edit description"
-                    style={{ marginRight: '10px' }} // Add some margin to the input
+                    style={{ marginRight: '10px' }}
                   />
                   <Icon name="check" circular type="submit" onClick={handleSubmit} />
-                  <Icon name="cancel" circular onClick={(e) => cancelEdit(e)} /> {/* Cancel button */}
+                  <Icon name="cancel" circular onClick={(e) => cancelEdit(e)} />
                 </form>
               ) : (
                 <div>
@@ -88,9 +88,9 @@ const PageInformationComponent = ({pageInformation}) => {
                   <Icon
                     name="edit"
                     circular
-                    inverted={hoveringEdit}
-                    onMouseEnter={() => setHoveringEdit(true)}
-                    onMouseLeave={() => setHoveringEdit(false)}
+                    inverted={isHoveringEdit}
+                    onMouseEnter={() => setIsHoveringEdit(true)}
+                    onMouseLeave={() => setIsHoveringEdit(false)}
                     onClick={() => setEditingTitle(true)}
                   />
                 </div>
@@ -100,11 +100,11 @@ const PageInformationComponent = ({pageInformation}) => {
                 name="trash"
                 size="large"
                 circular
-                inverted={hoveringDelete}
+                inverted={isHoveringDelete}
                 color="red"
                 onClick={() => setIsDeleteConfirmOpen(true)}
-                onMouseEnter={() => setHoveringDelete(true)}
-                onMouseLeave={() => setHoveringDelete(false)}
+                onMouseEnter={() => setIsHoveringDelete(true)}
+                onMouseLeave={() => setIsHoveringDelete(false)}
               />
               <Confirm
                 open={isDeleteConfirmOpen}
@@ -116,7 +116,6 @@ const PageInformationComponent = ({pageInformation}) => {
           )}
           
           <Segment style={{ overflowY: 'auto' }}>
-            
             {(openResultIdx != null) ? (
                 <div>
                   <Image src='https://react.semantic-ui.com/images/wireframe/image.png' fluid />
@@ -125,6 +124,7 @@ const PageInformationComponent = ({pageInformation}) => {
               <h3>No result selected</h3>
             )}
           </Segment>
+
         </Grid.Column>
         {/* ------------------------------------------------------------------ */}
         <Grid.Column width={6} style={{ height: 'inherit' }}>
@@ -150,6 +150,7 @@ const PageInformationComponent = ({pageInformation}) => {
                 />
               ))}
             </Container>
+            
           </Segment>
         </Grid.Column>
       </Grid.Row>

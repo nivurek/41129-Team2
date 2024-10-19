@@ -15,12 +15,11 @@ import {
 } from "semantic-ui-react";
 import PageInformationComponent from "./PageInformationComponent";
 
-const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
+const PageListComponent = ({pageData, projectName, changeDepth}) => {
   console.log("===== Pagelistcomponent =====", pageData);
 
-  const [openModalIdx, setOpenModalIdx] = useState(null); // Track which modal is open
-  const [openResultIdx, setOpenResultIdx] = useState(null); // Track which result is selected
-  const [loadingData, setLoadingData] = useState(
+  const [openModalIdx, setOpenModalIdx] = useState(null); // Track which modal is open.
+  const [loadingData, setLoadingData] = useState( // Potentially useless but could be cool.
     Array.from({ length: pageData.length }, () => true)
   )
 
@@ -75,7 +74,7 @@ const PageListComponent = ({pageData, projectName, changeDepth, setIndex}) => {
     )
   }
   
-  console.log('foccused data', openModalIdx, openResultIdx);
+  console.log('Open Modal Index:', openModalIdx);
   
   return (
     <Segment.Group style={{width: '100%', height: '100%'}}>
