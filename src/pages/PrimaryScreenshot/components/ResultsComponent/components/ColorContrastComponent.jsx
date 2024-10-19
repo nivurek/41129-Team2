@@ -4,7 +4,7 @@ import colorContrast from 'color-contrast'
 import { HexColorPicker } from 'react-colorful';
 import { Button } from 'primereact/button';
 import { OverlayPanel } from 'primereact/overlaypanel';
-import { InputText } from 'primereact/inputtext';
+import { InputMask } from 'primereact/inputmask';
 import { FaEyeDropper } from "react-icons/fa";
 
 const ColorContrastComponent = () => {
@@ -71,7 +71,7 @@ const ColorContrastComponent = () => {
                   {/* Foreground color selection */}
                   <div className="mr-1">
                     <div className="p-inputgroup flex-1">
-                      <InputText placeholder="#Text Color" value={foreground} onChange={(e) => setForeground(e)} />
+                      <InputMask mask="#***?***" slotChar="" placeholder="#Text Color" value={foreground ? foreground : null} onChange={(e) => setForeground(e.target.value)} />
                       <Button className="p-inputgroup-hexpicker" style={{backgroundColor: foreground}} onClick={(e) => handlePaletteClick('foreground')} />
                       <Button outlined icon={() => <FaEyeDropper />} severity='secondary' onClick={() => pickColor("foreground")} />
                     </div>
@@ -86,7 +86,7 @@ const ColorContrastComponent = () => {
                   {/* Background color selection */}
                   <div className="ml-1">
                     <div className="p-inputgroup flex-1 ml-1">
-                      <InputText placeholder="#Background Color" value={background} onChange={(e) => setBackground(e)} />
+                      <InputMask mask="#***?***" slotChar="" placeholder="#Background Color" value={background ? background : null} onChange={(e) => setBackground(e.target.value)} />
                       <Button className="p-inputgroup-hexpicker" style={{backgroundColor: background}} onClick={(e) => handlePaletteClick('background')}  />
                       <Button outlined icon={() => <FaEyeDropper />} severity='secondary' onClick={() => pickColor("background")} />
                     </div>
