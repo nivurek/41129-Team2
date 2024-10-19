@@ -33,7 +33,7 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
             </CardContent>
             <CardContent extra>
               <Icon name='file' />
-              {project.pages.length} pages
+              {project.pages.length} page{project.pages.length === 1 ? '' : 's'}
             </CardContent>
           </Card>
         ))}

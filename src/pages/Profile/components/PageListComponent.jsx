@@ -67,7 +67,7 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
         
         <CardContent extra>
           <Icon name='file' />
-          {page.results.length} versions
+          {page.results.length} version{page.results.length === 1 ? '' : 's'}
         </CardContent>
         
       </Card>
