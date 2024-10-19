@@ -8,7 +8,6 @@ import {
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 
-
 const LoginGridComponent = ({userData, handleLogin}) => {
 
   const navigate = useNavigate();

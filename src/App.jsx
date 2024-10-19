@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 
 import LoginPage from './pages/Login/LoginPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import AIPage from './pages/AI/AIPage';
 
 import backgroundBanner from './assets/background_banner.png'; 
 import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
@@ -24,6 +25,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
   const location = useLocation();
   const isLoginPage = ['/login'].includes(location.pathname);
   console.log("isloginpage?", isLoginPage);
+
 
   const isAuth = loggedInUser !== null;
   const activeUser = (loggedInUser && loggedInUser.name) ?? "";
@@ -51,6 +53,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile" element={<ProfilePage authorised={isAuth} userData={loggedInUser} />} />
+                <Route path="/ai" element={<AIPage/>} />
               </Routes>
             </div>
           </>

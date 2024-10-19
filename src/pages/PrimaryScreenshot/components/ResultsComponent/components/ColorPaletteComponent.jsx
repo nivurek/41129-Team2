@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Tooltip } from "primereact/tooltip";
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import * as Color from '../../../utils/color.helpers';
+import * as Color from '../../../../../utils/color.helpers';
 import { HexColorPicker } from 'react-colorful';
 import _ from 'lodash';
 
-const ResultsComponent = ({imageColorPalette}) => {
+const ColorPaletteComponent = ({imageColorPalette}) => {
 
     // State Hooks
     const [colormindSuggestions, setColormindSuggestions] = useState([]);
@@ -60,35 +60,15 @@ const ResultsComponent = ({imageColorPalette}) => {
         }
     }
 
-    // Use Effect Hooks
     useEffect(() => {
         setUpdatedImageColorPalette({...imageColorPalette});
-    }, [imageColorPalette]);
-
-    useEffect(() => {
         setColormindSuggestions([]);
         generateNewSuggestion();
     }, [imageColorPalette]);
 
-    // Component Styles
-    const styles = {
-        popover: {
-            position: 'absolute',
-            zIndex: '2',
-        },
-        cover: {
-            position: 'fixed',
-            top: '0px',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-        }
-    }
-
     // Rendered Component
-    if (Object.keys(imageColorPalette).length > 0) return (
-        <div>
-            <h1>Results</h1>
+    return (
+        <>
             <div className="your-palette">
                 <div className="flex mb-3" style={{height: '2.5rem'}}>
                     <h2 className="mb-0 mr-3">Your Palette</h2>
@@ -100,12 +80,12 @@ const ResultsComponent = ({imageColorPalette}) => {
                     {Object.keys(updatedImageColorPalette).map((key, i) => {
                     return (
                         <div key={i}>
-                            <Tooltip target={`.palette-color-user-${i}`} content={updatedImageColorPalette[key]} position="bottom" />
-                            <div onClick={(e) => handlePaletteClick(key)} className={`palette-color-user-${i}`} style={{backgroundColor: updatedImageColorPalette[key]}}></div>
+                            <Tooltip target={`.palette-${i}`} content={updatedImageColorPalette[key]} position="bottom" />
+                            <div onClick={(e) => handlePaletteClick(key)} className={`palette-color-user palette-${i}`} style={{backgroundColor: updatedImageColorPalette[key]}}></div>
                             { displayColorPicker === key ? 
-                                <div style={ styles.popover }>
-                                    <div style={ styles.cover } onClick={handlePaletteClose} />
-                                    <HexColorPicker color={updatedImageColorPalette[key]} onChange={(e) => updateImageColorPalette(key, e)} />
+                                <div className="popover ml-2">
+                                    <div className="cover" onClick={handlePaletteClose} />
+                                    <HexColorPicker className="right-0" color={updatedImageColorPalette[key]} onChange={(e) => updateImageColorPalette(key, e)} />
                                 </div>
                             : null}
                         </div>
@@ -123,12 +103,12 @@ const ResultsComponent = ({imageColorPalette}) => {
                                     {suggestion.map((color, j) => {
                                         return (
                                             <div key={j}>
-                                                <Tooltip target={`.palette-color-colormind-${i}-${j}`} content={color} position="bottom" />
-                                                <div className={`palette-color-colormind-${i}-${j}`} style={{backgroundColor: color}}></div>
+                                                <Tooltip target={`.palette-${i}-${j}`} content={color} position="bottom" />
+                                                <div className={`palette-color-colormind palette-${i}-${j}`} style={{backgroundColor: color}}></div>
                                             </div>
                                         )
                                     })}
-                                    {_.isEqual(updatedImageColorPalette, suggestion) ? <div class="palette-button" /> :
+                                    {_.isEqual(updatedImageColorPalette, suggestion) ? <div className="palette-button" /> :
                                         <Button className="palette-button" icon="pi pi-upload" severity="info" tooltipOptions={{ position: 'bottom' }} tooltip="Set as your palette" text onClick={() => setUpdatedImageColorPalette(suggestion)} />
                                     }
                                     <Button className="palette-button" icon="pi pi-times" severity="danger" tooltipOptions={{ position: 'bottom' }} tooltip="Delete suggestion" text onClick={() => setColormindSuggestions(colormindSuggestions.filter((_, index) => index !== i))} />
@@ -139,12 +119,8 @@ const ResultsComponent = ({imageColorPalette}) => {
                     </div>
                 </div>
             </div>
-        </div>
-    ); else return (
-        <div className="mx-4 my-auto">
-            <h2>Upload a screenshot on the left to start your ChromaUX journey...</h2>
-        </div>
+        </>
     )
 };
 
-export default ResultsComponent;
+export default ColorPaletteComponent;
