@@ -7,11 +7,12 @@ import {
   Icon,
   Message,
   Segment,
+  Image,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const LoginGridComponent = () => {
+const LoginComponent = ({ handleLogin }) => {
   const navigate = useNavigate();
 
   // State to hold form values
@@ -22,6 +23,9 @@ const LoginGridComponent = () => {
 
   // State to handle error messages (optional)
   const [errorMessage, setErrorMessage] = useState('');
+
+  // State to toggle between login and register
+  const [isLogin, setIsLogin] = useState(true);
 
   // Handle form input changes
   const handleInputChange = (e, { name, value }) => {
@@ -37,18 +41,19 @@ const LoginGridComponent = () => {
     const { email, password } = formData;
 
     try {
-      // Make API call to login route
-      const response = await axios.post('http://localhost:5050/auth/login', { email, password });
+      const url = isLogin ? 'http://localhost:5050/auth/login' : 'http://localhost:5050/auth/register';
+      const response = await axios.post(url, { email, password });
 
-      // Handle successful login
+      // Handle successful login or registration
       if (response.status === 200) {
         const token = response.data.token;
         localStorage.setItem('token', token); // Store the token in local storage
+        handleLogin({ Name: email }); // Call handleLogin with user data
         navigate('/'); // Navigate to home page
       }
     } catch (error) {
-      // Handle error during login
-      setErrorMessage(error.response?.data?.msg || 'Login failed. Please try again.');
+      // Handle error during login or registration
+      setErrorMessage(error.response?.data?.msg || `${isLogin ? 'Login' : 'Registration'} failed. Please try again.`);
     }
   };
 
@@ -56,7 +61,7 @@ const LoginGridComponent = () => {
     <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h2' color='teal' textAlign='center'>
-          <Icon name='user' /> Log-in to your account
+          <Icon name='user' /> {isLogin ? 'Log-in to your account' : 'Register a new account'}
         </Header>
         <Form size='large' onSubmit={handleSubmit}>
           <Segment stacked>
@@ -80,7 +85,7 @@ const LoginGridComponent = () => {
               onChange={handleInputChange}
             />
             <Button color='teal' fluid size='large'>
-              Login
+              {isLogin ? 'Login' : 'Register'}
             </Button>
           </Segment>
         </Form>
@@ -90,9 +95,10 @@ const LoginGridComponent = () => {
             {errorMessage}
           </Message>
         )}
+  
       </Grid.Column>
     </Grid>
   );
 };
 
-export default LoginGridComponent;
+export default LoginComponent;
