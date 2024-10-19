@@ -33,7 +33,7 @@ const ProfilePage = ({authorised, userData}) => {
       )}
       {infoDepth == 1 && (
         <PageListComponent
-          pageData={userProjects[projectIndex]}
+          projectData={userProjects[projectIndex]}
           projectName={userProjects[projectIndex].name}
           changeDepth={setInfoDepth}
         />

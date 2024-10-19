@@ -5,6 +5,9 @@ import {
   CardMeta, 
   CardHeader, 
   CardContent, 
+  Confirm,
+  Form,
+  Input,
   Grid,
   Icon,
   Image,
@@ -15,13 +18,16 @@ import {
   Label,
 } from "semantic-ui-react";
 import PageInformationComponent from "./PageInformationComponent";
+import plusIcon from '../assets/plusIcon.png';
 
-const PageListComponent = ({pageData, projectName, changeDepth}) => {
-  console.log("===== Pagelistcomponent =====", pageData);
+const PageListComponent = ({projectData, projectName, changeDepth}) => {
+  console.log("===== Pagelistcomponent =====", projectData);
 
   const [openModalIdx, setOpenModalIdx] = useState(null); // Track which modal is open.
+  const [isNewPageConfirmOpen, setIsNewPageConfirmOpen] = useState(false);
+
   const [loadingData, setLoadingData] = useState( // Potentially useless but could be cool.
-    Array.from({ length: pageData.length }, () => true)
+    Array.from({ length: projectData.length }, () => true)
   )
 
   const returnToProjectList = () => {
@@ -74,6 +80,67 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
       </Card>
     )
   }
+
+  const AddNewPageCardElement = () => {
+    return (
+      <Card style={{ margin: '50px 7px 50px 20px' }} onClick={() => setIsNewPageConfirmOpen(true)}>
+        <Image
+          src={plusIcon}
+          wrapped
+          ui={true}
+        />
+        <CardContent style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CardHeader>Add new page</CardHeader>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const addNewPage = () => {
+    console.log('confirmed');
+    
+  }
+
+  const AddNewPageConfirmer = ({ isOpen }) => {
+    const [pageName, setPageName] = useState('');
+  
+    const addNewPage = () => {
+      console.log("New page name:", pageName);
+      setPageName('');
+      projectData.pages.push(
+        {
+          "name": `${pageName}`,
+          "lastEditedDate": "2024-09-01", // fix this
+          "results": [
+          ]
+        }
+      );
+    };
+  
+    return (
+      <Confirm
+        open={isOpen}
+        onConfirm={() => {
+          addNewPage();
+          setIsNewPageConfirmOpen(false);
+        }}
+        onCancel={() => setIsNewPageConfirmOpen(false)}
+        header={"Give your new page a name!"}
+        content={
+          <Form>
+            <Form.Field>
+              <Input 
+                placeholder='Enter page name...' 
+                value={pageName} 
+                onChange={(e) => setPageName(e.target.value)} 
+                style={{ padding: '10px' }}
+              />
+            </Form.Field>
+          </Form>
+        }
+      />
+    );
+  };
   
   console.log('Open Modal Index:', openModalIdx);
   
@@ -104,7 +171,7 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
         <h3>Pages</h3>
         <Card.Group>
           {/* Each page will be represented by a 'Card' which itself is the trigger for a popup modal. */}
-          {pageData.pages.map((page, pageIndex) => (
+          {projectData.pages.map((page, pageIndex) => (
             <Modal
               key={pageIndex}
               style={{ width: '90vw', position: 'relative' }}
@@ -153,6 +220,8 @@ const PageListComponent = ({pageData, projectName, changeDepth}) => {
 
             </Modal>
           ))}
+          <AddNewPageCardElement/>
+          <AddNewPageConfirmer isOpen={isNewPageConfirmOpen} />
         </Card.Group>
       </Segment>
     </Segment.Group>
