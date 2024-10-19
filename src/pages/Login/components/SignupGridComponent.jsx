@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const SignupGridComponent = () => {
+const SignupGridComponent = ({ handleLogin }) => {
   const navigate = useNavigate();
 
   // State to hold form values
@@ -31,32 +31,30 @@ const SignupGridComponent = () => {
     });
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
+   // Handle form submission
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, email, password, confirmPassword } = formData;
-
-    if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match.');
-      return;
-    }
+    const { username, email, password } = formData;
 
     try {
       // Make API call to register auth route
       const response = await axios.post('http://localhost:5050/auth/register', { username, email, password });
 
       // Handle successful registration
-      if (response.status === 201) {
+      if (response.status === 200 || response.status === 201) {
+        console.log('Registration successful:', response.data);
         const token = response.data.token;
         localStorage.setItem('token', token); // Store the token in local storage
+        handleLogin({ Name: email }); // Call handleLogin with user data
         navigate('/'); // Navigate to home page
+      } else {
+        console.log('Unexpected response status:', response.status);
       }
     } catch (error) {
-      // Handle error during registration
+      console.error('Error during registration:', error);
       setErrorMessage(error.response?.data?.msg || 'Registration failed. Please try again.');
     }
   };
-
   return (
     <Grid.Column>
       <Grid.Row>

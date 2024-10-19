@@ -84,7 +84,7 @@ const LoginPage = ({userData, handleLogin}) => {
                 {loginMode ? (
                   <LoginGridComponent userData={userData} handleLogin={handleLogin} />
                 ) : (
-                  <SignupGridComponent/>
+                  <SignupGridComponent handleLogin={handleLogin} />
                 )}
               </Grid.Row>
 
