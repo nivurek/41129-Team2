@@ -26,7 +26,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
   console.log("isloginpage?", isLoginPage);
 
   const isAuth = loggedInUser !== null;
-  const activeUser = (loggedInUser && loggedInUser.Name) ?? "";
+  const activeUser = (loggedInUser && loggedInUser.name) ?? "";
 
   return (
     // <PrimeReactProvider>

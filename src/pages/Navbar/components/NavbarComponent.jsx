@@ -9,7 +9,7 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
   // const [isAuth, setIsAuth] = React.useState(authorised);
-  console.log('Navbar <<< ');
+  console.log('Navbar <<< ', activeUser);
 
   const handleItemClick = (e, { name }) => setActiveItem(name);
 

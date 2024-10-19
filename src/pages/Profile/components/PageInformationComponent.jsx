@@ -58,6 +58,36 @@ const PageInformationComponent = ({pageInformation}) => {
     setEditingTitle(false);
   };
   // ===================================================================
+  const createNewResult = () => {
+    const date = new Date(Date.now());
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    console.log(formattedDate);
+    
+    const newObject = {
+      id: 999,
+      screenshot: "",
+      lastEditedDate: "",
+      description: "New Version",
+      palettes: [
+        {
+          id: 999,
+          hexColours: ["#FF5733", "#FFC300", "#DAF7A6"]
+        }
+      ]
+    }
+
+    pageInformation.results.push (newObject);
+    setOpenResultIdx(pageInformation.results.length - 1)
+
+  }
 
   console.log('openResultIdx', openResultIdx);
 
@@ -135,7 +165,7 @@ const PageInformationComponent = ({pageInformation}) => {
               <h2 style={{textAlign: 'center'}}>Version History</h2>
             </div>
             <Divider/>
-            <Button style={{ margin: '10px' }}>
+            <Button onClick={() => createNewResult()} style={{ margin: '10px', height: "70px" }}>
               {pageInformation.results.length == 0 ? "Get started!" : <Icon name='plus' />}
             </Button>
 
