@@ -1,4 +1,14 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
+=======
+import {
+  Button,
+  Form,
+  Grid,
+  Icon,
+  Message,
+} from 'semantic-ui-react';
+>>>>>>> 7af67b89e0858e9f87f49782b8f4261a31eddf58
 import { useNavigate } from 'react-router-dom';
 import {
   Button, Form,
@@ -9,7 +19,7 @@ import {
 
 const LoginGridComponent = ({userData, handleLogin}) => {
 
-  console.log('LoginGrid:', userData, handleLogin);
+  // console.log('LoginGrid:', userData, handleLogin);
   
   const navigate = useNavigate();
 

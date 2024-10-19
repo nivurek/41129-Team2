@@ -4,6 +4,9 @@ import { Splitter, SplitterPanel } from 'primereact/splitter';
 import ScreenshotUploadComponent from './components/screenshotUploadComponent.jsx';
 import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
 import ResultsComponent from "./components/resultsComponent.jsx";
+import ScreenshotUploadComponent from './components/ScreenshotUploadComponent/ScreenshotUploadComponent';
+import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
+import ResultsComponent from "./components/ResultsComponent/ResultsComponent";
 
 const PrimaryScreenshotPage = ({authorised}) => {
     const [imageColorPalette, updateImageColorPalette] = useState({});
