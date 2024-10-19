@@ -5,8 +5,7 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 import { Button } from 'primereact/button';
 import * as filestack from 'filestack-js'; 
 
-const FILESTACK_API_KEY = 'A5Hh94Q3FTngZM8Y50q4Xz'; 
-const client = filestack.init(FILESTACK_API_KEY); 
+const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
 
 const Controls = ({ handleRemove }) => {
   const { zoomIn, zoomOut, resetTransform } = useControls();
