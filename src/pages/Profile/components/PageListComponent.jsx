@@ -18,9 +18,11 @@ import {
   Popup,
   Segment,
 } from "semantic-ui-react";
+
 import PageInformationComponent from "./PageInformationComponent";
 import DeleteElementComponent from "./DeleteElementComponent";
 import plusIcon from '../assets/plusIcon.png';
+
 
 const PageListComponent = ({projectData, projectName, changeDepth}) => {
   console.log("===== Pagelistcomponent =====", projectData);
@@ -38,7 +40,6 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
   }
 
   const CardElement = ({page, idx, onClick}) => {
-
     useEffect(() => {
       // Simulate loading for 2 seconds - this will be replaced by an async fetch request for the actual image
       const timer = setTimeout(() => {
@@ -172,8 +173,6 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
     setOpenModalIdx(null);
     setIsNewPageConfirmOpen(false);
   }
-  
-  console.log('Open Modal Index:', openModalIdx);
   
   return (
     <Segment.Group style={{width: '100%', height: '100%'}}>

@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
 import ProjectListComponent from "./components/ProjectListComponent";
 import PageListComponent from "./components/PageListComponent";
-import PageInformationComponent from "./components/PageInformationComponent";
 
 
 const ProfilePage = ({authorised, userData}) => {
-  
   console.log('Profile Data:', userData);
 
   const [userProjects, _] = useState(userData?.projects);
@@ -21,29 +19,31 @@ const ProfilePage = ({authorised, userData}) => {
   const [projectIndex, setProjectIndex] = useState(0);
 
   console.log("Depth", infoDepth, "| ProjIndx", projectIndex);
-  
-  if (authorised && (userData != null)) return (
-    <div style={{padding: "10px", height: "100%"}}>
-      {infoDepth == 0 && (
-        <ProjectListComponent
-          projectData={userProjects}
-          changeDepth={setInfoDepth}
-          setIndex={setProjectIndex}
-        />
-      )}
-      {infoDepth == 1 && (
-        <PageListComponent
-          projectData={userProjects[projectIndex]}
-          projectName={userProjects[projectIndex].name}
-          changeDepth={setInfoDepth}
-        />
-      )}
-    </div>
 
-  ); else return (
-      <NotAuthorisedComponent />
+  return (
+    <>
+      {(authorised && (userData != null)) ? (
+        <div style={{padding: "10px", height: "100%"}}>
+        {infoDepth == 0 && (
+          <ProjectListComponent
+            projectData={userProjects}
+            changeDepth={setInfoDepth}
+            setIndex={setProjectIndex}
+          />
+        )}
+        {infoDepth == 1 && (
+          <PageListComponent
+            projectData={userProjects[projectIndex]}
+            projectName={userProjects[projectIndex].name}
+            changeDepth={setInfoDepth}
+          />
+        )}
+      </div>
+      ) : (
+        <NotAuthorisedComponent />
+      )}
+    </>
   )
-
 };
 
 export default ProfilePage;

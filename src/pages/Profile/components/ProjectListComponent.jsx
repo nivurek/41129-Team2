@@ -14,7 +14,9 @@ import {
   Dropdown,
   Button,
 } from 'semantic-ui-react';
+
 import plusIcon from '../assets/plusIcon.png';
+
 
 const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
 
@@ -22,8 +24,6 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [renamingIndex, setRenamingIndex] = useState(null);
   const [renameValue, setRenameValue] = useState("");
-  // console.log('PROJECTDATA', projectData);
-  
 
   const selectProject = (id) => {
     if (!(isDeleteConfirmOpen || (renamingIndex === id))) {
@@ -137,7 +137,6 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
       />
     );
   };
-
 
   return (
     <Card.Group>

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { 
   Icon,
   Confirm,
- } from "semantic-ui-react";
+} from "semantic-ui-react";
+
 
 const DeleteElementComponent = ({ executeDelete, type, name }) => {
-  
   const [isHoveringDelete, setIsHoveringDelete] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 

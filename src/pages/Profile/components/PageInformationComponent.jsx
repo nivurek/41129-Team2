@@ -7,8 +7,10 @@ import {
   Icon,
   Segment,
 } from "semantic-ui-react";
+
 import ResultPreviewComponent from "./ResultPreviewComponent";
 import ResultInformationViewComponent from "./ResultInformationViewComponent";
+
 
 const PageInformationComponent = ({pageInformation}) => {
   const [openResultIdx, setOpenResultIdx] = useState(pageInformation.results.length == 0 ? null : 0);
@@ -49,8 +51,6 @@ const PageInformationComponent = ({pageInformation}) => {
     setOpenResultIdx(pageInformation.results.length - 1)
   }
 
-  console.log('openResultIdx', openResultIdx);
-
   return (
     <Grid className='alignedGrid'>
       <Grid.Row stretched style={{ height: '100%' }}>
@@ -69,7 +69,6 @@ const PageInformationComponent = ({pageInformation}) => {
             </div>
           </Grid.Column>
         )}
-
         {/* ------------------------------------------------------------------ */}
         <Grid.Column width={6} style={{ height: 'inherit' }}>
           <Segment

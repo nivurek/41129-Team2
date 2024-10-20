@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Image,
   Segment,
 } from "semantic-ui-react";
 
 const ResultPreviewComponent = ({data, idx, active, setOpenResultIdx}) => {
-
   return (
     <Segment
       key={idx}
@@ -15,7 +14,6 @@ const ResultPreviewComponent = ({data, idx, active, setOpenResultIdx}) => {
         backgroundColor: active ? "#c7c9ff" : undefined, 
       }}
     >
-
       {data.description}
       <Image
         size='tiny'

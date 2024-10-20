@@ -13,7 +13,6 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
   // console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, pageInformation);
 
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
-
   const localData = pageInformation.results[openResultIdx];
 
   // ===================================================================
@@ -21,12 +20,10 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
 
   const handleDeleteConfirm = () => {
     const newArrayLength = pageInformation.results.length - 1;
-
     setOpenResultIdx(
       newArrayLength === 0 ? null : Math.min(openResultIdx, newArrayLength - 1)
     );
     incrementCounter(); // Force update in parent component, necessary until data store.
-
     pageInformation.results.splice(openResultIdx, 1);
   }
 
@@ -93,7 +90,6 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
               />
             </div>
           )}
-          
           <DeleteElementComponent executeDelete={handleDeleteConfirm} type={"result"} name={localData.description} />
         </div>
       </Segment>
@@ -111,7 +107,6 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
               {"(Screenshot uploader goes here)"}
             </Button>
           )}
-          
         </Segment>
         <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto'}}>
           <div>
