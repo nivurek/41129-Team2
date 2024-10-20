@@ -11,19 +11,49 @@ import {
   Form,
   Input,
   Popup,
+  Dropdown,
+  Button,
 } from 'semantic-ui-react';
 import plusIcon from '../assets/plusIcon.png';
 
 const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
 
   const [isNewProjectConfirmOpen, setIsNewProjectConfirmOpen] = useState(false);
-  console.log('PROJECTDATA', projectData);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [renamingIndex, setRenamingIndex] = useState(null);
+  const [renameValue, setRenameValue] = useState("");
+  // console.log('PROJECTDATA', projectData);
   
 
   const selectProject = (id) => {
-    console.log("Clicked on project index", id);
-    setIndex(id);
-    changeDepth(1);
+    if (!(isDeleteConfirmOpen || (renamingIndex === id))) {
+      setIndex(id);
+      changeDepth(1);
+    }
+  };
+
+  const handleDeleteConfirm = (id) => {
+    setIsDeleteConfirmOpen(false);
+    projectData.splice(id, 1);
+  }
+
+  const handleStartEdit = (idx) => {
+    setRenamingIndex(idx);
+    setRenameValue(projectData[idx].name);
+  }
+
+  const handleEditSubmit = (e, idx) => {
+    e.preventDefault();
+    if (renameValue !== "") {
+      projectData[idx].name = renameValue; // Temporary solution
+      setRenamingIndex(null);
+    } else {
+      // Could create a warning box to let user know the name cant be empty
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setRenameValue(e.target.value);
   };
 
   const AddNewProjectCardElement = () => {
@@ -47,13 +77,11 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
 
     const handleFormChange = (e) => {
       setProjectName(e.target.value);
-      if (isError) {
-        setIsError(false);
-      }
+      if (isError) { setIsError(false); }
     }
   
     const addNewProject = () => {
-      if (projectName == "") {
+      if (projectName === "") {
         setIsError(true);
       } else {
         setProjectName('');
@@ -103,7 +131,6 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
                   />
                 }
               />
-              
             </Form.Field>
           </Form>
         }
@@ -111,29 +138,92 @@ const ProjectListComponent = ({projectData, changeDepth, setIndex}) => {
     );
   };
 
+
   return (
     <Card.Group>
-        {projectData.map((project, idx) => (
-          <Card key={idx} onClick={() => selectProject(idx)}>
-            <Image src='https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' wrapped ui={false} />
-            <CardContent>
-              <CardHeader>{project.name}</CardHeader>
-              <CardMeta>
-                <span className='date'>Last edited {project.lastEditedDate}</span>
-              </CardMeta>
-              <CardDescription>
-                {project.description}
-              </CardDescription>
-            </CardContent>
-            <CardContent extra>
-              <Icon name='file' />
-              {project.pages.length} page{project.pages.length === 1 ? '' : 's'}
-            </CardContent>
-          </Card>
-        ))}
-        <AddNewProjectCardElement/>
-        <AddNewProjectConfirmer isOpen={isNewProjectConfirmOpen} />
-      </Card.Group>
+      {projectData.map((project, idx) => (
+        <Card key={idx} onClick={() => selectProject(idx)}>
+          <Image src='https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' wrapped ui={false} />
+          <CardContent>
+            {/* ====================================================================================================== */}
+            <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
+              {renamingIndex === idx ? (
+                <Form
+                  onBlur={(e) => {
+                    // Cancel form if the focus is leaving to a target OUTSIDE the form (not including the button) (idk how this works)
+                    if (!e.currentTarget.contains(e.relatedTarget)) {
+                      setRenamingIndex(null);
+                    }
+                  }}
+                  onSubmit={(e) => {
+                    handleEditSubmit(e, idx);
+                  }}
+                  style={{ display: 'flex', alignItems: 'center', width: '85%' }}
+                >
+                  <Input
+                    value={renameValue}
+                    onChange={handleInputChange}
+                    placeholder="Name this project"
+                    autoFocus
+                    action={
+                      <Button
+                        icon={<Icon name="check" />}
+                        color="green"
+                        onClick={(e) => {
+                          handleEditSubmit(e, idx);
+                        }}
+                      />
+                    }
+                  />
+                </Form>
+              ) : (
+                <div>
+                  <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
+                    {project.name}
+                  </span>
+                </div>
+              )}
+              {(renamingIndex !== idx) && (
+                <Dropdown icon={<Icon name="ellipsis vertical"  />}>
+                  <Dropdown.Menu>
+                    <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(idx)} />
+                    <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpen(true)} />
+                  </Dropdown.Menu>
+                </Dropdown>
+              )}
+              <Confirm
+                className="deleteConfirm"
+                open={isDeleteConfirmOpen}
+                header={`Delete ${project.name}?`}
+                content={`Are you sure you want to delete this project? This action is irreversible.`}
+                size={"small"}
+                onConfirm={() => handleDeleteConfirm(idx)}
+                onCancel={()=> setIsDeleteConfirmOpen(false)}
+                confirmButton={"Delete"}
+              />
+            </CardHeader>
+
+            {/* ====================================================================================================== */}
+            
+            <CardMeta>
+              <span className='date'>Last edited {project.lastEditedDate}</span>
+            </CardMeta>
+
+            <CardDescription>
+              {project.description}
+            </CardDescription>
+
+            {/* ====================================================================================================== */}
+          </CardContent>
+          <CardContent extra>
+            <Icon name='file' />
+            {project.pages.length} page{project.pages.length === 1 ? '' : 's'}
+          </CardContent>
+        </Card>
+      ))}
+      <AddNewProjectCardElement/>
+      <AddNewProjectConfirmer isOpen={isNewProjectConfirmOpen} />
+    </Card.Group>
   )
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
+  Form,
   Grid,
   Icon,
   Input,
@@ -40,7 +41,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
       setInputValue(localData.description);
     }
     setIsEditingTitle(false);
-  }, [openResultIdx, pageInformation.results]); 
+  }, [openResultIdx, pageInformation.results, localData]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -52,7 +53,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
     setIsEditingTitle(false);
   }
 
-  const handleSubmit = (e) => {
+  const handleEditSubmit = (e) => {
     e.preventDefault();
     // NEEDS PROPER DATABASE INTERACTION
     pageInformation.results[openResultIdx].description = inputValue; // Temporary solution
@@ -67,16 +68,16 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
       <Segment style={{ maxHeight: '72px', backgroundColor: '#b5b8ff' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {isEditingTitle ? (
-            <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center' }}>
+            <Form onSubmit={handleEditSubmit} style={{ display: 'flex', alignItems: 'center' }}>
               <Input
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="Edit description"
                 style={{ marginRight: '10px' }}
               />
-              <Icon name="check" circular type="submit" onClick={handleSubmit} />
+              <Icon name="check" circular type="submit" onClick={handleEditSubmit} />
               <Icon name="cancel" circular onClick={(e) => cancelEdit(e)} />
-            </form>
+            </Form>
           ) : (
             <div>
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
@@ -101,7 +102,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
 
       <div style={{ display: 'flex', flexDirection: 'column'}} >
         <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
-          {localData.screenshot != "" ? (
+          {localData.screenshot !== "" ? (
             <div>
               Screenshot data goes here
             </div>
