@@ -16,6 +16,7 @@ import {
   Placeholder,
   PlaceholderImage,
   Label,
+  Popup,
 } from "semantic-ui-react";
 import PageInformationComponent from "./PageInformationComponent";
 import plusIcon from '../assets/plusIcon.png';
@@ -96,25 +97,32 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
     )
   }
 
-  const addNewPage = () => {
-    console.log('confirmed');
-    
-  }
-
   const AddNewPageConfirmer = ({ isOpen }) => {
     const [pageName, setPageName] = useState('');
+    const [isError, setIsError] = useState(false);
+
+    const handleFormChange = (e) => {
+      setPageName(e.target.value);
+      if (isError) {
+        setIsError(false);
+      }
+    }
   
     const addNewPage = () => {
-      console.log("New page name:", pageName);
-      setPageName('');
-      projectData.pages.push(
-        {
-          "name": `${pageName}`,
-          "lastEditedDate": "2024-09-01", // fix this
-          "results": [
-          ]
-        }
-      );
+      if (pageName == "") {
+        setIsError(true);
+      } else {
+        setPageName('');
+        projectData.pages.push(
+          {
+            name: `${pageName}`,
+            lastEditedDate: "2024-09-01", // fix this
+            results: [
+            ]
+          }
+        );
+        setIsNewPageConfirmOpen(false);
+      }
     };
   
     return (
@@ -122,19 +130,35 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
         open={isOpen}
         onConfirm={() => {
           addNewPage();
-          setIsNewPageConfirmOpen(false);
         }}
         onCancel={() => setIsNewPageConfirmOpen(false)}
         header={"Give your new page a name!"}
         content={
           <Form>
             <Form.Field>
-              <Input 
-                placeholder='Enter page name...' 
-                value={pageName} 
-                onChange={(e) => setPageName(e.target.value)} 
-                style={{ padding: '10px' }}
+              <Popup
+                content={"New page must have a name"}
+                open={isError}
+                position='bottom left'
+                style={{
+                  color: 'red',
+                  fontWeight: 'bold',
+                  width: '15em',
+                  position: 'absolute',
+                  top: '-1em',
+                  left: '1em',
+                 }}
+                trigger={
+                  <Input 
+                    placeholder='Enter page name...' 
+                    value={pageName} 
+                    error={isError}
+                    onChange={(e) => handleFormChange(e)} 
+                    style={{ padding: '10px' }}
+                  />
+                }
               />
+              
             </Form.Field>
           </Form>
         }
@@ -146,6 +170,7 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
   
   return (
     <Segment.Group style={{width: '100%', height: '100%'}}>
+      {/* ================================ Header ================================ */}
       <Segment secondary>
         <Grid className='alignedGrid' columns={3}>
           <Grid.Column width={3}>
@@ -161,16 +186,12 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
           <Grid.Column width={10}>
             <h1 style={{textAlign: 'center'}}>{projectName} - Pages</h1>
           </Grid.Column>
-          <Grid.Column width={3}>
-
-          </Grid.Column>
         </Grid>
       </Segment>
-      {/* ========================================================== */}
+      {/* ================================ Card List ================================ */}
       <Segment style={{height: '100%'}}>
         <h3>Pages</h3>
         <Card.Group>
-          {/* Each page will be represented by a 'Card' which itself is the trigger for a popup modal. */}
           {projectData.pages.map((page, pageIndex) => (
             <Modal
               key={pageIndex}
