@@ -62,17 +62,12 @@ app.post('/upload-to-gemini', async (req, res) => {
       return res.status(400).json({ error: 'File URI and MIME type are required.' });
     }
 
-    console.log('Processing file from URL:', fileUri);
-
     const tempFilePath = await downloadFile(fileUri);
-    console.log('Downloaded file to:', tempFilePath);
-
     const uploadResult = await fileManager.uploadFile(tempFilePath, {
       mimeType: mimeType,
       displayName: path.basename(tempFilePath),
     });
     const file = uploadResult.file;
-    console.log(`Uploaded file ${file.displayName} as: ${file.name}, uri: ${file.uri}`);
 
     fs.unlink(tempFilePath, (err) => {
       if (err) {
@@ -101,7 +96,7 @@ app.post('/upload-to-gemini', async (req, res) => {
                 fileUri: file.uri, 
               },
             },
-            { text: 'Describe the uploaded image in detail.' },
+            { text: 'Provide some UI UX improvement suggestions on the UI UX of the screenshot provided.' },
           ],
         },
       ],

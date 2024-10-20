@@ -7,6 +7,9 @@ import * as filestack from 'filestack-js';
 import ReactMarkdown from 'react-markdown';
 
 const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
+const enableGemini = process.env.REACT_APP_ENABLE_GEMINI || false;
+const enableFilestack = process.env.REACT_APP_ENABLE_FILESTACK || false;
+
 
 const Controls = ({ handleRemove }) => {
   const { zoomIn, zoomOut, resetTransform } = useControls();
@@ -48,19 +51,22 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
   }, [imageUrl]);
 
   const uploadHandler = async (event) => {
+    console.log(enableGemini)
     const file = event.files[0];
     if (!file) return;
 
-    try {
-      const uploadResponse = await client.upload(file);
-      const publicUrl = uploadResponse.url;
+    if(enableFilestack) {
+      try {
+        const uploadResponse = await client.upload(file);
+        const publicUrl = uploadResponse.url;
 
-      setImageUrl(publicUrl);
-      if(process.env.ENABLE_GEMINI) {
-        await analyzeWithGemini(publicUrl);
+        setImageUrl(publicUrl);
+        if(enableGemini) {
+          await analyzeWithGemini(publicUrl);
+        }
+      } catch (error) {
+        console.error('Error uploading image to Filestack:', error);
       }
-    } catch (error) {
-      console.error('Error uploading image to Filestack:', error);
     }
   };
 
@@ -114,12 +120,19 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
         />
       )}
 
-      {analysis && (
-        <div className="analysis-result">
+        {analysis && (
+        <div
+        className="analysis-result"
+        style={{
+          maxHeight: '150px',
+          overflowY: 'auto',
+          padding: '10px',
+        }}
+        >
           <h3>AI Analysis Result:</h3>
-          <ReactMarkdown>{analysis}</ReactMarkdown>
-        </div>
-      )}
+            <ReactMarkdown>{analysis}</ReactMarkdown>
+          </div>
+        )}
     </div>
   );
 };
