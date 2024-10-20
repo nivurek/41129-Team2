@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  Container,
-  Divider,
   Grid,
   Icon,
   Input,
-  Image,
   Segment,
-  Confirm,
 } from "semantic-ui-react";
+import DeleteElementComponent from "./DeleteElementComponent";
 
-const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageInformation}) => {
+const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageInformation, incrementCounter}) => {
+  // console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, pageInformation);
 
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
-  const [isHoveringDelete, setIsHoveringDelete] = useState(false);
 
   const localData = pageInformation.results[openResultIdx];
 
   // ===================================================================
   // ============= Controls for the 'Delete Result' modal ==============
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
-  const handDeleteConfirm = () => {
-    setIsDeleteConfirmOpen(false);
-
+  const handleDeleteConfirm = () => {
     const newArrayLength = pageInformation.results.length - 1;
 
     setOpenResultIdx(
       newArrayLength === 0 ? null : Math.min(openResultIdx, newArrayLength - 1)
     );
+    incrementCounter(); // Force update in parent component, necessary until data store.
 
     pageInformation.results.splice(openResultIdx, 1);
   }
-
 
   // ===================================================================
   // =========== Controls for changing the name of a result ============
@@ -62,6 +56,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
     e.preventDefault();
     // NEEDS PROPER DATABASE INTERACTION
     pageInformation.results[openResultIdx].description = inputValue; // Temporary solution
+    incrementCounter(); // Force update in parent component, necessary until data store.
     setIsEditingTitle(false);
   };
   // ===================================================================
@@ -98,26 +93,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
             </div>
           )}
           
-          <Icon
-            name="trash"
-            size="large"
-            circular
-            inverted={isHoveringDelete}
-            color="red"
-            onClick={() => setIsDeleteConfirmOpen(true)}
-            onMouseEnter={() => setIsHoveringDelete(true)}
-            onMouseLeave={() => setIsHoveringDelete(false)}
-          />
-          <Confirm
-            className="deleteConfirm"
-            open={isDeleteConfirmOpen}
-            header={`Delete ${localData.description}?`}
-            content={"Are you sure you want to delete this result? This action is irreversible."}
-            size={"small"}
-            onConfirm={() => handDeleteConfirm()}
-            confirmButton={"Delete"}
-            onCancel={() => setIsDeleteConfirmOpen(false)}
-          />
+          <DeleteElementComponent executeDelete={handleDeleteConfirm} type={"result"} name={localData.description} />
         </div>
       </Segment>
 

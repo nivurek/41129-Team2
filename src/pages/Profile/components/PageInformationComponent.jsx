@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
   Divider,
   Grid,
   Icon,
-  Input,
-  Image,
   Segment,
-  Confirm,
 } from "semantic-ui-react";
 import ResultPreviewComponent from "./ResultPreviewComponent";
 import ResultInformationViewComponent from "./ResultInformationViewComponent";
 
 const PageInformationComponent = ({pageInformation}) => {
   const [openResultIdx, setOpenResultIdx] = useState(pageInformation.results.length == 0 ? null : 0);
+
+  // Need to update this meaningless counter when removing/renaming a result that doesnt affect the resultIndex, in order to force this component to update.
+  // This will not be a problem when using a global data store that can be updated from any component.
+  const [_, updateCounter] = useState(0);
+  const addOneToCounter = () => {
+    updateCounter(prevState => prevState + 1);
+  }
 
   const createNewResult = () => {
     const date = new Date(Date.now());
@@ -50,8 +54,14 @@ const PageInformationComponent = ({pageInformation}) => {
   return (
     <Grid className='alignedGrid'>
       <Grid.Row stretched style={{ height: '100%' }}>
+        {/* ------------------------------------------------------------------ */}
         {(openResultIdx != null) ? (
-          <ResultInformationViewComponent openResultIdx={openResultIdx} setOpenResultIdx={setOpenResultIdx} pageInformation={pageInformation} />
+          <ResultInformationViewComponent
+            openResultIdx={openResultIdx}
+            setOpenResultIdx={setOpenResultIdx}
+            pageInformation={pageInformation}
+            incrementCounter={addOneToCounter}
+          />
         ) : (
           <Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
             <div style={{ display: 'flex', flexDirection: 'column'}} >
@@ -87,6 +97,7 @@ const PageInformationComponent = ({pageInformation}) => {
             
           </Segment>
         </Grid.Column>
+        {/* ------------------------------------------------------------------ */}
       </Grid.Row>
     </Grid>
   )

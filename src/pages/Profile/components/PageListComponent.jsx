@@ -7,18 +7,19 @@ import {
   CardContent, 
   Confirm,
   Form,
-  Input,
   Grid,
   Icon,
   Image,
-  Segment,
+  Input,
+  Label,
   Modal,
   Placeholder,
   PlaceholderImage,
-  Label,
   Popup,
+  Segment,
 } from "semantic-ui-react";
 import PageInformationComponent from "./PageInformationComponent";
+import DeleteElementComponent from "./DeleteElementComponent";
 import plusIcon from '../assets/plusIcon.png';
 
 const PageListComponent = ({projectData, projectName, changeDepth}) => {
@@ -165,6 +166,12 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
       />
     );
   };
+
+  const handleDeletePage = () => {
+    projectData.pages.splice(openModalIdx, 1);
+    setOpenModalIdx(null);
+    setIsNewPageConfirmOpen(false);
+  }
   
   console.log('Open Modal Index:', openModalIdx);
   
@@ -219,11 +226,12 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
                 }}
               >
                 Close Editor
-                <Icon name='close' style={{ marginLeft: '10px' }} color="white" />
+                <Icon name='close' style={{ marginLeft: '10px' }} />
               </Label>
 
               <Modal.Header
                 style={{
+                  paddingRight: '150px',
                   backgroundColor: '#b5b5b5',
                   borderBottom: '3px solid grey',
                   display: 'flex',
@@ -232,6 +240,7 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
                 }}
               >
                 {page.name}
+                <DeleteElementComponent executeDelete={handleDeletePage} type={"page"} name={"xd"} />
               </Modal.Header>
               
               {/* Define Contents of Modal in PageInformationComponent */}
