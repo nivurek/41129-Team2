@@ -4,6 +4,7 @@ import * as Vibrant from 'node-vibrant';
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 import { Button } from 'primereact/button';
 import * as filestack from 'filestack-js'; 
+import ReactMarkdown from 'react-markdown';
 
 const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
 
@@ -55,7 +56,9 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
       const publicUrl = uploadResponse.url;
 
       setImageUrl(publicUrl);
-      await analyzeWithGemini(publicUrl);
+      if(process.env.ENABLE_GEMINI) {
+        await analyzeWithGemini(publicUrl);
+      }
     } catch (error) {
       console.error('Error uploading image to Filestack:', error);
     }
@@ -114,7 +117,7 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
       {analysis && (
         <div className="analysis-result">
           <h3>AI Analysis Result:</h3>
-          <p>{analysis}</p>
+          <ReactMarkdown>{analysis}</ReactMarkdown>
         </div>
       )}
     </div>
