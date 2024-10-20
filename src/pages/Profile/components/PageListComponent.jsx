@@ -240,7 +240,7 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
                 }}
               >
                 {page.name}
-                <DeleteElementComponent executeDelete={handleDeletePage} type={"page"} name={"xd"} />
+                <DeleteElementComponent executeDelete={handleDeletePage} type={"page"} name={page.name} />
               </Modal.Header>
               
               {/* Define Contents of Modal in PageInformationComponent */}
