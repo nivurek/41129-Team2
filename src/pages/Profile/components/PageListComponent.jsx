@@ -44,14 +44,14 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
       // Simulate loading for 2 seconds - this will be replaced by an async fetch request for the actual image
       const timer = setTimeout(() => {
         console.log("useEffect");
-        if (loadingData[idx] == false) {
+        if (loadingData[idx] === false) {
           setLoadingData(loadingData.map((value, i) => i === idx ? !value : value));
         }
       }, 2000);
   
       // Cleanup the timer when component unmounts
       return () => clearTimeout(timer);
-    }, []); // Empty dependency array to run this effect only once after mount
+    }, [idx]); // Empty dependency array to run this effect only once after mount
 
     return (
       <Card key={idx} onClick={onClick}>
@@ -111,7 +111,7 @@ const PageListComponent = ({projectData, projectName, changeDepth}) => {
     }
   
     const addNewPage = () => {
-      if (pageName == "") {
+      if (pageName === "") {
         setIsError(true);
       } else {
         setPageName('');

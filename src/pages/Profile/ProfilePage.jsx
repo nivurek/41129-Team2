@@ -8,7 +8,7 @@ import PageListComponent from "./components/PageListComponent";
 const ProfilePage = ({authorised, userData}) => {
   console.log('Profile Data:', userData);
 
-  const [userProjects, _] = useState(userData?.projects);
+  const [userProjects, ] = useState(userData?.projects);
 
   // Infodepth determins which view we are looking at.
   // 0 -> Project list
@@ -24,14 +24,14 @@ const ProfilePage = ({authorised, userData}) => {
     <>
       {(authorised && (userData != null)) ? (
         <div style={{padding: "10px", height: "100%"}}>
-        {infoDepth == 0 && (
+        {infoDepth === 0 && (
           <ProjectListComponent
             projectData={userProjects}
             changeDepth={setInfoDepth}
             setIndex={setProjectIndex}
           />
         )}
-        {infoDepth == 1 && (
+        {infoDepth === 1 && (
           <PageListComponent
             projectData={userProjects[projectIndex]}
             projectName={userProjects[projectIndex].name}
