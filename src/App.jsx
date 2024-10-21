@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import LoginPage from './pages/Login/LoginPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import AIPage from './pages/AI/AIPage';
+import ProjectsListPage from './pages/Profile/ProjectsListPage';
 
 import backgroundBanner from './assets/background_banner.png'; 
 import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
@@ -53,6 +54,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile" element={<ProfilePage authorised={isAuth} userData={loggedInUser} />} />
                 <Route path="/ai" element={<AIPage/>} />
+                <Route path="/projects" element={<ProjectsListPage userData={loggedInUser} authorised={isAuth} />} />
               </Routes>
             </div>
           </>

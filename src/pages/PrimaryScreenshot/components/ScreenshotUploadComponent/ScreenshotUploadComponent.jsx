@@ -48,6 +48,7 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
   useEffect(() => {
     if (!imageUrl) { updateImageColorPalette({}); return; }
     Vibrant.from(imageUrl).quality(1).getPalette((err, palette) => { setData(palette); });
+    // Set user.project[id].page[id].result[id].screenshot to imageUrl
   }, [imageUrl]);
 
   const uploadHandler = async (event) => {
