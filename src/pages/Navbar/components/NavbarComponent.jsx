@@ -23,30 +23,6 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
             as={Link}        // Use Link component from react-router-dom
             to='/'           // Set route for Home
           />
-          {authorised && (
-            <Menu.Item
-              name='about'
-              active={activeItem === 'about'}
-              onClick={handleItemClick}
-              as={Link}        // Link for About page
-              to='/about'
-            />
-          )}
-          
-          <Menu.Item
-            name='services'
-            active={activeItem === 'services'}
-            onClick={handleItemClick}
-            as={Link}        // Link for Services page
-            to='/services'
-          />
-          <Menu.Item
-            name='contact'
-            active={activeItem === 'contact'}
-            onClick={handleItemClick}
-            as={Link}        // Link for Contact page
-            to='/contact'
-          />
 
           <ProfileComponent
             isLoggedIn={authorised}
