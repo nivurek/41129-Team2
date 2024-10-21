@@ -1,13 +1,16 @@
 import './App.css';
 import './styles/globals.css';
-import React, { useState, useEffect } from 'react';
-import NavbarComponent from './pages/Navbar/components/NavbarComponent';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParams } from 'react-router-dom';
+
+import { UserProvider, useUser } from './contexts/userDataContext';
 
 import LoginPage from './pages/Login/LoginPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import AIPage from './pages/AI/AIPage';
 import ProjectsListPage from './pages/Profile/ProjectsListPage';
+import PagesListPage from './pages/Profile/PagesListPage';
+import NavbarComponent from './pages/Navbar/components/NavbarComponent';
 
 import backgroundBanner from './assets/background_banner.png'; 
 import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
@@ -17,18 +20,27 @@ import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
+
 const About = () => <h1>About Us</h1>;
 const Services = () => <h1>Our Services</h1>;
 const Contact = () => <h1>Contact Us</h1>;
 
-const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) => {
+const AppContent = ({ handleLogout, handleLogin }) => {
+  const loggedInUser = useUser();
+   
   const location = useLocation();
   const isLoginPage = ['/login'].includes(location.pathname);
   console.log("isloginpage?", isLoginPage);
 
-
   const isAuth = loggedInUser !== null;
   const activeUser = (loggedInUser && loggedInUser.name) ?? "";
+
+  const RedirectToPages = () => {
+    const { id } = useParams();
+    return <Navigate to={`/projects/${id}/pages`} replace />;
+  };
+
+  console.log('broski the user is this', loggedInUser);
 
   return (
     // <PrimeReactProvider>
@@ -54,14 +66,18 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/profile" element={<ProfilePage authorised={isAuth} userData={loggedInUser} />} />
                 <Route path="/ai" element={<AIPage/>} />
-                <Route path="/projects" element={<ProjectsListPage userData={loggedInUser} authorised={isAuth} />} />
+                <Route path="/projects" element={<ProjectsListPage />} />
+
+                <Route path="/projects/:id" element={<RedirectToPages />} />
+                <Route path="/projects/:id/pages" element={<PagesListPage />} />
+
               </Routes>
             </div>
           </>
         ) : ( // These pages do not contain a navbar
           <div>
             <Routes>
-              <Route path="/login" element={<LoginPage userData={userObjects} handleLogin={handleLogin} />} />
+              <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
             </Routes>
           </div>
         )}
@@ -71,8 +87,6 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
 };
 
 function App() {
-  const [userData, setUserData] = useState();
-
   // State to store the logged-in user's data
   const [loggedInUser, setLoggedInUser] = useState(() => {
     // Retrieve the login state from local storage
@@ -90,35 +104,20 @@ function App() {
 
   const handleLogout = () => {
     console.log("Logout successful!");
-    setLoggedInUser(null);
+    setLoggedInUser({});
     // Clear the login state from local storage
     localStorage.removeItem('loggedInUser');
   };
 
-  useEffect(() => {
-    fetch('./testdata.json')
-      .then((response) => response.json())  // Parse the JSON data
-      .then((jsonData) => {
-        setUserData(jsonData);  // Update state with the JSON data
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
-  let userObjects = {};
-  for (let key in userData) {
-    userObjects[userData[key].address] = userData[key];
-  }
 
   return (
     <Router>
-      <AppContent
-        loggedInUser={loggedInUser}
-        userObjects={userObjects}
-        handleLogout={handleLogout}
-        handleLogin={handleLogin}
-      />
+      <UserProvider value={loggedInUser}>
+        <AppContent
+          handleLogout={handleLogout}
+          handleLogin={handleLogin}
+        />
+      </UserProvider>
     </Router>
   );
 }

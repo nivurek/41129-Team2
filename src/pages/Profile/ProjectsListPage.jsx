@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { 
   CardMeta, 
   CardHeader, 
-  CardDescription, 
   CardContent, 
   Card, 
   Icon, 
@@ -15,14 +15,19 @@ import {
   Button,
 } from 'semantic-ui-react';
 
+import { useUser } from "../../contexts/userDataContext";
+
 import plusIcon from './assets/plusIcon.png';
 import NotAuthorisedComponent from "../shared/NotAuthorisedComponent";
 
 
-const ProjectsListPage = ({authorised, userData}) => {
-	console.log('user data -------------------', userData);
+const ProjectsListPage = () => {
+  const navigate = useNavigate();
+  const userData = useUser();
 
-  const [projectData, ] = useState(userData.projects);
+	console.log('user data -------', userData);
+
+  const [projectData, ] = useState(userData?.projects ?? []);
 
 	const [isNewProjectConfirmOpen, setIsNewProjectConfirmOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -31,8 +36,8 @@ const ProjectsListPage = ({authorised, userData}) => {
 
   const selectProject = (id) => {
     if (!(isDeleteConfirmOpen || (renamingIndex === id))) {
-      // setIndex(id);
-      console.log('set index to', id);
+      console.log('goto project:', id);
+      navigate(`/projects/${id}`);
     }
   };
 
@@ -91,11 +96,10 @@ const ProjectsListPage = ({authorised, userData}) => {
         setProjectName('');
         projectData.push(
           {
+            id: "1111111111111111", // fix this
             name: `${projectName}`,
-            description: "",
             pages: [],
-            createdDate: "2024-09-01",
-            lastEditedDate: "2024-09-01",
+            updated: "uhhhh, today?", // yeah also fix this
           }
         );
         setIsNewProjectConfirmOpen(false);
@@ -142,14 +146,20 @@ const ProjectsListPage = ({authorised, userData}) => {
     );
   };
 
-	if (!authorised) {
-    return(<NotAuthorisedComponent/>)
-  };
+  console.log("preflight", userData);
+  
+  if (userData == {}) {
+    console.log("UNSAFE");
+    
+		return (
+			<NotAuthorisedComponent/>
+		)
+	}
 
   return (
     <Card.Group>
       {projectData.map((project, idx) => (
-        <Card key={idx} onClick={() => selectProject(idx)}>
+        <Card key={idx} onClick={() => selectProject(project.id)}>
           <Image src='https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' wrapped ui={false} />
           <CardContent>
             {/* ====================================================================================================== */}
@@ -213,12 +223,12 @@ const ProjectsListPage = ({authorised, userData}) => {
             {/* ====================================================================================================== */}
             
             <CardMeta>
-              <span className='date'>Last edited {project.lastEditedDate}</span>
+              <span className='date'>Last edited {project.updated}</span>
             </CardMeta>
 
-            <CardDescription>
+            {/* <CardDescription>
               {project.description}
-            </CardDescription>
+            </CardDescription> */}
 
             {/* ====================================================================================================== */}
           </CardContent>

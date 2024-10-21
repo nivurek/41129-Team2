@@ -11,9 +11,9 @@ import LoginGridComponent from './components/LoginComponent';
 import SignupGridComponent from './components/SignupGridComponent';
 
 
-const LoginPage = ({userData, handleLogin}) => {
+const LoginPage = ({handleLogin}) => {
 
-  console.log('LoginPage:', userData, handleLogin);
+  console.log('LoginPage:', handleLogin);
 
   const [loginMode, setLoginMode] = useState(true);
 
@@ -68,7 +68,7 @@ const LoginPage = ({userData, handleLogin}) => {
               
               <Grid.Row>
                 {loginMode ? (
-                  <LoginGridComponent userData={userData} handleLogin={handleLogin} />
+                  <LoginGridComponent handleLogin={handleLogin} />
                 ) : (
                   <SignupGridComponent handleLogin={handleLogin} />
                 )}
