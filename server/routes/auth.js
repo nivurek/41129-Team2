@@ -83,25 +83,23 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    const payload = user;
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET, // Use the secret from environment variables
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) {
-          console.error('Error signing token:', err);
-          throw err;
-        }
-        console.log('Token generated successfully');
-        res.json({ token });
-      }
-    );
+    res.json(payload);
+
+    // jwt.sign(
+    //   payload,
+    //   process.env.JWT_SECRET, // Use the secret from environment variables
+    //   { expiresIn: '1h' },
+    //   (err, token) => {
+    //     if (err) {
+    //       console.error('Error signing token:', err);
+    //       throw err;
+    //     }
+    //     console.log('Token generated successfully');
+    //     res.json({ token });
+    //   }
+    // );
   } catch (error) {
     console.error('Server error during login:', error.message);
     res.status(500).send('Server error');
