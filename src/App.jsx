@@ -62,17 +62,25 @@ function App() {
   const [userData, setUserData] = useState();
 
   // State to store the logged-in user's data
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(() => {
+    // Retrieve the login state from local storage
+    const savedUser = localStorage.getItem('loggedInUser');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   // Function to handle successful login
   const handleLogin = (userData) => {
     console.log("Login successful!", userData);
     setLoggedInUser(userData);
+    // Save the login state to local storage
+    localStorage.setItem('loggedInUser', JSON.stringify(userData));
   };
 
-  const handleLogout = (userData) => {
-    console.log("Logout successful!", userData);
+  const handleLogout = () => {
+    console.log("Logout successful!");
     setLoggedInUser(null);
+    // Clear the login state from local storage
+    localStorage.removeItem('loggedInUser');
   };
 
   useEffect(() => {
@@ -82,7 +90,7 @@ function App() {
         setUserData(jsonData);  // Update state with the JSON data
       })
       .catch((error) => {
-        console.error("Error fetching the JSON data: ", error);
+        console.error('Error fetching data:', error);
       });
   }, []);
 
