@@ -26,7 +26,7 @@ const ProfileComponent = ({isLoggedIn, activeUser, onLogoutMethod, active, onCli
 						icon={null} /* Hide default dropdown icon */
 					>
 						<Dropdown.Menu>
-							<Dropdown.Item as={Link} to="/profile" text="Profile" icon="user" />
+							<Dropdown.Item as={Link} to="/projects" text="Projects" icon="user" />
 							<Dropdown.Item text="Logout" icon="sign-out" onClick={onLogoutMethod} />
 						</Dropdown.Menu>
 					</Dropdown>

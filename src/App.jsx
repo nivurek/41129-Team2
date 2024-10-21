@@ -5,12 +5,13 @@ import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParam
 
 import { UserProvider, useUser } from './contexts/userDataContext';
 
+import NavbarComponent from './pages/Navbar/components/NavbarComponent';
 import LoginPage from './pages/Login/LoginPage';
-import ProfilePage from './pages/Profile/ProfilePage';
 import AIPage from './pages/AI/AIPage';
+
 import ProjectsListPage from './pages/Profile/ProjectsListPage';
 import PagesListPage from './pages/Profile/PagesListPage';
-import NavbarComponent from './pages/Navbar/components/NavbarComponent';
+import ResultsListPage from './pages/Profile/ResultsListPage';
 
 import backgroundBanner from './assets/background_banner.png'; 
 import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
@@ -36,11 +37,15 @@ const AppContent = ({ handleLogout, handleLogin }) => {
   const activeUser = (loggedInUser && loggedInUser.name) ?? "";
 
   const RedirectToPages = () => {
-    const { id } = useParams();
-    return <Navigate to={`/projects/${id}/pages`} replace />;
+    const { projectId } = useParams();
+    return <Navigate to={`/projects/${projectId}/pages`} replace />;
   };
+  const RedirectToResults = () => {
+    const {projectId, pageId} = useParams();
+    return <Navigate to={`/projects/${projectId}/pages/${pageId}/results`} replace />;
+  }
 
-  console.log('broski the user is this', loggedInUser);
+  // console.log('Logged In User Data:', loggedInUser);
 
   return (
     // <PrimeReactProvider>
@@ -60,16 +65,16 @@ const AppContent = ({ handleLogout, handleLogin }) => {
             <div className="content-container">
               <Routes>
                 <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
-                {/* <Route path='/' element={<h1>Nothing to see here</h1>} /> */}
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/profile" element={<ProfilePage authorised={isAuth} userData={loggedInUser} />} />
                 <Route path="/ai" element={<AIPage/>} />
-                <Route path="/projects" element={<ProjectsListPage />} />
 
-                <Route path="/projects/:id" element={<RedirectToPages />} />
-                <Route path="/projects/:id/pages" element={<PagesListPage />} />
+                <Route path="/projects" element={<ProjectsListPage />} />
+                <Route path="/projects/:projectId" element={<RedirectToPages />} />
+                <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
+                <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
+                <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
 
               </Routes>
             </div>
@@ -104,7 +109,7 @@ function App() {
 
   const handleLogout = () => {
     console.log("Logout successful!");
-    setLoggedInUser({});
+    setLoggedInUser(null);
     // Clear the login state from local storage
     localStorage.removeItem('loggedInUser');
   };

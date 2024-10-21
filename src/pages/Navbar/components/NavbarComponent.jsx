@@ -41,7 +41,7 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
             active={activeItem === 'services'}
             onClick={handleItemClick}
             as={Link}        // Link for Services page
-            to='/projects'
+            to='/services'
           />
           <Menu.Item
             name='contact'

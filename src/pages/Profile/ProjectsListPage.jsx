@@ -16,9 +16,8 @@ import {
 } from 'semantic-ui-react';
 
 import { useUser } from "../../contexts/userDataContext";
-
+import withAuth from "../../utils/withAuth";
 import plusIcon from './assets/plusIcon.png';
-import NotAuthorisedComponent from "../shared/NotAuthorisedComponent";
 
 
 const ProjectsListPage = () => {
@@ -27,17 +26,17 @@ const ProjectsListPage = () => {
 
 	console.log('user data -------', userData);
 
-  const [projectData, ] = useState(userData?.projects ?? []);
+  const [projectData, ] = useState(userData.projects);
 
 	const [isNewProjectConfirmOpen, setIsNewProjectConfirmOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [renamingIndex, setRenamingIndex] = useState(null);
   const [renameValue, setRenameValue] = useState("");
 
-  const selectProject = (id) => {
-    if (!(isDeleteConfirmOpen || (renamingIndex === id))) {
-      console.log('goto project:', id);
-      navigate(`/projects/${id}`);
+  const selectProject = (projectId) => {
+    if (!(isDeleteConfirmOpen || (renamingIndex === projectId))) {
+      console.log('goto project:', projectId);
+      navigate(`/projects/${projectId}`);
     }
   };
 
@@ -146,16 +145,6 @@ const ProjectsListPage = () => {
     );
   };
 
-  console.log("preflight", userData);
-  
-  if (userData == {}) {
-    console.log("UNSAFE");
-    
-		return (
-			<NotAuthorisedComponent/>
-		)
-	}
-
   return (
     <Card.Group>
       {projectData.map((project, idx) => (
@@ -244,4 +233,4 @@ const ProjectsListPage = () => {
   )
 };
 
-export default ProjectsListPage;
+export default withAuth(ProjectsListPage);

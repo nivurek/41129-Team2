@@ -9,22 +9,22 @@ import {
 } from "semantic-ui-react";
 import DeleteElementComponent from "./DeleteElementComponent";
 
-const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageInformation, incrementCounter}) => {
-  // console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, pageInformation);
+const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageData, incrementCounter}) => {
 
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
-  const localData = pageInformation.results[openResultIdx];
+  const localData = pageData.results[openResultIdx];
+  console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, localData);
 
   // ===================================================================
   // ============= Controls for the 'Delete Result' modal ==============
 
   const handleDeleteConfirm = () => {
-    const newArrayLength = pageInformation.results.length - 1;
+    const newArrayLength = pageData.results.length - 1;
     setOpenResultIdx(
       newArrayLength === 0 ? null : Math.min(openResultIdx, newArrayLength - 1)
     );
     incrementCounter(); // Force update in parent component, necessary until data store.
-    pageInformation.results.splice(openResultIdx, 1);
+    pageData.results.splice(openResultIdx, 1);
   }
 
   // ===================================================================
@@ -38,7 +38,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
       setInputValue(localData.description);
     }
     setIsEditingTitle(false);
-  }, [openResultIdx, pageInformation.results, localData]); 
+  }, [openResultIdx, pageData.results, localData]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -53,7 +53,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageIn
   const handleEditSubmit = (e) => {
     e.preventDefault();
     // NEEDS PROPER DATABASE INTERACTION
-    pageInformation.results[openResultIdx].description = inputValue; // Temporary solution
+    pageData.results[openResultIdx].description = inputValue; // Temporary solution
     incrementCounter(); // Force update in parent component, necessary until data store.
     setIsEditingTitle(false);
   };

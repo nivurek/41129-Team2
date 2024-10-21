@@ -21,10 +21,8 @@ import {
 } from "semantic-ui-react";
 
 import { useUser } from "../../contexts/userDataContext";
+import withAuth from "../../utils/withAuth";
 
-// import PageInformationComponent from "./PageInformationComponent";
-// import DeleteElementComponent from "./DeleteElementComponent";
-import NotAuthorisedComponent from "../shared/NotAuthorisedComponent";
 import plusIcon from './assets/plusIcon.png';
 
 
@@ -33,20 +31,16 @@ const PagesListPage = () => {
 	const location = useLocation();
 	const userData = useUser();
 
-
-	console.log("~~~~~STARTING PAGES LIST PAGE", userData);
-	
 	const [isNewPageConfirmOpen, setIsNewPageConfirmOpen] = useState(false);
-	const { id: projectId } = useParams(); 
-	console.log('gathered id is', projectId, "with project:", userData.projects);
+	const { projectId } = useParams();
 	const projectData = userData.projects.find(project => project.id === projectId);
 	
 	console.log("Project data for this project:", projectData);
 
-	const selectPage = (id) => {
+	const selectPage = (pageId) => {
     if (!(isNewPageConfirmOpen)) {
       const currentPath = location.pathname;
-    	navigate(`${currentPath}/${id}/results`);
+    	navigate(`${currentPath}/${pageId}`);
     }
   };
 
@@ -159,17 +153,11 @@ const PagesListPage = () => {
     );
   };
 
-	const handleDeletePage = ({id}) => {
-    projectData.pages.splice(id, 1);
-    // setOpenModalIdx(null);
-    setIsNewPageConfirmOpen(false);
-  }
-
-	if (userData == {}) {
-		return (
-			<NotAuthorisedComponent/>
-		)
-	}
+	// const handleDeletePage = ({id}) => {
+  //   projectData.pages.splice(id, 1);
+  //   // setOpenModalIdx(null);
+  //   setIsNewPageConfirmOpen(false);
+  // }
 
 	return (
     <Segment.Group style={{width: '100%', height: '100%'}}>
@@ -196,56 +184,7 @@ const PagesListPage = () => {
         <h3>Pages</h3>
         <Card.Group>
           {projectData.pages.map((page, pageIndex) => (
-						<CardElement page={page} idx={pageIndex} onClick={() => selectPage(page.id)} />
-            // <Modal
-            //   key={pageIndex}
-            //   style={{ width: '90vw', position: 'relative' }}
-            //   open={openModalIdx === pageIndex}
-            //   dimmer={'blurring'}
-            //   onClose={() => setOpenModalIdx(null)}
-            //   onOpen={() => setOpenModalIdx(pageIndex)}
-            //   trigger={
-            //     <CardElement page={page} idx={pageIndex} onClick={() => setOpenModalIdx(pageIndex)} />
-            //   }
-            // >
-            //   <Label
-            //     as='a'
-            //     color='orange'
-            //     ribbon='right'
-            //     onClick={() => setOpenModalIdx(null)}
-            //     style={{ 
-            //       fontSize: '15px',
-            //       border: '1px solid black',
-            //       paddingTop: '10px',
-            //       position: 'absolute',
-            //       top: '10px',
-            //       left: 'calc(100% + 1rem + 0.35em)' // dont ask
-            //     }}
-            //   >
-            //     Close Editor
-            //     <Icon name='close' style={{ marginLeft: '10px' }} />
-            //   </Label>
-
-            //   <Modal.Header
-            //     style={{
-            //       paddingRight: '150px',
-            //       backgroundColor: '#b5b5b5',
-            //       borderBottom: '3px solid grey',
-            //       display: 'flex',
-            //       justifyContent: 'space-between',
-            //       alignItems: 'center',
-            //     }}
-            //   >
-            //     {page.name}
-            //     <DeleteElementComponent executeDelete={handleDeletePage} type={"page"} name={page.name} />
-            //   </Modal.Header>
-              
-            //   {/* Define Contents of Modal in PageInformationComponent */}
-            //   <Modal.Content style={{backgroundColor: '#d4d2d2', height: '80vh', padding: '0px'}}>
-            //     <PageInformationComponent pageInformation={page} />
-            //   </Modal.Content>
-
-            // </Modal>
+						<CardElement key={pageIndex} page={page} idx={pageIndex} onClick={() => selectPage(page.id)} />
           ))}
           <AddNewPageCardElement/>
           <AddNewPageConfirmer isOpen={isNewPageConfirmOpen} />
@@ -255,4 +194,4 @@ const PagesListPage = () => {
   )
 };
 
-export default PagesListPage;
+export default withAuth(PagesListPage);
