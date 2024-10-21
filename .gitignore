@@ -30,4 +30,5 @@ yarn-error.log*
 
 #credentials ^0^
 server/config.env
+server/node_modules
 .env
