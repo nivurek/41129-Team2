@@ -3,16 +3,16 @@ import {
   Button,
   Form,
   Grid,
-  Header,
   Icon,
   Message,
-  Segment,
-  Image,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const LoginComponent = ({ handleLogin }) => {
+const LoginGridComponent = ({userData, handleLogin}) => {
+
+  // console.log('LoginGrid:', userData, handleLogin);
+  
   const navigate = useNavigate();
 
   // State to hold form values
@@ -41,7 +41,7 @@ const LoginComponent = ({ handleLogin }) => {
     const { email, password } = formData;
 
     try {
-      const url = isLogin ? 'http://localhost:5050/auth/login' : 'http://localhost:5050/auth/register';
+      const url = isLogin ? 'http://localhost:5001/auth/login' : 'http://localhost:5001/auth/register';
       const response = await axios.post(url, { email, password });
 
       // Handle successful login or registration
@@ -58,47 +58,82 @@ const LoginComponent = ({ handleLogin }) => {
   };
 
   return (
-    <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h2' color='teal' textAlign='center'>
-          <Icon name='user' /> {isLogin ? 'Log-in to your account' : 'Register a new account'}
-        </Header>
-        <Form size='large' onSubmit={handleSubmit}>
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon='mail'
-              iconPosition='left'
-              placeholder='E-mail address'
-              name='email'
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-            <Form.Input
-              fluid
-              icon='lock'
-              iconPosition='left'
-              placeholder='Password'
-              type='password'
-              name='password'
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-            <Button color='teal' fluid size='large'>
-              {isLogin ? 'Login' : 'Register'}
-            </Button>
-          </Segment>
-        </Form>
-        {errorMessage && (
-          <Message error>
-            <Icon name='warning sign' />
-            {errorMessage}
-          </Message>
-        )}
-  
+  <Grid.Column>
+
+  <Grid.Row>
+    <Form onSubmit={handleSubmit} style={{ marginTop: "30px" }}>
+      <Form.Input
+        fluid
+        icon="user"
+        iconPosition="left"
+        placeholder="Email"
+        name="email"
+        value={formData.email}
+        onChange={handleInputChange}
+      />
+      <Form.Input
+        fluid
+        icon="lock"
+        iconPosition="left"
+        placeholder="Password"
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleInputChange}
+      />
+
+      <Button fluid size="large" style={{ backgroundColor: "rgb(229,185,75)" }}>
+        Login
+      </Button>
+
+      {errorMessage && (
+        <Message error icon style={{fontWeight: "bold"}} onClick={()=> {setErrorMessage("")}}>
+          <Icon name='warning sign' size='mini'/>
+          {errorMessage}
+        </Message>
+      )}
+    </Form>
+  </Grid.Row>
+
+  <Grid.Row columns={2} style={{fontWeight: "bold" }}>
+    {/* <Grid.Column>
+      x
+    </Grid.Column>
+    <Grid.Column>
+      x
+    </Grid.Column> */}
+    {/* <Segment>
+    <Grid columns={2}>
+      <Grid.Column textAlign='right'>
+        Forgot your password?
+      </Grid.Column>
+      <Grid.Column style={{ color: "rgb(229,185,75)" }}>
+        Reset password
       </Grid.Column>
     </Grid>
-  );
-};
+    </Segment> */}
 
-export default LoginComponent;
+
+    <Grid stackable style={{ paddingTop: "40px" }}>
+      <Grid.Row columns={2} style={{ fontWeight: 'bold' }}>
+        {/* Outer columns */}
+        <Grid.Column width={8} style={{ display: 'flex', justifyContent: 'right' }}>
+          <div style={{ textAlign: 'center'}}>
+            Forgot your password?
+          </div>
+        </Grid.Column>
+        <Grid.Column width={8} style={{ display: 'flex', justifyContent: 'left' }}>
+          <div style={{ textAlign: 'center', color: 'rgb(229,185,75)' }}>
+            Reset Password
+          </div>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  </Grid.Row>
+
+</Grid.Column>
+
+    )
+}
+
+export default LoginGridComponent;

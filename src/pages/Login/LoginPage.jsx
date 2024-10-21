@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import {
   Button,
-  ButtonGroup,
-  Form,
   Grid,
-  Header,
-  Icon,
-  Message,
   Menu,
   MenuItem,
-  Segment,
 } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
 
-import SignupGridComponent from './components/SignupGridComponent';
-import SwitchComponent from './components/SwitchComponent';
 import LoginGridComponent from './components/LoginComponent';
+import SignupGridComponent from './components/SignupGridComponent';
 
 
 const LoginPage = ({userData, handleLogin}) => {

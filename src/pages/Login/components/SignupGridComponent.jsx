@@ -38,7 +38,7 @@ const SignupGridComponent = ({ handleLogin }) => {
 
     try {
       // Make API call to register auth route
-      const response = await axios.post('http://localhost:5050/auth/register', { username, email, password });
+      const response = await axios.post('http://localhost:5001/auth/register', { username, email, password });
 
       // Handle successful registration
       if (response.status === 200 || response.status === 201) {
