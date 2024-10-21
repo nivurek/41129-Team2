@@ -5,7 +5,6 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 import { Button } from 'primereact/button';
 import * as filestack from 'filestack-js'; 
 import ReactMarkdown from 'react-markdown';
-import axios from 'axios';
 
 const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
 const enableGemini = process.env.REACT_APP_ENABLE_GEMINI || false;
@@ -25,7 +24,7 @@ const Controls = ({ handleRemove }) => {
   );
 };
 
-const ScreenshotUploadComponent = ({ updateImageColorPalette, user }) => {
+const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [analysis, setAnalysis] = useState('');
   const [data, setData] = useState({});
@@ -54,7 +53,6 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette, user }) => {
   const uploadHandler = async (event) => {
     console.log(enableGemini)
     const file = event.files[0];
-    const userId = user._id;
     if (!file) return;
 
     if(enableFilestack) {
@@ -66,11 +64,6 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette, user }) => {
         if(enableGemini) {
           await analyzeWithGemini(publicUrl);
         }
-        await axios.post('/api/save-image', {
-          userId,
-          imageUrl: publicUrl,
-          analysis, // Include analysis in the request
-        });
       } catch (error) {
         console.error('Error uploading image to Filestack:', error);
       }

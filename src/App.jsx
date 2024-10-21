@@ -24,7 +24,6 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
   const isLoginPage = ['/login'].includes(location.pathname);
   console.log("isloginpage?", isLoginPage);
 
-
   const isAuth = loggedInUser !== null;
   const activeUser = (loggedInUser && loggedInUser.Name) ?? "";
 
@@ -45,7 +44,7 @@ const AppContent = ({ loggedInUser, userObjects, handleLogout, handleLogin }) =>
             <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
             <div className="content-container">
               <Routes>
-                <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
+                <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth} loggedInUser={loggedInUser} />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contact" element={<Contact />} />

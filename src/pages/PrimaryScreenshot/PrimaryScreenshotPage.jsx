@@ -5,14 +5,14 @@ import ScreenshotUploadComponent from './components/ScreenshotUploadComponent/Sc
 import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
 import ResultsComponent from "./components/ResultsComponent/ResultsComponent";
 
-const PrimaryScreenshotPage = ({authorised}) => {
+const PrimaryScreenshotPage = ({authorised, user}) => {
     const [imageColorPalette, updateImageColorPalette] = useState({});
 
     if (authorised) return (
 
         <Splitter className="h-full">
             <SplitterPanel className="screenshot-upload-container" size={65} minSize={35}>
-                <ScreenshotUploadComponent updateImageColorPalette={updateImageColorPalette} />
+                <ScreenshotUploadComponent  user={user} updateImageColorPalette={updateImageColorPalette} />
             </SplitterPanel>
             <SplitterPanel className="results-container" size={35} minSize={15}>
                 <ResultsComponent imageColorPalette={imageColorPalette} />
