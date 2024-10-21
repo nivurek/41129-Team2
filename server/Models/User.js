@@ -1,6 +1,18 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
+
+const projectSchema = new mongoose.Schema({
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  analysis: {
+    type: String,
+    required: true,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -16,7 +28,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  projects: [projectSchema],
 });
+
 
 // Hash the password before saving the user
 userSchema.pre('save', async function (next) {

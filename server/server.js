@@ -11,6 +11,7 @@ import dotenv from 'dotenv';
 import records from "./routes/record.js";
 import connectDB from "./db/connection.js";
 import AuthRoute from "./routes/auth.js";
+import ImageSaveRT from "./routes/save-image.js";
 
 dotenv.config();
 
@@ -32,7 +33,7 @@ app.use(express.json());
 connectDB();
 app.use("/record", records);
 app.use("/auth", AuthRoute);
-
+app.use("/save-image", ImageSaveRT);
 app.use(express.json());
 
 async function downloadFile(url) {
