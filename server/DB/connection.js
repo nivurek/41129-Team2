@@ -2,7 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-dotenv.config({ path: 'config.env' });
+dotenv.config();
 
 const uri = process.env.Atlas_URI;
 
