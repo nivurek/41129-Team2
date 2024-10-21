@@ -16,9 +16,9 @@ const Controls = ({ handleRemove }) => {
 
   return (
     <div className="image-tools">
-      <Button className="zoom-button" icon="pi pi-search-plus" onClick={zoomIn} />
-      <Button className="zoom-button" icon="pi pi-search-minus" onClick={zoomOut} />
-      <Button className="reset-button" icon="pi pi-undo" severity="danger" outlined onClick={resetTransform} />
+      <Button className="zoom-button" icon="pi pi-search-plus" onClick={() => zoomIn()} />
+      <Button className="zoom-button" icon="pi pi-search-minus" onClick={() => zoomOut()} />
+      <Button className="reset-button" icon="pi pi-undo" severity="danger" outlined onClick={() => resetTransform()} />
       <Button className="remove-button" icon="pi pi-times" severity="danger" onClick={handleRemove}>Remove Image</Button>
     </div>
   );
@@ -101,11 +101,16 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
   return (
     <div>
       {imageUrl ? (
+
         <TransformWrapper>
-          <Controls handleRemove={onRemove} />
-          <TransformComponent>
-            <img className="image-preview" ref={imageSrc} src={imageUrl} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-          </TransformComponent>
+          {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+            <>
+            <Controls handleRemove={onRemove} />
+            <TransformComponent>
+              <img className="image-preview" ref={imageSrc} src={imageUrl} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            </TransformComponent>
+            </>
+          )}
         </TransformWrapper>
       ) : (
         <FileUpload
