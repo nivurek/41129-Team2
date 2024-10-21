@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   Button,
@@ -12,10 +12,6 @@ import {
   Icon,
   Image,
   Input,
-  Label,
-  Modal,
-  Placeholder,
-  PlaceholderImage,
   Popup,
   Segment,
 } from "semantic-ui-react";
@@ -35,7 +31,7 @@ const PagesListPage = () => {
 	const { projectId } = useParams();
 	const projectData = userData.projects.find(project => project.id === projectId);
 	
-	console.log("Project data for this project:", projectData);
+	// console.log("Project data for this project:", projectData);
 
 	const selectPage = (pageId) => {
     if (!(isNewPageConfirmOpen)) {
@@ -152,12 +148,6 @@ const PagesListPage = () => {
       />
     );
   };
-
-	// const handleDeletePage = ({id}) => {
-  //   projectData.pages.splice(id, 1);
-  //   // setOpenModalIdx(null);
-  //   setIsNewPageConfirmOpen(false);
-  // }
 
 	return (
     <Segment.Group style={{width: '100%', height: '100%'}}>

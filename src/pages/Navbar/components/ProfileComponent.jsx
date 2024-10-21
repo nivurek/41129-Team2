@@ -5,12 +5,9 @@ import {
 	Icon,
 	Menu,
 } from "semantic-ui-react";
-// import { Link } from 'react-router-dom';
 
 
 const ProfileComponent = ({isLoggedIn, activeUser, onLogoutMethod, active, onClickMethod}) => {
-	console.log("profile comp - isloggedin?", isLoggedIn);
-	
 	return (
 		<>
 			{isLoggedIn ? (

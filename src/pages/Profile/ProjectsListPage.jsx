@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { 
+  Button,
   CardMeta, 
   CardHeader, 
   CardContent, 
   Card, 
+  Confirm,
+  Dropdown,
+  Form,
   Icon, 
   Image,
-  Confirm,
-  Form,
   Input,
   Popup,
-  Dropdown,
-  Button,
 } from 'semantic-ui-react';
 
 import { useUser } from "../../contexts/userDataContext";
 import withAuth from "../../utils/withAuth";
+
 import plusIcon from './assets/plusIcon.png';
 
 
@@ -24,7 +25,7 @@ const ProjectsListPage = () => {
   const navigate = useNavigate();
   const userData = useUser();
 
-	console.log('user data -------', userData);
+	// console.log('user data -------', userData);
 
   const [projectData, ] = useState(userData.projects);
 
@@ -214,10 +215,6 @@ const ProjectsListPage = () => {
             <CardMeta>
               <span className='date'>Last edited {project.updated}</span>
             </CardMeta>
-
-            {/* <CardDescription>
-              {project.description}
-            </CardDescription> */}
 
             {/* ====================================================================================================== */}
           </CardContent>

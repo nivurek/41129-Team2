@@ -2,27 +2,15 @@ import React, { useState } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   Button,
-  Card,
-	Divider,
 	Container,
-  CardMeta, 
-  CardHeader, 
-  CardContent, 
-  Confirm,
-  Form,
+	Divider,
   Grid,
   Icon,
-  Image,
-  Input,
-  Label,
-  Modal,
-  Placeholder,
-  PlaceholderImage,
-  Popup,
   Segment,
 } from "semantic-ui-react";
 
 import { useUser } from "../../contexts/userDataContext";
+import withAuth from "../../utils/withAuth";
 
 import ResultInformationViewComponent from "./components/ResultInformationViewComponent";
 import ResultPreviewComponent from "./components/ResultPreviewComponent";
@@ -30,7 +18,6 @@ import ResultPreviewComponent from "./components/ResultPreviewComponent";
 
 const ResultsListPage = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
 	const userData = useUser();
 
 	const { projectId, pageId } = useParams();
@@ -39,7 +26,7 @@ const ResultsListPage = () => {
 	).pages.find(
 		page => page.id === pageId
 	);
-	console.log("Results page, data:", pageData);
+	// console.log("Results page, data:", pageData);
 
 	const [openResultIdx, setOpenResultIdx] = useState(pageData.results.length === 0 ? null : 0);
 	const [ , updateCounter] = useState(0);
@@ -144,4 +131,4 @@ const ResultsListPage = () => {
 	)
 }
 
-export default ResultsListPage;
+export default withAuth(ResultsListPage);

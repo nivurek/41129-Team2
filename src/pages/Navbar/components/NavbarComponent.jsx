@@ -8,9 +8,6 @@ import ProfileComponent from "./ProfileComponent";
 const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
-  // const [isAuth, setIsAuth] = React.useState(authorised);
-  // console.log('Navbar <<< ', activeUser);
-
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   return (
@@ -21,7 +18,7 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
             active={activeItem === 'home'}
             onClick={handleItemClick}
             as={Link}        // Use Link component from react-router-dom
-            to='/'           // Set route for Home
+            to='/'
           >
             <Icon name='home' />
             Home
@@ -35,7 +32,6 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
               to='/about'
             />
           )}
-          
           <Menu.Item
             name='services'
             active={activeItem === 'services'}

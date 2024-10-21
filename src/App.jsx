@@ -114,7 +114,6 @@ function App() {
     localStorage.removeItem('loggedInUser');
   };
 
-
   return (
     <Router>
       <UserProvider value={loggedInUser}>
