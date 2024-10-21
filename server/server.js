@@ -8,6 +8,9 @@ import os from 'os';
 import { pipeline } from 'stream/promises';
 import mime from 'mime-types';
 import dotenv from 'dotenv'; 
+import records from "./routes/record.js";
+import connectDB from "./db/connection.js";
+import AuthRoute from "./routes/auth.js";
 
 dotenv.config();
 
@@ -17,16 +20,18 @@ if (!process.env.GEMINI_API_KEY) {
 }
 
 const app = express();
-const port = 5001;
-
+const port = process.env.PORT || 5001;
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY);
-
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:5050',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+app.use(express.json());
+connectDB();
+app.use("/record", records);
+app.use("/auth", AuthRoute);
 
 app.use(express.json());
 
