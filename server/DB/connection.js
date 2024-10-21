@@ -1,6 +1,26 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const uri = process.env.ATLAS_URI || "";
+dotenv.config();
+
+const uri = process.env.Atlas_URI;
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(uri, {
+     
+    });
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
+
+/*
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -9,6 +29,7 @@ const client = new MongoClient(uri, {
   },
 });
 
+async function connectDB() {
 try {
   // Connect the client to the server
   await client.connect();
@@ -20,7 +41,9 @@ try {
 } catch(err) {
   console.error(err);
 }
+}
 
-let db = client.db("employees");
-
+connectDB();
+let db = client.db("chromaDB");
 export default db;
+*/
