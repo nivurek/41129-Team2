@@ -8,6 +8,7 @@ import { UserProvider, useUser } from 'contexts/userDataContext';
 import NavbarComponent from 'pages/Navbar/components/NavbarComponent';
 import LoginPage from 'pages/Login/LoginPage';
 import AIPage from 'pages/AI/AIPage';
+import Error404 from 'pages/Error404/Error404';
 
 import ProjectsListPage from 'pages/Profile/ProjectsListPage';
 import PagesListPage from 'pages/Profile/PagesListPage';
@@ -69,7 +70,7 @@ const AppContent = ({ handleLogout, handleLogin }) => {
             <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
             <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
 
-            <Route path="*" element={<Navigate to="/projects" replace />} />
+            <Route path="*" element={<Error404 />} />
 
           </Routes>
         </div>
@@ -81,7 +82,7 @@ const AppContent = ({ handleLogout, handleLogin }) => {
 
           <Route path="/projects/*" element={<Navigate to="/" replace />} />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Error404 />} />
 
         </Routes>
       )}
