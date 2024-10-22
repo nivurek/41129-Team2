@@ -30,19 +30,19 @@ const ProjectsListPage = () => {
   const projectData = userData.projects;
 
 	const [isNewProjectConfirmOpen, setIsNewProjectConfirmOpen] = useState(false);
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [isDeleteConfirmOpenIdx, setIsDeleteConfirmOpenIdx] = useState(null);
   const [renamingId, setRenamingId] = useState(null);
   const [renameValue, setRenameValue] = useState("");
 
   const selectProject = (projectId) => {
-    if (!(isDeleteConfirmOpen || (renamingId === projectId))) {
+    if (!(isDeleteConfirmOpenIdx || (renamingId === projectId))) {
       console.log('goto project:', projectId);
       navigate(`/projects/${projectId}`);
     }
   };
 
   const handleDeleteConfirm = (projectId) => {
-    setIsDeleteConfirmOpen(false);
+    setIsDeleteConfirmOpenIdx(null);
     console.log("Preflight", userData._id, projectId);
     deleteProject({
       userId: userData._id,
@@ -235,18 +235,18 @@ const ProjectsListPage = () => {
                 <Dropdown icon={<Icon name="ellipsis vertical"  />}>
                   <Dropdown.Menu>
                     <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(project)} />
-                    <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpen(true)} />
+                    <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpenIdx(project._id)} />
                   </Dropdown.Menu>
                 </Dropdown>
               )}
               <Confirm
                 className="delete-confirm"
-                open={isDeleteConfirmOpen}
+                open={isDeleteConfirmOpenIdx === project._id}
                 header={`Delete ${project.name}?`}
                 content={`Are you sure you want to delete this project? This action is irreversible.`}
                 size={"small"}
                 onConfirm={() => handleDeleteConfirm(project._id)}
-                onCancel={()=> setIsDeleteConfirmOpen(false)}
+                onCancel={()=> setIsDeleteConfirmOpenIdx(null)}
                 confirmButton={"Delete"}
               />
             </CardHeader>
