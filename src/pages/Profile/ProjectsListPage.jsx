@@ -15,10 +15,10 @@ import {
   Popup,
 } from 'semantic-ui-react';
 
-import { useUser } from "../../contexts/userDataContext";
-import withAuth from "../../utils/withAuth";
+import { useUser } from 'contexts/userDataContext';
+import withAuth from 'utils/withAuth';
 
-import plusIcon from './assets/plusIcon.png';
+import plusIcon from 'assets/plusIcon.png';
 
 
 const ProjectsListPage = () => {
@@ -199,7 +199,7 @@ const ProjectsListPage = () => {
                 </Dropdown>
               )}
               <Confirm
-                className="deleteConfirm"
+                className="delete-confirm"
                 open={isDeleteConfirmOpen}
                 header={`Delete ${project.name}?`}
                 content={`Are you sure you want to delete this project? This action is irreversible.`}
