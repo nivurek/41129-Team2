@@ -11,27 +11,24 @@ const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   return (
-    <div className="navbar-container">
-        <Menu secondary>
-          <Menu.Item
-            name='home'
-            active={activeItem === 'home'}
-            onClick={handleItemClick}
-            as={Link}        // Use Link component from react-router-dom
-            to='/'           // Set route for Home
-          />
+    <Menu secondary>
+      <Menu.Item
+        name='home'
+        active={activeItem === 'home'}
+        onClick={handleItemClick}
+        as={Link}        // Use Link component from react-router-dom
+        to='/'           // Set route for Home
+      />
 
-          <ProfileComponent
-            isAuth={isAuth}
-            activeUser={activeUser}
-            onLogoutMethod={onLogoutMethod}
-            active={activeItem === 'profile'}
-            onClickMethod={handleItemClick}
-          />
+      <ProfileComponent
+        isAuth={isAuth}
+        activeUser={activeUser}
+        onLogoutMethod={onLogoutMethod}
+        active={activeItem === 'profile'}
+        onClickMethod={handleItemClick}
+      />
 
-        </Menu>
-    </div>
-    
+    </Menu>
   );
 };
 

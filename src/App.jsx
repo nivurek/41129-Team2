@@ -8,14 +8,12 @@ import { UserProvider, useUser } from 'contexts/userDataContext';
 import NavbarComponent from 'pages/Navbar/components/NavbarComponent';
 import LoginPage from 'pages/Login/LoginPage';
 import AIPage from 'pages/AI/AIPage';
-import Error404 from 'pages/Error404/Error404';
+import NotFound from 'pages/NotFound/NotFoundPage';
 
 import ProjectsListPage from 'pages/Profile/ProjectsListPage';
 import PagesListPage from 'pages/Profile/PagesListPage';
 import ResultsListPage from 'pages/Profile/ResultsListPage';
 import LandingPage from 'pages/Landing/LandingPage';
-
-import backgroundBanner from 'assets/background_banner.png'; 
 
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
@@ -41,51 +39,47 @@ const AppContent = ({ handleLogout, handleLogin }) => {
   }
 
   return (
-    <div
-      className="App"
-      style={{
-        backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: '10% center',
-        height: '100%',
-        width: '100%',
-      }}
-    >
+    <div className="app">
 
-      {!isLoginPage && (
-          <NavbarComponent isAuth={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
-      )}
+      <div className="navbar-container">
+        {!isLoginPage && (
+            <NavbarComponent isAuth={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
+        )}
+      </div>
 
-      {isAuth ? (
-        <div className="content-container">
-          <Routes>
+      <div className={!isLoginPage ? "content-container" : 'no-navbar-content-container'}>
+      <Routes>
 
-            <Route exact path="/" element={<Navigate to="/projects" replace />} />
+        {/* Route Guard */}
+        {isAuth ? (
+          // Protected routes
+          <>
+          <Route exact path="/" element={<Navigate to="/projects" replace />} />
 
-            <Route path="/ai" element={<AIPage/>} />
+          <Route path="/ai" element={<AIPage/>} />
 
-            <Route path="/projects" element={<ProjectsListPage />} />
-            <Route path="/projects/:projectId" element={<RedirectToPages />} />
-            <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
-            <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
-            <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
+          <Route path="/projects" element={<ProjectsListPage />} />
+          <Route path="/projects/:projectId" element={<RedirectToPages />} />
+          <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
+          <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
+          <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
 
-            <Route path="*" element={<Error404 />} />
-
-          </Routes>
-        </div>
-      ) : (
-        <Routes>
-
-          <Route exact path="/" element={<div className="content-container"><LandingPage isAuth={false} /></div>} />
+          <Route path="*" element={<NotFound />} />
+          </>
+        ) : (
+          // Public routes
+          <>
+          <Route exact path="/" element={<LandingPage isAuth={false} />} />
+        
           <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
-
           <Route path="/projects/*" element={<Navigate to="/" replace />} />
 
-          <Route path="*" element={<Error404 />} />
+          <Route path="*" element={<NotFound />} />
+          </>
+        )}
 
-        </Routes>
-      )}
+      </Routes>
+      </div>
 
     </div>
   );

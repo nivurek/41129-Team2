@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Button,
 	Container,
@@ -63,7 +63,7 @@ const ResultsListPage = () => {
 	return (
 		<div> 
 			<Segment secondary>
-        <Grid className='alignedGrid' columns={3}>
+        <Grid className='aligned-grid' columns={3}>
           <Grid.Column width={3}>
             <Button
               onClick={()=>{navigate(-1)}}
@@ -80,7 +80,7 @@ const ResultsListPage = () => {
         </Grid>
       </Segment>
 
-			<Grid className='alignedGrid'>
+			<Grid className='aligned-grid'>
 				<Grid.Row stretched style={{ height: '100%' }}>
 					{/* ------------------------------------------------------------------ */}
 					{(openResultIdx != null) ? (

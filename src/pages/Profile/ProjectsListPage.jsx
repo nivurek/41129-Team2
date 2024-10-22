@@ -199,7 +199,7 @@ const ProjectsListPage = () => {
                 </Dropdown>
               )}
               <Confirm
-                className="deleteConfirm"
+                className="delete-confirm"
                 open={isDeleteConfirmOpen}
                 header={`Delete ${project.name}?`}
                 content={`Are you sure you want to delete this project? This action is irreversible.`}

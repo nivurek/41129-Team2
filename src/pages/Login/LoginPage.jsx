@@ -23,8 +23,8 @@ const LoginPage = ({handleLogin}) => {
   }
 
   return (
-    <div className='landingPages'>
-      <div className='rightSideBox' >
+    <div className='login-page'>
+      <div className='right-side-box' >
         {/* ============================  Top Section ============================ */}
         <div style={{flex: "3", width: "100%"}}>
           <Button
@@ -39,7 +39,7 @@ const LoginPage = ({handleLogin}) => {
         </div>
         {/* ============================ Grid Section ============================ */}
         <div style={{flex: "8", width: "100%"}}>
-          <Grid className='alignedGrid'>
+          <Grid className='aligned-grid'>
             <Grid.Column style={{ margin: "40px" }}>
 
               <Grid.Row>
@@ -80,6 +80,7 @@ const LoginPage = ({handleLogin}) => {
         {/* ======================================================== */}
       </div>
     </div>
+    
   );
 };
 

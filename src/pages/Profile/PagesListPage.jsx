@@ -153,7 +153,7 @@ const PagesListPage = () => {
     <Segment.Group style={{width: '100%', height: '100%'}}>
       {/* ================================ Header ================================ */}
       <Segment secondary>
-        <Grid className='alignedGrid' columns={3}>
+        <Grid className='aligned-grid' columns={3}>
           <Grid.Column width={3}>
             <Button
               onClick={()=>{navigate(-1)}}
