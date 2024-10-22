@@ -11,6 +11,8 @@ import {
 
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
+import { createResult, updateResult, deleteResult } from "./actions/resultActions";
+import { getUserById } from "actions/userActions";
 
 import ResultInformationViewComponent from "./components/ResultInformationViewComponent";
 import ResultPreviewComponent from "./components/ResultPreviewComponent";
@@ -18,45 +20,37 @@ import ResultPreviewComponent from "./components/ResultPreviewComponent";
 
 const ResultsListPage = () => {
 	const navigate = useNavigate();
-	const { userData } = useUser();
+	const { userData, updateUserData } = useUser();
 
 	const { projectId, pageId } = useParams();
 	const pageData = userData.projects.find(
-		project => project.id === projectId
+		project => project._id === projectId
 	).pages.find(
-		page => page.id === pageId
+		page => page._id === pageId
 	);
-	// console.log("Results page, data:", pageData);
+	console.log("Results page, data:", pageData);
 
 	const [openResultIdx, setOpenResultIdx] = useState(pageData.results.length === 0 ? null : 0);
-	const [ , updateCounter] = useState(0);
-  const addOneToCounter = () => {
-    updateCounter(prevState => prevState + 1);
-  }
 
 	const createNewResult = () => {
-    const date = new Date(Date.now());
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months start at 0
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-
-    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-    console.log(formattedDate);
-    
-    const newObject = {
-      id: 999,
-      screenshot: "",
-      updated: "",
-      analysis: "",
-      imagePalette: ['', '', '', '', '', ''],
-      suggestedPalettes: [[], []],
-      updatedImagePalette: [],
-    }
-    pageData.results.push(newObject);
+		// Create result
+    createResult({
+			userId: userData._id,
+			projectId: projectId,
+			pageId: pageId,
+		})
+		.then((response) => {
+			console.log("Result created:", response.data);
+			return getUserById(userData._id);
+		})
+		.then((updatedData) => {
+			console.log("Updated data:", updatedData);
+			updateUserData(updatedData);
+		})
+		.catch((error) => {
+			console.error("Unexpected error:", error);
+		});
+		
     setOpenResultIdx(pageData.results.length - 1)
   }
 	
@@ -84,11 +78,12 @@ const ResultsListPage = () => {
 				<Grid.Row stretched style={{ height: '100%' }}>
 					{/* ------------------------------------------------------------------ */}
 					{(openResultIdx != null) ? (
+						// <></>
 						<ResultInformationViewComponent
 							openResultIdx={openResultIdx}
 							setOpenResultIdx={setOpenResultIdx}
 							pageData={pageData}
-							incrementCounter={addOneToCounter}
+							projectId={projectId}
 						/>
 					) : (
 						<Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
@@ -113,7 +108,6 @@ const ResultsListPage = () => {
 							<Container style={{ overflowY: 'auto', padding: '10px' }}>
 								{pageData.results.map((result, resultIndex) => (
 									<ResultPreviewComponent
-										key={resultIndex}
 										data={result}
 										idx={resultIndex}
 										active={openResultIdx === resultIndex}

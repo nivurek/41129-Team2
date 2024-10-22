@@ -8,26 +8,26 @@ const router = express.Router();
 
 // Create a new result for a page in a project
 router.post('/create', async (req, res) => {
-  const { userId, projectId, pageId, analysis, screenshotUrl, imagePalette, suggestedPalettes } = req.body;
+  const { userId, projectId, pageId } = req.body;
 
   try {
     const newResult = {
       updated: new Date(),
-      analysis: analysis || '', // Optional, defaults to empty string if not provided
-      screenshotUrl: screenshotUrl || '',
-      imagePalette: imagePalette || [],
+      analysis: '',
+      screenshotUrl: '',
+      imagePalette: [],
       updatedImagePalette: [],
-      suggestedPalettes: suggestedPalettes || []
+      suggestedPalettes: []
     };
 
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId, 'projects.pages.id': pageId },
+      { _id: userId, 'projects._id': projectId, 'projects.pages._id': pageId },
       { $push: { 'projects.$[project].pages.$[page].results': newResult } }, // Add the new result
       {
         new: true,
         arrayFilters: [
-          { 'project.id': projectId },
-          { 'page.id': pageId }
+          { 'project._id': projectId },
+          { 'page._id': pageId }
         ]
       }
     );
@@ -46,10 +46,11 @@ router.post('/create', async (req, res) => {
 // Update an existing result
 router.put('/update', async (req, res) => {
   const { userId, projectId, pageId, resultId, analysis, screenshotUrl, imagePalette, updatedImagePalette, suggestedPalettes } = req.body;
+  console.log("Update result body", req.body);
 
   try {
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId, 'projects.pages.id': pageId, 'projects.pages.results.id': resultId },
+      { _id: userId, 'projects._id': projectId, 'projects.pages._id': pageId, 'projects.pages.results._id': resultId },
       {
         $set: {
           'projects.$[project].pages.$[page].results.$[result].analysis': analysis || '',
@@ -63,9 +64,9 @@ router.put('/update', async (req, res) => {
       {
         new: true,
         arrayFilters: [
-          { 'project.id': projectId },
-          { 'page.id': pageId },
-          { 'result.id': resultId }
+          { 'project._id': projectId },
+          { 'page._id': pageId },
+          { 'result._id': resultId }
         ]
       }
     );
@@ -83,17 +84,17 @@ router.put('/update', async (req, res) => {
 
 // Delete an existing result
 router.delete('/delete', async (req, res) => {
-  const { userId, projectId, pageId, resultId } = req.body;
+  const { userId, projectId, pageId, resultId } = req.query;
 
   try {
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId, 'projects.pages.id': pageId },
-      { $pull: { 'projects.$[project].pages.$[page].results': { id: resultId } } }, // Remove the result
+      { _id: userId, 'projects._id': projectId, 'projects.pages._id': pageId },
+      { $pull: { 'projects.$[project].pages.$[page].results': { _id: resultId } } }, // Remove the result
       {
         new: true,
         arrayFilters: [
-          { 'project.id': projectId },
-          { 'page.id': pageId }
+          { 'project._id': projectId },
+          { 'page._id': pageId }
         ]
       }
     );

@@ -9,36 +9,58 @@ import {
 } from "semantic-ui-react";
 import DeleteElementComponent from "./DeleteElementComponent";
 
-const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageData, incrementCounter}) => {
+import { useUser } from "contexts/userDataContext";
+import { updateResult, deleteResult } from "../actions/resultActions";
+import { getUserById } from "actions/userActions";
 
+
+const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageData, projectId}) => {
+
+  const { userData, updateUserData } = useUser();
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
-  const localData = pageData.results[openResultIdx];
-  console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, localData);
+  const resultData = pageData.results[openResultIdx];
+  console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, resultData);
 
-  // ===================================================================
   // ============= Controls for the 'Delete Result' modal ==============
-
   const handleDeleteConfirm = () => {
     const newArrayLength = pageData.results.length - 1;
     setOpenResultIdx(
       newArrayLength === 0 ? null : Math.min(openResultIdx, newArrayLength - 1)
     );
-    incrementCounter(); // Force update in parent component, necessary until data store.
-    pageData.results.splice(openResultIdx, 1);
+
+    // Delete result
+    deleteResult({
+			userId: userData._id,
+			projectId: projectId,
+			pageId: pageData._id,
+      resultId: resultData._id
+		})
+		.then((response) => {
+			console.log("Result deleted:", response.data);
+			return getUserById(userData._id);
+		})
+		.then((updatedData) => {
+			console.log("Updated data:", updatedData);
+			updateUserData(updatedData);
+		})
+		.catch((error) => {
+			console.error("Unexpected error:", error);
+		});
   }
 
-  // ===================================================================
-  // =========== Controls for changing the name of a result ============
+  // =========== Controls for changing the name of a result ============ 
+  //-----------------------TEMPORARILY DISABLED-------------------------
+
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [inputValue, setInputValue] = useState(openResultIdx ? localData.description : "");
+  const [inputValue, setInputValue] = useState(openResultIdx ? resultData.description : "");
   
   // Watch openResultIdx and results and auto-update the form value.
   useEffect(() => {
-    if (openResultIdx !== null && localData) {
-      setInputValue(localData.description);
+    if (openResultIdx !== null && resultData) {
+      setInputValue(resultData.description);
     }
     setIsEditingTitle(false);
-  }, [openResultIdx, pageData.results, localData]); 
+  }, [openResultIdx, pageData.results, resultData]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -46,7 +68,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
 
   const cancelEdit = (e) => {
     e.preventDefault();
-    setInputValue(localData.description);
+    setInputValue(resultData.description);
     setIsEditingTitle(false);
   }
 
@@ -54,7 +76,6 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
     e.preventDefault();
     // NEEDS PROPER DATABASE INTERACTION
     pageData.results[openResultIdx].description = inputValue; // Temporary solution
-    incrementCounter(); // Force update in parent component, necessary until data store.
     setIsEditingTitle(false);
   };
   // ===================================================================
@@ -78,19 +99,20 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
           ) : (
             <div>
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
-                {(openResultIdx != null) && localData.description}
+                {(openResultIdx != null) && resultData.description}
               </span>
               <Icon
                 name="edit"
                 circular
                 inverted={isHoveringEdit}
-                onMouseEnter={() => setIsHoveringEdit(true)}
-                onMouseLeave={() => setIsHoveringEdit(false)}
                 onClick={() => setIsEditingTitle(true)}
+                // onMouseEnter={() => setIsHoveringEdit(true)}
+                // onMouseLeave={() => setIsHoveringEdit(false)}
+                disabled // TEMPORARILY DISBALED
               />
             </div>
           )}
-          <DeleteElementComponent executeDelete={handleDeleteConfirm} type={"result"} name={localData.description} />
+          <DeleteElementComponent executeDelete={handleDeleteConfirm} type={"result"} name={resultData.description} />
         </div>
       </Segment>
 
@@ -98,7 +120,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
 
       <div style={{ display: 'flex', flexDirection: 'column'}} >
         <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
-          {localData.screenshot !== "" ? (
+          {resultData.screenshot !== "" ? (
             <div>
               Screenshot data goes here
             </div>

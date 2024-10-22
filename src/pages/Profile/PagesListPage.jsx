@@ -145,7 +145,7 @@ const PagesListPage = () => {
         })
         .then((updatedData) => {
           console.log("Updated data:", updatedData);
-          updateUserData(updatedData); // If using state for projects
+          updateUserData(updatedData);
         })
         .catch((error) => {
           console.error("Unexpected error:", error);
