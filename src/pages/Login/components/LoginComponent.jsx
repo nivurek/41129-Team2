@@ -9,10 +9,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const LoginGridComponent = ({userData, handleLogin}) => {
+const LoginGridComponent = ({handleLogin}) => {
 
-  // console.log('LoginGrid:', userData, handleLogin);
-  
   const navigate = useNavigate();
 
   // State to hold form values
@@ -46,9 +44,11 @@ const LoginGridComponent = ({userData, handleLogin}) => {
 
       // Handle successful login or registration
       if (response.status === 200) {
+        console.log("WALLAHI RESPONSE DATA IS:", response);
+        
         const token = response.data.token;
         localStorage.setItem('token', token); // Store the token in local storage
-        handleLogin({ Name: email }); // Call handleLogin with user data
+        handleLogin(response.data); // Call handleLogin with user data
         navigate('/'); // Navigate to home page
       }
     } catch (error) {
@@ -56,6 +56,9 @@ const LoginGridComponent = ({userData, handleLogin}) => {
       setErrorMessage(error.response?.data?.msg || `${isLogin ? 'Login' : 'Registration'} failed. Please try again.`);
     }
   };
+
+  console.log("Errormsg:", errorMessage);
+  
 
   return (
   <Grid.Column>

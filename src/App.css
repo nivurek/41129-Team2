@@ -4,10 +4,10 @@ html, body, #root, .App {
   margin: 0;
 }
 
-/* .App {
-  background-color: rgb(223, 223, 223);
-  padding: 0;
-} */
+.App {
+  background-color: rgb(195, 167, 160);
+  /* padding: 0; */
+}
 
 .ui.container {
   margin: 0 !important;
@@ -16,6 +16,10 @@ html, body, #root, .App {
 .grid {
   height: 100%;
   width: 100%;
+}
+
+.alignedGrid {
+  margin: 0px !important;
 }
 
 .landingPages {
@@ -65,7 +69,7 @@ html, body, #root, .App {
 /* Navbar Styles */
 
 .navbar-container {
-  padding: 1em;
+  background-color: #f9fafb;
 }
 
 .navbar-container .ui.menu {
@@ -165,6 +169,12 @@ html, body, #root, .App {
   padding: 0;
 }
 
+.deleteConfirm .ui.primary.button {
+  background-color: rgb(190, 0, 0);
+}
+.deleteConfirm .ui.primary.button:hover {
+  background-color: rgb(128, 0, 0);
+}
 .contrast-color {
   margin: 0.5rem;
   border-radius: 5px;
