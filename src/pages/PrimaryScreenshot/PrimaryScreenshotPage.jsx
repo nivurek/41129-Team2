@@ -20,7 +20,11 @@ const PrimaryScreenshotPage = ({authorised}) => {
         </Splitter>
 
     ); else return (
-        <NotAuthorisedComponent />
+        <div>
+            <h1>
+                test
+            </h1>
+        </div>
     )
 };
 

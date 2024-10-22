@@ -10,7 +10,6 @@ const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY);
 const enableGemini = process.env.REACT_APP_ENABLE_GEMINI || false;
 const enableFilestack = process.env.REACT_APP_ENABLE_FILESTACK || false;
 
-
 const Controls = ({ handleRemove }) => {
   const { zoomIn, zoomOut, resetTransform } = useControls();
 
@@ -48,11 +47,9 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
   useEffect(() => {
     if (!imageUrl) { updateImageColorPalette({}); return; }
     Vibrant.from(imageUrl).quality(1).getPalette((err, palette) => { setData(palette); });
-    // Set user.project[id].page[id].result[id].screenshot to imageUrl
   }, [imageUrl]);
 
   const uploadHandler = async (event) => {
-    console.log(enableGemini)
     const file = event.files[0];
     if (!file) return;
 
@@ -100,7 +97,7 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
   };
 
   return (
-    <div>
+    <div className={`screenshot-upload-container ${imageUrl ? 'uploaded' : ''}`}>
       {imageUrl ? (
         <TransformWrapper>
           <Controls handleRemove={onRemove} />
@@ -110,30 +107,30 @@ const ScreenshotUploadComponent = ({ updateImageColorPalette }) => {
         </TransformWrapper>
       ) : (
         <FileUpload
-          className="w-30rem"
+          className="browse-button"
           accept="image/*"
           maxFileSize={1000000}
           customUpload
           uploadHandler={uploadHandler}
           onRemove={onRemove}
           auto
-          chooseLabel="Browse"
+          chooseLabel="Browse file"
         />
       )}
 
-        {analysis && (
+      {analysis && (
         <div
-        className="analysis-result"
-        style={{
-          maxHeight: '150px',
-          overflowY: 'auto',
-          padding: '10px',
-        }}
+          className="analysis-result"
+          style={{
+            maxHeight: '200',
+            overflowY: 'auto',
+            padding: '10px',
+          }}
         >
           <h3>AI Analysis Result:</h3>
-            <ReactMarkdown>{analysis}</ReactMarkdown>
-          </div>
-        )}
+          <ReactMarkdown>{analysis}</ReactMarkdown>
+        </div>
+      )}
     </div>
   );
 };

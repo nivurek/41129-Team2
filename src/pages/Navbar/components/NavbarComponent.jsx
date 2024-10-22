@@ -23,7 +23,7 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
             <Icon name='home' />
             Home
           </Menu.Item>
-          {authorised && (
+          {/* {authorised && ( */}
             <Menu.Item
               name='about'
               active={activeItem === 'about'}
@@ -31,7 +31,8 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
               as={Link}        // Link for About page
               to='/about'
             />
-          )}
+           {/* )} */}
+        
           <ProfileComponent
             isLoggedIn={authorised}
             activeUser={activeUser}
