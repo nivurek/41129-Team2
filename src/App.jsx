@@ -79,6 +79,8 @@ const AppContent = ({ handleLogout, handleLogin }) => {
           <Route exact path="/" element={<div className="content-container"><LandingPage isAuth={false} /></div>} />
           <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
 
+          <Route path="/projects/*" element={<Navigate to="/" replace />} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>
