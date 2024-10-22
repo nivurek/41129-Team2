@@ -32,21 +32,6 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
               to='/about'
             />
           )}
-          <Menu.Item
-            name='services'
-            active={activeItem === 'services'}
-            onClick={handleItemClick}
-            as={Link}        // Link for Services page
-            to='/services'
-          />
-          <Menu.Item
-            name='contact'
-            active={activeItem === 'contact'}
-            onClick={handleItemClick}
-            as={Link}        // Link for Contact page
-            to='/contact'
-          />
-
           <ProfileComponent
             isLoggedIn={authorised}
             activeUser={activeUser}

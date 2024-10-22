@@ -8,7 +8,7 @@ import { UserProvider, useUser } from './contexts/userDataContext';
 import NavbarComponent from './pages/Navbar/components/NavbarComponent';
 import LoginPage from './pages/Login/LoginPage';
 import AIPage from './pages/AI/AIPage';
-
+import AboutPage from './pages/About/AboutPage';
 import ProjectsListPage from './pages/Profile/ProjectsListPage';
 import PagesListPage from './pages/Profile/PagesListPage';
 import ResultsListPage from './pages/Profile/ResultsListPage';
@@ -21,10 +21,6 @@ import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
-
-const About = () => <h1>About Us</h1>;
-const Services = () => <h1>Our Services</h1>;
-const Contact = () => <h1>Contact Us</h1>;
 
 const AppContent = ({ handleLogout, handleLogin }) => {
   const loggedInUser = useUser();
@@ -65,9 +61,7 @@ const AppContent = ({ handleLogout, handleLogin }) => {
             <div className="content-container">
               <Routes>
                 <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<AboutPage />} />
                 <Route path="/ai" element={<AIPage/>} />
 
                 <Route path="/projects" element={<ProjectsListPage />} />
