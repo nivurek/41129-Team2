@@ -45,7 +45,7 @@ const AppContent = ({ handleLogout, handleLogin }) => {
     return <Navigate to={`/projects/${projectId}/pages/${pageId}/results`} replace />;
   }
 
-  // console.log('Logged In User Data:', loggedInUser);
+  console.log('Logged In User Data:', loggedInUser);
 
   return (
     // <PrimeReactProvider>
