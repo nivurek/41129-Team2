@@ -1,21 +1,21 @@
 import './App.css';
-import './styles/globals.css';
+import 'styles/globals.css';
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParams } from 'react-router-dom';
 
-import { UserProvider, useUser } from './contexts/userDataContext';
+import { UserProvider, useUser } from 'contexts/userDataContext';
 
-import NavbarComponent from './pages/Navbar/components/NavbarComponent';
-import LoginPage from './pages/Login/LoginPage';
-import AIPage from './pages/AI/AIPage';
+import NavbarComponent from 'pages/Navbar/components/NavbarComponent';
+import LoginPage from 'pages/Login/LoginPage';
+import AIPage from 'pages/AI/AIPage';
 
-import ProjectsListPage from './pages/Profile/ProjectsListPage';
-import PagesListPage from './pages/Profile/PagesListPage';
-import ResultsListPage from './pages/Profile/ResultsListPage';
+import ProjectsListPage from 'pages/Profile/ProjectsListPage';
+import PagesListPage from 'pages/Profile/PagesListPage';
+import ResultsListPage from 'pages/Profile/ResultsListPage';
+import LandingPage from 'pages/Landing/LandingPage';
 
-import backgroundBanner from './assets/background_banner.png'; 
-import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
-import { PrimeReactProvider } from 'primereact/api';
+import backgroundBanner from 'assets/background_banner.png'; 
+
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
@@ -59,7 +59,14 @@ const AppContent = ({ handleLogout, handleLogin }) => {
             <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
             <div className="content-container">
               <Routes>
-                <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
+                {isAuth ? 
+                (
+                  <Route path="/" element={<ProjectsListPage />} />
+                )
+                : (
+                  <Route path="/" element={<LandingPage authorised={isAuth} />} />
+                )}
+
                 <Route path="/ai" element={<AIPage/>} />
 
                 <Route path="/projects" element={<ProjectsListPage />} />

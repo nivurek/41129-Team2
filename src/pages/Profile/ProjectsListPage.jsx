@@ -15,10 +15,10 @@ import {
   Popup,
 } from 'semantic-ui-react';
 
-import { useUser } from "../../contexts/userDataContext";
-import withAuth from "../../utils/withAuth";
+import { useUser } from 'contexts/userDataContext';
+import withAuth from 'utils/withAuth';
 
-import plusIcon from './assets/plusIcon.png';
+import plusIcon from 'assets/plusIcon.png';
 
 
 const ProjectsListPage = () => {

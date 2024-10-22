@@ -4,7 +4,7 @@ import * as Vibrant from 'node-vibrant';
 import ColorPaletteComponent from './components/ColorPaletteComponent';
 import ColorContrastComponent from './components/ColorContrastComponent';
 
-const ResultsComponent = ({imageUrl}) => {
+const ColorResultsComponent = ({imageUrl}) => {
 
     const [imageColorPalette, updateImageColorPalette] = useState({});
 
@@ -45,4 +45,4 @@ const ResultsComponent = ({imageUrl}) => {
     )
 };
 
-export default ResultsComponent;
+export default ColorResultsComponent;

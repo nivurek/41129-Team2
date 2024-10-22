@@ -9,8 +9,8 @@ import {
   Segment,
 } from "semantic-ui-react";
 
-import { useUser } from "../../contexts/userDataContext";
-import withAuth from "../../utils/withAuth";
+import { useUser } from 'contexts/userDataContext';
+import withAuth from 'utils/withAuth';
 
 import ResultInformationViewComponent from "./components/ResultInformationViewComponent";
 import ResultPreviewComponent from "./components/ResultPreviewComponent";

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Tooltip } from "primereact/tooltip";
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import * as Color from '../../../../../utils/color.helpers';
 import { HexColorPicker } from 'react-colorful';
+import * as Color from 'utils/color.helpers';
 import _ from 'lodash';
 
 const ColorPaletteComponent = ({imageColorPalette}) => {

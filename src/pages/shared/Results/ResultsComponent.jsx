@@ -2,28 +2,25 @@ import React, { useState } from "react";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 
 import ScreenshotUploadComponent from './components/ScreenshotUploadComponent/ScreenshotUploadComponent';
-import NotAuthorisedComponent from '../shared/NotAuthorisedComponent';
-import ResultsComponent from "./components/ResultsComponent/ResultsComponent";
+import ColorResultsComponent from "./components/ColorResultsComponent/ColorResultsComponent";
 import AIAnalysisComponent from "./components/AIAnalysisComponent/AIAnalysisComponent";
+import NotAuthorisedComponent from 'pages/shared/NotAuthorisedComponent';
 
-const PrimaryScreenshotPage = ({authorised}) => {
+
+const ResultsComponent = ({authorised}) => {
     const [imageUrl, setImageUrl] = useState('');
 
-    if (authorised) return (
-
+    return (
         <Splitter className="h-full">
             <SplitterPanel className="screenshot-upload-container" size={65} minSize={35}>
                 <ScreenshotUploadComponent imageUrl={imageUrl} setImageUrl={setImageUrl} />
                 <AIAnalysisComponent imageUrl={imageUrl} />
             </SplitterPanel>
             <SplitterPanel className="results-container" size={35} minSize={15}>
-                <ResultsComponent imageUrl={imageUrl} />
+                <ColorResultsComponent imageUrl={imageUrl} />
             </SplitterPanel>
         </Splitter>
-
-    ); else return (
-        <NotAuthorisedComponent />
     )
 };
 
-export default PrimaryScreenshotPage;
+export default ResultsComponent;
