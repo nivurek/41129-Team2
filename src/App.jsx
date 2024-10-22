@@ -1,5 +1,3 @@
-import './App.css';
-import 'styles/globals.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParams } from 'react-router-dom';
 
@@ -14,6 +12,8 @@ import ProjectsListPage from 'pages/Profile/ProjectsListPage';
 import PagesListPage from 'pages/Profile/PagesListPage';
 import ResultsListPage from 'pages/Profile/ResultsListPage';
 import LandingPage from 'pages/Landing/LandingPage';
+
+import 'styles/App.css';
 
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
