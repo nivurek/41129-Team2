@@ -27,7 +27,7 @@ const DeleteElementComponent = ({ executeDelete, type, name }) => {
         onMouseLeave={() => setIsHoveringDelete(false)}
       />
       <Confirm
-        className="deleteConfirm"
+        className="delete-confirm"
         open={isDeleteConfirmOpen}
         header={`Delete ${name}?`}
         content={`Are you sure you want to delete this ${type}? This action is irreversible.`}

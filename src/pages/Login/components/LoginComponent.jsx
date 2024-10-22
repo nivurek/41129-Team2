@@ -97,24 +97,6 @@ const LoginGridComponent = ({handleLogin}) => {
   </Grid.Row>
 
   <Grid.Row columns={2} style={{fontWeight: "bold" }}>
-    {/* <Grid.Column>
-      x
-    </Grid.Column>
-    <Grid.Column>
-      x
-    </Grid.Column> */}
-    {/* <Segment>
-    <Grid columns={2}>
-      <Grid.Column textAlign='right'>
-        Forgot your password?
-      </Grid.Column>
-      <Grid.Column style={{ color: "rgb(229,185,75)" }}>
-        Reset password
-      </Grid.Column>
-    </Grid>
-    </Segment> */}
-
-
     <Grid stackable style={{ paddingTop: "40px" }}>
       <Grid.Row columns={2} style={{ fontWeight: 'bold' }}>
         {/* Outer columns */}

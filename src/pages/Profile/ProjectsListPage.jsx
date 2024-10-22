@@ -20,7 +20,7 @@ import withAuth from "../../utils/withAuth";
 import { createProject, updateProject, deleteProject } from "./actions/projectActions";
 import { getUserById } from "../../actions/userActions";
 
-import plusIcon from './assets/plusIcon.png';
+import plusIcon from 'assets/plusIcon.png';
 
 
 const ProjectsListPage = () => {
@@ -240,7 +240,7 @@ const ProjectsListPage = () => {
                 </Dropdown>
               )}
               <Confirm
-                className="deleteConfirm"
+                className="delete-confirm"
                 open={isDeleteConfirmOpen}
                 header={`Delete ${project.name}?`}
                 content={`Are you sure you want to delete this project? This action is irreversible.`}

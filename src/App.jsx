@@ -1,29 +1,24 @@
-import './App.css';
-import './styles/globals.css';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParams } from 'react-router-dom';
 
-import { UserProvider, useUser } from './contexts/userDataContext';
+import { UserProvider, useUser } from 'contexts/userDataContext';
 
-import NavbarComponent from './pages/Navbar/components/NavbarComponent';
-import LoginPage from './pages/Login/LoginPage';
-import AIPage from './pages/AI/AIPage';
+import NavbarComponent from 'pages/Navbar/components/NavbarComponent';
+import LoginPage from 'pages/Login/LoginPage';
+import AIPage from 'pages/AI/AIPage';
+import NotFound from 'pages/NotFound/NotFoundPage';
 
-import ProjectsListPage from './pages/Profile/ProjectsListPage';
-import PagesListPage from './pages/Profile/PagesListPage';
-import ResultsListPage from './pages/Profile/ResultsListPage';
+import ProjectsListPage from 'pages/Profile/ProjectsListPage';
+import PagesListPage from 'pages/Profile/PagesListPage';
+import ResultsListPage from 'pages/Profile/ResultsListPage';
+import LandingPage from 'pages/Landing/LandingPage';
 
-import backgroundBanner from './assets/background_banner.png'; 
-import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
+import 'styles/App.css';
+
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
-
-
-const About = () => <h1>About Us</h1>;
-const Services = () => <h1>Our Services</h1>;
-const Contact = () => <h1>Contact Us</h1>;
 
 
 const AppContent = () => {
@@ -81,44 +76,49 @@ const AppContent = () => {
   console.log('Logged In User Data:', userData);
 
   return (
-      <div
-        className="App"
-        style={{
-          backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: '10% center',
-          height: '100%',
-          width: '100%',
-        }}
-      >
-        {!isLoginPage ? ( // These pages render with a navbar
-          <>
-            <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
-            <div className="content-container">
-              <Routes>
-                <Route path="/" element={<PrimaryScreenshotPage authorised={isAuth}/>} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/ai" element={<AIPage/>} />
+    <div className="app">
 
-                <Route path="/projects" element={<ProjectsListPage />} />
-                <Route path="/projects/:projectId" element={<RedirectToPages />} />
-                <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
-                <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
-                <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
-
-              </Routes>
-            </div>
-          </>
-        ) : ( // These pages do not contain a navbar
-          <div>
-            <Routes>
-              <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
-            </Routes>
-          </div>
+      <div className="navbar-container">
+        {!isLoginPage && (
+            <NavbarComponent isAuth={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
         )}
       </div>
+
+      <div className={!isLoginPage ? "content-container" : 'no-navbar-content-container'}>
+      <Routes>
+
+        {/* Route Guard */}
+        {isAuth ? (
+          // Protected routes
+          <>
+          <Route exact path="/" element={<Navigate to="/projects" replace />} />
+
+          <Route path="/ai" element={<AIPage/>} />
+
+          <Route path="/projects" element={<ProjectsListPage />} />
+          <Route path="/projects/:projectId" element={<RedirectToPages />} />
+          <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
+          <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
+          <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
+
+          <Route path="*" element={<NotFound />} />
+          </>
+        ) : (
+          // Public routes
+          <>
+          <Route exact path="/" element={<LandingPage isAuth={false} />} />
+        
+          <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
+          <Route path="/projects/*" element={<Navigate to="/" replace />} />
+
+          <Route path="*" element={<NotFound />} />
+          </>
+        )}
+
+      </Routes>
+      </div>
+
+    </div>
   );
 };
 
