@@ -1,54 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {
-  Button,
   Form,
   Grid,
   Icon,
   Input,
   Segment,
 } from "semantic-ui-react";
+import { Button } from "primereact/button";
+
 import DeleteElementComponent from "./DeleteElementComponent";
-
-import { useUser } from "contexts/userDataContext";
-import { updateResult, deleteResult } from "../actions/resultActions";
-import { getUserById } from "actions/userActions";
-
 import ResultsComponent from "pages/shared/Results/ResultsComponent";
 
 
-const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageData, projectId}) => {
+const ResultDataComponent = ({openResultIdx, pageData }) => {
 
-  const { userData, updateUserData } = useUser();
-  const [isHoveringEdit, setIsHoveringEdit] = useState(false);
   const resultData = pageData.results[openResultIdx] ?? {};
   console.log('ResultInformationViewComponent', resultData);
-
-  // ============= Handler for the 'Delete Result' modal ==============
-  const handleDeleteConfirm = () => {
-    const newArrayLength = pageData.results.length - 1;
-    setOpenResultIdx(
-      newArrayLength === 0 ? null : Math.min(openResultIdx, newArrayLength - 1)
-    );
-
-    // Delete result
-    deleteResult({
-			userId: userData._id,
-			projectId: projectId,
-			pageId: pageData._id,
-      resultId: resultData._id
-		})
-		.then((response) => {
-			console.log("Result deleted:", response.data);
-			return getUserById(userData._id);
-		})
-		.then((updatedData) => {
-			console.log("Updated data:", updatedData);
-			updateUserData(updatedData);
-		})
-		.catch((error) => {
-			console.error("Unexpected error:", error);
-		});
-  }
 
   // =========== Controls for changing the name of a result ============ 
   //-----------------------TEMPORARILY DISABLED-------------------------
@@ -99,7 +66,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
               <Icon name="cancel" circular onClick={(e) => cancelEdit(e)} />
             </Form>
           ) : (
-            <div>
+            <div className="flex flex-nowrap align-items-center">
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
                 {(openResultIdx != null) ? (
                   resultData.updated
@@ -107,18 +74,10 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
                   "No result selected"
                 ) }
               </span>
-              <Icon
-                name="edit"
-                circular
-                inverted={isHoveringEdit}
-                onClick={() => setIsEditingTitle(true)}
-                // onMouseEnter={() => setIsHoveringEdit(true)}
-                // onMouseLeave={() => setIsHoveringEdit(false)}
-                disabled // TEMPORARILY DISBALED
-              />
+              <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled />
             </div>
           )}
-          <DeleteElementComponent executeDelete={handleDeleteConfirm} type={"result"} name={resultData.description} />
+          <DeleteElementComponent elementId={resultData._id} type={"result"} name={`Version ${openResultIdx + 1}`} />
         </div>
       </Segment>
 
@@ -147,4 +106,4 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
   )
 }
 
-export default ResultInformationViewComponent;
+export default ResultDataComponent;

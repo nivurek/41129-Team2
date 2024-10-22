@@ -290,10 +290,21 @@ html, body, #root, .app {
 .results-list-item {
   height: 100px;
   cursor: pointer;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 .results-list-item:hover {
   background-color: rgba(0,0,0,.05) !important;
 }
 .results-list-item.active {
   background-color: #c7c9ff !important;
+}
+
+.results-list-item .delete-element-button {
+  display: none;
+}
+.results-list-item:hover .delete-element-button {
+  display: block;
 }

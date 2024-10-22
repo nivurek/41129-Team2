@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Button,
@@ -9,18 +9,25 @@ import {
   Segment,
 } from "semantic-ui-react";
 
+import { withOpenResultIdxCtx, useResultIdx } from 'contexts/openResultIdxContext';
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
-import { createResult, updateResult, deleteResult } from "./actions/resultActions";
+import { createResult } from "./actions/resultActions";
 import { getUserById } from "actions/userActions";
 
-import ResultInformationViewComponent from "./components/ResultInformationViewComponent";
-import ResultPreviewComponent from "./components/ResultPreviewComponent";
+import ResultDataComponent from "./components/ResultDataComponent";
+import ResultsListItemComponent from "./components/ResultsListItemComponent";
 
 
 const ResultsListPage = () => {
 	const navigate = useNavigate();
 	const { userData, updateUserData } = useUser();
+	const { openResultIdx, updateOpenResultIdx } = useResultIdx();
+
+	// Use useEffect to load the open result index when the component mounts
+	useEffect(() => {
+		updateOpenResultIdx(pageData?.results.length === 0 ? null : pageData.results.length - 1);
+	}, [updateOpenResultIdx]);
 
 	const { projectId, pageId } = useParams();
 	const pageData = userData.projects.find(
@@ -29,8 +36,6 @@ const ResultsListPage = () => {
 		page => page._id === pageId
 	);
 	console.log("Results page, data:", pageData);
-
-	const [openResultIdx, setOpenResultIdx] = useState(pageData.results.length === 0 ? null : pageData.results.length - 1);
 
 	const createNewResult = () => {
 		// Create result
@@ -41,7 +46,7 @@ const ResultsListPage = () => {
 		})
 		.then((response) => {
 			console.log("Result created:", response.data);
-			setOpenResultIdx(openResultIdx === null ? 0 : pageData.results.length); // Set the selected index to where the new result will be
+			updateOpenResultIdx(openResultIdx === null ? 0 : pageData.results.length); // Set the selected index to where the new result will be
 			return getUserById(userData._id);
 		})
 		.then((updatedData) => {
@@ -80,12 +85,10 @@ const ResultsListPage = () => {
 				<Grid.Row stretched style={{ height: '100%' }}>
 					{/* ------------------------------------------------------------------ */}
 					{(openResultIdx != null) ? (
-						// <></>
-						<ResultInformationViewComponent
+
+						<ResultDataComponent
 							openResultIdx={openResultIdx}
-							setOpenResultIdx={setOpenResultIdx}
 							pageData={pageData}
-							projectId={projectId}
 						/>
 					) : (
 						<Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
@@ -109,12 +112,11 @@ const ResultsListPage = () => {
 
 							<Container style={{ overflowY: 'auto', padding: '10px' }}>
 								{pageData?.results?.slice().reverse().map((result, resultIndex) => (
-									<ResultPreviewComponent
+									<ResultsListItemComponent
 										key={resultIndex}
 										data={result}
 										idx={pageData.results.length - resultIndex - 1}
 										active={openResultIdx === pageData.results.length - resultIndex - 1}
-										setOpenResultIdx={setOpenResultIdx}
 									/>
 								))}
 							</Container>
@@ -128,4 +130,4 @@ const ResultsListPage = () => {
 	)
 }
 
-export default withAuth(ResultsListPage);
+export default withAuth(withOpenResultIdxCtx(ResultsListPage));
