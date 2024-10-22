@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import * as Vibrant from 'node-vibrant';
 
 import ColorPaletteComponent from './components/ColorPaletteComponent';
 import ColorContrastComponent from './components/ColorContrastComponent';
 
-const ResultsComponent = ({imageColorPalette}) => {
+const ResultsComponent = ({imageUrl}) => {
+
+    const [imageColorPalette, updateImageColorPalette] = useState({});
+
+    const processVibrantData = (palette) => {
+        if (Object.keys(palette).length === 0) return;
+        delete palette.LightMuted;
+
+        const processedPalette = {
+            vibrant: palette.Vibrant?.hex,
+            lightVibrant: palette.LightVibrant?.hex,
+            darkVibrant: palette.DarkVibrant?.hex,
+            muted: palette.Muted?.hex,
+            darkMuted: palette.DarkMuted?.hex
+        };
+
+        updateImageColorPalette({ ...processedPalette });
+    }
+
+    useEffect(() => {
+        if (!imageUrl) { updateImageColorPalette({}); return; }
+        Vibrant.from(imageUrl).quality(1).getPalette((err, palette) => { processVibrantData(palette); });
+        // Set user.project[id].page[id].result[id].screenshot to imageUrl
+    }, [imageUrl]);
 
     // Rendered Component
     if (Object.keys(imageColorPalette).length > 0) return (
