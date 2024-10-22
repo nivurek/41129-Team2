@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
 import ResultsComponent from 'pages/shared/Results/ResultsComponent';
 
-const LandingPage = ({authorised}) => {
+const LandingPage = ({isAuth}) => {
 
     return (
-        <ResultsComponent authorised={authorised} />
+        <ResultsComponent isAuth={isAuth} />
     )
 };
 

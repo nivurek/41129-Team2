@@ -1,11 +1,11 @@
 import React from "react";
-import { Menu, Icon } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 
 import ProfileComponent from "./ProfileComponent";
 
 
-const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
+const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
   const handleItemClick = (e, { name }) => setActiveItem(name);
@@ -22,7 +22,7 @@ const NavbarComponent = ({authorised, activeUser, onLogoutMethod}) => {
           />
 
           <ProfileComponent
-            isLoggedIn={authorised}
+            isAuth={isAuth}
             activeUser={activeUser}
             onLogoutMethod={onLogoutMethod}
             active={activeItem === 'profile'}

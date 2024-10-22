@@ -52,7 +52,7 @@ const AppContent = ({ handleLogout, handleLogin }) => {
     >
 
       {!isLoginPage && (
-          <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
+          <NavbarComponent isAuth={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
       )}
 
       {isAuth ? (

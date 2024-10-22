@@ -7,10 +7,10 @@ import {
 } from "semantic-ui-react";
 
 
-const ProfileComponent = ({isLoggedIn, activeUser, onLogoutMethod, active, onClickMethod}) => {
+const ProfileComponent = ({isAuth, activeUser, onLogoutMethod, active, onClickMethod}) => {
 	return (
 		<>
-			{isLoggedIn ? (
+			{isAuth ? (
 				<Menu.Item position="right">
 					<Dropdown
 						trigger={
