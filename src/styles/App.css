@@ -28,6 +28,9 @@ html, body, #root, .app {
 .content-container {
   padding: 1em;
   height: calc(100% - var(--navbar-height));
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .no-navbar-content-container {
@@ -281,4 +284,16 @@ html, body, #root, .app {
 .analysis-result {
   overflow-y: auto;
   padding: 10px;
+}
+
+/* Results List Styles */
+.results-list-item {
+  height: 100px;
+  cursor: pointer;
+}
+.results-list-item:hover {
+  background-color: rgba(0,0,0,.05) !important;
+}
+.results-list-item.active {
+  background-color: #c7c9ff !important;
 }

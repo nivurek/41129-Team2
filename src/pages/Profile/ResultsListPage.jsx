@@ -30,7 +30,7 @@ const ResultsListPage = () => {
 	);
 	console.log("Results page, data:", pageData);
 
-	const [openResultIdx, setOpenResultIdx] = useState(pageData.results.length === 0 ? null : 0);
+	const [openResultIdx, setOpenResultIdx] = useState(pageData.results.length === 0 ? null : pageData.results.length - 1);
 
 	const createNewResult = () => {
 		// Create result
@@ -57,26 +57,26 @@ const ResultsListPage = () => {
   }
 	
 	return (
-		<div> 
+		<> 
 			<Segment secondary>
-        <Grid className='aligned-grid' columns={3}>
-          <Grid.Column width={3}>
-            <Button
-              onClick={()=>{navigate(-1)}}
-              icon
-              labelPosition='left'
-            >
-              <Icon name={'arrow left'} />
-              Go back
-            </Button>
-          </Grid.Column>
-          <Grid.Column width={10}>
-            <h1 style={{textAlign: 'center'}}>{pageData.name} - Results</h1>
-          </Grid.Column>
-        </Grid>
-      </Segment>
+				<Grid className='aligned-grid' columns={3}>
+				<Grid.Column width={3}>
+					<Button
+					onClick={()=>{navigate(-1)}}
+					icon
+					labelPosition='left'
+					>
+					<Icon name={'arrow left'} />
+					Go back
+					</Button>
+				</Grid.Column>
+				<Grid.Column width={10}>
+					<h1 style={{textAlign: 'center'}}>{pageData.name} - Results</h1>
+				</Grid.Column>
+				</Grid>
+			</Segment>
 
-			<Grid className='aligned-grid'>
+			<Grid className='aligned-grid min-h-0'>
 				<Grid.Row stretched style={{ height: '100%' }}>
 					{/* ------------------------------------------------------------------ */}
 					{(openResultIdx != null) ? (
@@ -108,11 +108,12 @@ const ResultsListPage = () => {
 							</Button>
 
 							<Container style={{ overflowY: 'auto', padding: '10px' }}>
-								{pageData.results.map((result, resultIndex) => (
+								{pageData?.results?.slice().reverse().map((result, resultIndex) => (
 									<ResultPreviewComponent
+										key={resultIndex}
 										data={result}
-										idx={resultIndex}
-										active={openResultIdx === resultIndex}
+										idx={pageData.results.length - resultIndex - 1}
+										active={openResultIdx === pageData.results.length - resultIndex - 1}
 										setOpenResultIdx={setOpenResultIdx}
 									/>
 								))}
@@ -123,7 +124,7 @@ const ResultsListPage = () => {
 					{/* ------------------------------------------------------------------ */}
 				</Grid.Row>
 			</Grid>
-		</div>
+		</>
 	)
 }
 

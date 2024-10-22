@@ -13,6 +13,8 @@ import { useUser } from "contexts/userDataContext";
 import { updateResult, deleteResult } from "../actions/resultActions";
 import { getUserById } from "actions/userActions";
 
+import ResultsComponent from "pages/shared/Results/ResultsComponent";
+
 
 const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageData, projectId}) => {
 
@@ -123,7 +125,7 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
       {/* =============================== BODY =============================== */}
 
       <div style={{ display: 'flex', flexDirection: 'column'}} >
-        <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
+        {/* <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
           {resultData.screenshot !== "" ? (
             <div>
               Screenshot data goes here
@@ -138,7 +140,8 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
           <div>
             AI Generated data goes here
           </div>
-        </Segment>
+        </Segment> */}
+        <ResultsComponent isAuth={true} />
       </div>
     </Grid.Column>
   )

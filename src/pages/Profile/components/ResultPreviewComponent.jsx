@@ -6,15 +6,8 @@ import {
 
 const ResultPreviewComponent = ({data, idx, active, setOpenResultIdx}) => {
   return (
-    <Segment
-      key={idx}
-      onClick={() => setOpenResultIdx(idx)}
-      style={{
-        height: "100px",
-        backgroundColor: active ? "#c7c9ff" : undefined, 
-      }}
-    >
-      <h3>Index number {idx}</h3>
+    <Segment onClick={() => setOpenResultIdx(idx)} className={`results-list-item ${active ? 'active' : ''}`}>
+      <h3>Version {idx + 1}</h3>
       <p>{data.updated}</p>
 
       {/* Thumbnail goes here */}
