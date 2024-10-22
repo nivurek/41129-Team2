@@ -5,12 +5,9 @@ import {
 	Icon,
 	Menu,
 } from "semantic-ui-react";
-// import { Link } from 'react-router-dom';
 
 
 const ProfileComponent = ({isLoggedIn, activeUser, onLogoutMethod, active, onClickMethod}) => {
-	console.log("profile comp - isloggedin?", isLoggedIn);
-	
 	return (
 		<>
 			{isLoggedIn ? (
@@ -26,7 +23,7 @@ const ProfileComponent = ({isLoggedIn, activeUser, onLogoutMethod, active, onCli
 						icon={null} /* Hide default dropdown icon */
 					>
 						<Dropdown.Menu>
-							<Dropdown.Item as={Link} to="/profile" text="Profile" icon="user" />
+							<Dropdown.Item as={Link} to="/projects" text="Projects" icon="user" />
 							<Dropdown.Item text="Logout" icon="sign-out" onClick={onLogoutMethod} />
 						</Dropdown.Menu>
 					</Dropdown>
