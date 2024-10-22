@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParam
 import { UserProvider, useUser } from './contexts/userDataContext';
 
 import NavbarComponent from './pages/Navbar/components/NavbarComponent';
+import Error404 from './pages/Error/Error404';
 import LoginPage from './pages/Login/LoginPage';
 import AIPage from './pages/AI/AIPage';
 
@@ -76,6 +77,7 @@ const AppContent = ({ handleLogout, handleLogin }) => {
                 <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
                 <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
 
+                <Route path="*" element={<Error404 />} />
               </Routes>
             </div>
           </>
