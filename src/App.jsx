@@ -1,6 +1,6 @@
 import './App.css';
 import 'styles/globals.css';
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParams } from 'react-router-dom';
 
 import { UserProvider, useUser } from 'contexts/userDataContext';
@@ -26,7 +26,6 @@ const AppContent = ({ handleLogout, handleLogin }) => {
    
   const location = useLocation();
   const isLoginPage = ['/login'].includes(location.pathname);
-  console.log("isloginpage?", isLoginPage);
 
   const isAuth = loggedInUser !== null;
   const activeUser = (loggedInUser && loggedInUser.name) ?? "";
@@ -40,53 +39,52 @@ const AppContent = ({ handleLogout, handleLogin }) => {
     return <Navigate to={`/projects/${projectId}/pages/${pageId}/results`} replace />;
   }
 
-  // console.log('Logged In User Data:', loggedInUser);
-
   return (
-    // <PrimeReactProvider>
-      <div
-        className="App"
-        style={{
-          backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: '10% center',
-          height: '100%',
-          width: '100%',
-        }}
-      >
-        {!isLoginPage ? ( // These pages render with a navbar
-          <>
-            <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
-            <div className="content-container">
-              <Routes>
-                {isAuth ? 
-                (
-                  <Route path="/" element={<ProjectsListPage />} />
-                )
-                : (
-                  <Route path="/" element={<LandingPage authorised={isAuth} />} />
-                )}
+    <div
+      className="App"
+      style={{
+        backgroundImage: isLoginPage ? `url(${backgroundBanner})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: '10% center',
+        height: '100%',
+        width: '100%',
+      }}
+    >
 
-                <Route path="/ai" element={<AIPage/>} />
+      {!isLoginPage && (
+          <NavbarComponent authorised={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
+      )}
 
-                <Route path="/projects" element={<ProjectsListPage />} />
-                <Route path="/projects/:projectId" element={<RedirectToPages />} />
-                <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
-                <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
-                <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
+      {isAuth ? (
+        <div className="content-container">
+          <Routes>
 
-              </Routes>
-            </div>
-          </>
-        ) : ( // These pages do not contain a navbar
-          <div>
-            <Routes>
-              <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
-            </Routes>
-          </div>
-        )}
-      </div>
-    // {/* </PrimeReactProvider> */}
+            <Route exact path="/" element={<Navigate to="/projects" replace />} />
+
+            <Route path="/ai" element={<AIPage/>} />
+
+            <Route path="/projects" element={<ProjectsListPage />} />
+            <Route path="/projects/:projectId" element={<RedirectToPages />} />
+            <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
+            <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
+            <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
+
+            <Route path="*" element={<Navigate to="/projects" replace />} />
+
+          </Routes>
+        </div>
+      ) : (
+        <Routes>
+
+          <Route exact path="/" element={<div className="content-container"><LandingPage isAuth={false} /></div>} />
+          <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+
+        </Routes>
+      )}
+
+    </div>
   );
 };
 
