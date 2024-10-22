@@ -86,10 +86,7 @@ const ResultsListPage = () => {
 					{/* ------------------------------------------------------------------ */}
 					{(openResultIdx != null) ? (
 
-						<ResultDataComponent
-							openResultIdx={openResultIdx}
-							pageData={pageData}
-						/>
+						<ResultDataComponent pageData={pageData} />
 					) : (
 						<Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
 							<div style={{ display: 'flex', flexDirection: 'column'}} >
