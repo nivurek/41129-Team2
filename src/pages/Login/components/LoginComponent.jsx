@@ -44,8 +44,6 @@ const LoginGridComponent = ({handleLogin}) => {
 
       // Handle successful login or registration
       if (response.status === 200) {
-        console.log("WALLAHI RESPONSE DATA IS:", response);
-        
         const token = response.data.token;
         localStorage.setItem('token', token); // Store the token in local storage
         handleLogin(response.data); // Call handleLogin with user data

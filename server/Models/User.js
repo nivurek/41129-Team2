@@ -1,22 +1,38 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
+// Define Result Schema
+const resultSchema = new Schema({
+  updated: { type: Date, default: Date.now }, // Last updated timestamp
+  analysis: { type: String }, // AI Analysis
+  screenshotUrl: { type: String }, // Link to the uploaded screenshot
+  imagePalette: { type: [String], default: [] }, // Array of colors for the real palette
+  updatedImagePalette: { type: [String], default: [] }, // Saved array of colors for an updated palette choice
+  suggestedPalettes: [{ type: [String], default: [] }] // Array of imagePalette arrays
 });
+
+// Define Page Schema
+const pageSchema = new Schema({
+  name: { type: String, required: true }, // Name of the page
+  updated: { type: Date, default: Date.now }, // Last updated timestamp
+  results: [resultSchema] // Results related to the page
+});
+
+// Define Project Schema
+const projectSchema = new Schema({
+  name: { type: String, required: true }, // Name of the project
+  updated: { type: Date, default: Date.now }, // Last updated timestamp
+  pages: [pageSchema] // Array of pages within the project
+});
+
+// Define User Schema
+const userSchema = new Schema({
+  username: { type: String, required: true, unique: true }, // Username, must be unique
+  email: { type: String, required: true, unique: true }, // User's email, must be unique
+  password: { type: String, required: true }, // User's hashed password
+  projects: [projectSchema], // Array of projects for the user
+}, { timestamps: true }); // Automatically manage createdAt and updatedAt fields
 
 // Hash the password before saving the user
 userSchema.pre('save', async function (next) {
@@ -28,6 +44,8 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+
+// Export the User model
 const User = mongoose.model('User', userSchema);
 
 export default User;

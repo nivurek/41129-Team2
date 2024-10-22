@@ -8,7 +8,13 @@ import os from 'os';
 import { pipeline } from 'stream/promises';
 import mime from 'mime-types';
 import dotenv from 'dotenv'; 
+
+import user from "./routes/user.js";
 import records from "./routes/record.js";
+import project from "./routes/project.js"
+import page from "./routes/page.js"
+import result from "./routes/result.js"
+
 import connectDB from "./db/connection.js";
 import AuthRoute from "./routes/auth.js";
 
@@ -25,13 +31,17 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY);
 app.use(cors({
   origin: 'http://localhost:5050',
-  methods: ['GET', 'POST', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
 connectDB();
 app.use("/record", records);
 app.use("/auth", AuthRoute);
+app.use("/api/user", user);
+app.use("/api/project", project);
+app.use("/api/page", page);
+app.use("/api/result", result);
 
 app.use(express.json());
 

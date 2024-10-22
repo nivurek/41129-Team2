@@ -3,10 +3,11 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   Button,
   Card,
-  CardMeta, 
-  CardHeader, 
-  CardContent, 
+  CardMeta,
+  CardHeader,
+  CardContent,
   Confirm,
+  Dropdown,
   Form,
   Grid,
   Icon,
@@ -18,6 +19,8 @@ import {
 
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
+import { createPage, updatePage, deletePage } from "./actions/pageActions";
+import { getUserById } from "actions/userActions";
 
 import plusIcon from 'assets/plusIcon.png';
 
@@ -25,43 +28,78 @@ import plusIcon from 'assets/plusIcon.png';
 const PagesListPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const userData = useUser();
+	const { userData, updateUserData } = useUser();
 
 	const [isNewPageConfirmOpen, setIsNewPageConfirmOpen] = useState(false);
+  const [isDeleteConfirmOpenIdx, setIsDeleteConfirmOpenIdx] = useState(null);
+  const [renamingId, setRenamingId] = useState(null);
+  const [renameValue, setRenameValue] = useState("");
+  
 	const { projectId } = useParams();
-	const projectData = userData.projects.find(project => project.id === projectId);
-	
-	// console.log("Project data for this project:", projectData);
+	const projectData = userData.projects.find(project => project._id === projectId);
 
 	const selectPage = (pageId) => {
-    if (!(isNewPageConfirmOpen)) {
+    if (!(isDeleteConfirmOpenIdx || (renamingId === pageId))) {
       const currentPath = location.pathname;
     	navigate(`${currentPath}/${pageId}`);
     }
   };
 
-	const CardElement = ({page, idx, onClick}) => {
-    return (
-      <Card key={idx} onClick={onClick}>
-				<Image
-					src='https://replicate.delivery/mgxm/8b4d747d-feca-477d-8069-ee4d5f89ad8e/a_high_detail_shot_of_a_cat_wearing_a_suit_realism_8k_-n_9_.png'
-					wrapped
-					ui={false}
-				/>
+  const handleDeleteConfirm = (pageId) => {
+    setIsDeleteConfirmOpenIdx(null);
+    deletePage({
+      userId: userData._id,
+      projectId: projectId,
+      pageId: pageId,
+    })
+    .then((response) => {
+      console.log("Page deleted:", response.data);
+      return getUserById(userData._id);
+    })
+    .then((updatedData) => {
+      console.log("Updated data:", updatedData);
+      updateUserData(updatedData);
+    })
+    .catch((error) => {
+      console.error("Unexpected error:", error);
+    });
+  }
 
-        <CardContent>
-          <CardHeader>{page.name}</CardHeader>
-          <CardMeta>
-            <span className='date'>Last edited {page.updated}</span>
-          </CardMeta>
-        </CardContent>
-        
-        <CardContent extra>
-          <Icon name='file' />
-          {page.results.length} version{page.results.length === 1 ? '' : 's'}
-        </CardContent>
-      </Card>
-    )
+  const handleStartEdit = (page) => {
+    setRenamingId(page._id);
+    setRenameValue(page.name);
+  }
+
+  const handleEditSubmit = (e, pageId) => {
+    e.preventDefault();
+    if (renameValue !== "") {
+      // Rename page
+      updatePage({
+        userId: userData._id,
+        projectId: projectId,
+        pageId: pageId,
+        newPageName: renameValue,
+      })
+      .then((response) => {
+        console.log("Page renamed:", response.data);
+        return getUserById(userData._id);
+      })
+      .then((updatedData) => {
+        console.log("Updated data:", updatedData);
+        updateUserData(updatedData);
+      })
+      .catch((error) => {
+        console.error("Unexpected error:", error);
+      });
+
+      setRenamingId(null);
+    } else {
+      // Could create a warning box to let user know the name cant be empty
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setRenameValue(e.target.value);
   };
 
 	const AddNewPageCardElement = () => {
@@ -95,15 +133,24 @@ const PagesListPage = () => {
         setIsError(true);
       } else {
         setPageName('');
-        projectData.pages.push(
-          {
-						id: "444444444444444444", // fix this
-            name: `${pageName}`,
-            results: [
-            ],
-            updated: "2024-09-01", // fix this
-          }
-        );
+        
+        createPage({
+          userId: userData._id,
+          projectId: projectId,
+          pageName: pageName,
+        })
+        .then((response) => {
+          console.log("Page created:", response.data);
+          return getUserById(userData._id);
+        })
+        .then((updatedData) => {
+          console.log("Updated data:", updatedData);
+          updateUserData(updatedData);
+        })
+        .catch((error) => {
+          console.error("Unexpected error:", error);
+        });
+        
         setIsNewPageConfirmOpen(false);
       }
     };
@@ -174,7 +221,85 @@ const PagesListPage = () => {
         <h3>Pages</h3>
         <Card.Group>
           {projectData.pages.map((page, pageIndex) => (
-						<CardElement key={pageIndex} page={page} idx={pageIndex} onClick={() => selectPage(page.id)} />
+            <Card key={pageIndex} onClick={() => selectPage(page._id)}>
+              <Image
+                src='https://replicate.delivery/mgxm/8b4d747d-feca-477d-8069-ee4d5f89ad8e/a_high_detail_shot_of_a_cat_wearing_a_suit_realism_8k_-n_9_.png'
+                wrapped
+                ui={false}
+              />
+              <CardContent>
+                {/* ================================================================== */}
+                <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {renamingId === page._id ? (
+                    <Form
+                      onBlur={(e) => {
+                        // Cancel form if the focus is leaving to a target OUTSIDE the form (not including the button) (idk how this works)
+                        if (!e.currentTarget.contains(e.relatedTarget)) {
+                          setRenamingId(null);
+                        }
+                      }}
+                      onSubmit={(e) => {
+                        handleEditSubmit(e, page._id);
+                      }}
+                      style={{ display: 'flex', alignItems: 'center', width: '85%' }}
+                    >
+                      <Input
+                        value={renameValue}
+                        onChange={handleInputChange}
+                        placeholder="Name this page"
+                        autoFocus
+                        action={
+                          <Button
+                            icon={<Icon name="check" />}
+                            color="green"
+                            onClick={(e) => {
+                              handleEditSubmit(e, page._id);
+                            }}
+                          />
+                        }
+                      />
+                    </Form>
+                  ) : (
+                    <div>
+                      <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
+                        {page.name}
+                      </span>
+                    </div>
+                  )}
+                  {(renamingId !== page._id) && (
+                    <Dropdown icon={<Icon name="ellipsis vertical" />}>
+                      <Dropdown.Menu>
+                        <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(page)} />
+                        <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpenIdx(page._id)} />
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  )}
+                  <Confirm
+                    className="delete-confirm"
+                    open={isDeleteConfirmOpenIdx === page._id}
+                    header={`Delete ${page.name}?`}
+                    content={"Are you sure you want to delete this page? This action is irreversible."}
+                    size={"small"}
+                    onConfirm={() => handleDeleteConfirm(page._id)}
+                    onCancel={()=> setIsDeleteConfirmOpenIdx(null)}
+                    confirmButton={"Delete"}
+                  />
+                </CardHeader>
+
+                {/* ====================================================================================================== */}
+
+                <CardMeta>
+                  <span className='date'>Last edited {page.updated}</span>
+                </CardMeta>
+
+                {/* ====================================================================================================== */}
+
+              </CardContent>
+              <CardContent extra>
+                <Icon name='file' />
+                {page.results.length} version{page.results.length === 1 ? '' : 's'}
+              </CardContent>
+            </Card>
           ))}
           <AddNewPageCardElement/>
           <AddNewPageConfirmer isOpen={isNewPageConfirmOpen} />

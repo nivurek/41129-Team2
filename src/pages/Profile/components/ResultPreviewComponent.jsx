@@ -14,14 +14,18 @@ const ResultPreviewComponent = ({data, idx, active, setOpenResultIdx}) => {
         backgroundColor: active ? "#c7c9ff" : undefined, 
       }}
     >
-      {data.description}
-      <Image
+      <h3>Index number {idx}</h3>
+      <p>{data.updated}</p>
+
+      {/* Thumbnail goes here */}
+      {/* <Image
         size='tiny'
         spaced
         verticalAlign="middle"
         floated="right"
         src={'https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg'}
-      />
+      /> */}
+      
     </Segment>
   )
 };

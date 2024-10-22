@@ -1,61 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { 
   Button,
-  CardMeta, 
-  CardHeader, 
-  CardContent, 
-  Card, 
+  Card,
+  CardMeta,
+  CardHeader,
+  CardContent,
   Confirm,
   Dropdown,
   Form,
-  Icon, 
+  Icon,
   Image,
   Input,
   Popup,
 } from 'semantic-ui-react';
 
-import { useUser } from 'contexts/userDataContext';
-import withAuth from 'utils/withAuth';
+import { useUser } from "../../contexts/userDataContext";
+import withAuth from "../../utils/withAuth";
+import { createProject, updateProject, deleteProject } from "./actions/projectActions";
+import { getUserById } from "../../actions/userActions";
 
 import plusIcon from 'assets/plusIcon.png';
 
 
 const ProjectsListPage = () => {
   const navigate = useNavigate();
-  const userData = useUser();
+  const { userData, updateUserData } = useUser();
 
-	// console.log('user data -------', userData);
-
-  const [projectData, ] = useState(userData.projects);
+  const projectData = userData.projects;
 
 	const [isNewProjectConfirmOpen, setIsNewProjectConfirmOpen] = useState(false);
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const [renamingIndex, setRenamingIndex] = useState(null);
+  const [isDeleteConfirmOpenIdx, setIsDeleteConfirmOpenIdx] = useState(null);
+  const [renamingId, setRenamingId] = useState(null);
   const [renameValue, setRenameValue] = useState("");
 
   const selectProject = (projectId) => {
-    if (!(isDeleteConfirmOpen || (renamingIndex === projectId))) {
+    if (!(isDeleteConfirmOpenIdx || (renamingId === projectId))) {
       console.log('goto project:', projectId);
       navigate(`/projects/${projectId}`);
     }
   };
 
-  const handleDeleteConfirm = (id) => {
-    setIsDeleteConfirmOpen(false);
-    projectData.splice(id, 1);
+  const handleDeleteConfirm = (projectId) => {
+    setIsDeleteConfirmOpenIdx(null);
+    deleteProject({
+      userId: userData._id,
+      projectId: projectId,
+    })
+    .then((response) => {
+      console.log("Project deleted:", response.data);
+      return getUserById(userData._id);
+    })
+    .then((updatedData) => {
+      console.log("Updated data:", updatedData);
+      updateUserData(updatedData);
+    })
+    .catch((error) => {
+      console.error("Unexpected error:", error);
+    });
   }
 
-  const handleStartEdit = (idx) => {
-    setRenamingIndex(idx);
-    setRenameValue(projectData[idx].name);
+  const handleStartEdit = (project) => {
+    setRenamingId(project._id);
+    setRenameValue(project.name);
   }
 
-  const handleEditSubmit = (e, idx) => {
+  const handleEditSubmit = (e, projectId) => {
     e.preventDefault();
     if (renameValue !== "") {
-      projectData[idx].name = renameValue; // Temporary solution
-      setRenamingIndex(null);
+      // Rename project
+      updateProject({
+        userId: userData._id,
+        projectId: projectId,
+        newProjectName: renameValue,
+      })
+      .then((response) => {
+        console.log("Project renamed:", response.data);
+        return getUserById(userData._id);
+      })
+      .then((updatedData) => {
+        console.log("Updated data:", updatedData);
+        updateUserData(updatedData);
+      })
+      .catch((error) => {
+        console.error("Unexpected error:", error);
+      });
+
+      setRenamingId(null);
     } else {
       // Could create a warning box to let user know the name cant be empty
     }
@@ -94,14 +125,23 @@ const ProjectsListPage = () => {
         setIsError(true);
       } else {
         setProjectName('');
-        projectData.push(
-          {
-            id: "1111111111111111", // fix this
-            name: `${projectName}`,
-            pages: [],
-            updated: "uhhhh, today?", // yeah also fix this
-          }
-        );
+
+        createProject({
+          userId: userData._id,
+          projectName: projectName,
+        })
+        .then((response) => {
+          console.log("Project created:", response.data);
+          return getUserById(userData._id);
+        })
+        .then((updatedData) => {
+          console.log("Updated data:", updatedData);
+          updateUserData(updatedData);
+        })
+        .catch((error) => {
+          console.error("Unexpected error:", error);
+        });
+
         setIsNewProjectConfirmOpen(false);
       }
     };
@@ -149,21 +189,21 @@ const ProjectsListPage = () => {
   return (
     <Card.Group>
       {projectData.map((project, idx) => (
-        <Card key={idx} onClick={() => selectProject(project.id)}>
+        <Card key={idx} onClick={() => selectProject(project._id)}>
           <Image src='https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' wrapped ui={false} />
           <CardContent>
             {/* ====================================================================================================== */}
             <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
-              {renamingIndex === idx ? (
+              {renamingId === project._id ? (
                 <Form
                   onBlur={(e) => {
                     // Cancel form if the focus is leaving to a target OUTSIDE the form (not including the button) (idk how this works)
                     if (!e.currentTarget.contains(e.relatedTarget)) {
-                      setRenamingIndex(null);
+                      setRenamingId(null);
                     }
                   }}
                   onSubmit={(e) => {
-                    handleEditSubmit(e, idx);
+                    handleEditSubmit(e, project._id);
                   }}
                   style={{ display: 'flex', alignItems: 'center', width: '85%' }}
                 >
@@ -177,7 +217,7 @@ const ProjectsListPage = () => {
                         icon={<Icon name="check" />}
                         color="green"
                         onClick={(e) => {
-                          handleEditSubmit(e, idx);
+                          handleEditSubmit(e, project._id);
                         }}
                       />
                     }
@@ -190,22 +230,22 @@ const ProjectsListPage = () => {
                   </span>
                 </div>
               )}
-              {(renamingIndex !== idx) && (
-                <Dropdown icon={<Icon name="ellipsis vertical"  />}>
+              {(renamingId !== project._id) && (
+                <Dropdown icon={<Icon name="ellipsis vertical" />}>
                   <Dropdown.Menu>
-                    <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(idx)} />
-                    <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpen(true)} />
+                    <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(project)} />
+                    <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpenIdx(project._id)} />
                   </Dropdown.Menu>
                 </Dropdown>
               )}
               <Confirm
                 className="delete-confirm"
-                open={isDeleteConfirmOpen}
+                open={isDeleteConfirmOpenIdx === project._id}
                 header={`Delete ${project.name}?`}
-                content={`Are you sure you want to delete this project? This action is irreversible.`}
+                content={"Are you sure you want to delete this project? This action is irreversible."}
                 size={"small"}
-                onConfirm={() => handleDeleteConfirm(idx)}
-                onCancel={()=> setIsDeleteConfirmOpen(false)}
+                onConfirm={() => handleDeleteConfirm(project._id)}
+                onCancel={()=> setIsDeleteConfirmOpenIdx(null)}
                 confirmButton={"Delete"}
               />
             </CardHeader>
