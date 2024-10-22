@@ -42,14 +42,7 @@ const AIAnalysisComponent = ({ imageUrl }) => {
     return (
     <div>
         {analysis && (
-            <div
-            className="analysis-result"
-            style={{
-            maxHeight: '150px',
-            overflowY: 'auto',
-            padding: '10px',
-            }}
-            >
+            <div className="analysis-result">
             <h3>AI Analysis Result:</h3>
                 <ReactMarkdown>{analysis}</ReactMarkdown>
             </div>
