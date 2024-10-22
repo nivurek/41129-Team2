@@ -69,8 +69,8 @@ const ColorContrastComponent = () => {
               <OverlayPanel ref={helpPanel} pt={{root: {className: 'w-3'}}}>
                 <p>This analysis is based on the beta implementation of the APCA Guidlines that will be used in WCAG 3.</p>
                 <p>The current WCAG 2 contrast is proven to be incorrect for human vision perception. The ACPA Guidlines provide a substantial improvement to this analysis.</p>
-                <p>Readability is rated by the <a href="https://raw.githubusercontent.com/Myndex/apca-w3/master/images/APCAtableLegend.jpeg" target="_blank">translation of the ACPA values to the current WCAG 2 guidlines.</a></p>
-                <a href="https://readtech.org/ARC/" target="_blank">Learn more</a>
+                <p>Readability is rated by the <a href="https://raw.githubusercontent.com/Myndex/apca-w3/master/images/APCAtableLegend.jpeg" target="_blank" rel="noreferrer">translation of the ACPA values to the current WCAG 2 guidlines.</a></p>
+                <a href="https://readtech.org/ARC/" target="_blank" rel="noreferrer">Learn more</a>
               </OverlayPanel>
             </div>
             {isSupported() ?
