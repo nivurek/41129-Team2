@@ -41,17 +41,19 @@ const ResultsListPage = () => {
 		})
 		.then((response) => {
 			console.log("Result created:", response.data);
+			setOpenResultIdx(openResultIdx === null ? 0 : pageData.results.length); // Set the selected index to where the new result will be
 			return getUserById(userData._id);
 		})
 		.then((updatedData) => {
 			console.log("Updated data:", updatedData);
 			updateUserData(updatedData);
+			
 		})
 		.catch((error) => {
 			console.error("Unexpected error:", error);
 		});
 		
-    setOpenResultIdx(pageData.results.length - 1)
+    
   }
 	
 	return (

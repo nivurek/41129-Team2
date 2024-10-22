@@ -18,10 +18,10 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
 
   const { userData, updateUserData } = useUser();
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
-  const resultData = pageData.results[openResultIdx];
-  console.log('RESULTINFORMATIONVIEWCOMPONENT', openResultIdx, resultData);
+  const resultData = pageData.results[openResultIdx] ?? {};
+  console.log('ResultInformationViewComponent', resultData);
 
-  // ============= Controls for the 'Delete Result' modal ==============
+  // ============= Handler for the 'Delete Result' modal ==============
   const handleDeleteConfirm = () => {
     const newArrayLength = pageData.results.length - 1;
     setOpenResultIdx(
@@ -99,7 +99,11 @@ const ResultInformationViewComponent = ({openResultIdx, setOpenResultIdx, pageDa
           ) : (
             <div>
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
-                {(openResultIdx != null) && resultData.description}
+                {(openResultIdx != null) ? (
+                  resultData.updated
+                ) : (
+                  "No result selected"
+                ) }
               </span>
               <Icon
                 name="edit"
