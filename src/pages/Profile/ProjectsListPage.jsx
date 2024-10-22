@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { 
   Button,
-  CardMeta, 
-  CardHeader, 
-  CardContent, 
-  Card, 
+  Card,
+  CardMeta,
+  CardHeader,
+  CardContent,
   Confirm,
   Dropdown,
   Form,
-  Icon, 
+  Icon,
   Image,
   Input,
   Popup,
@@ -43,7 +43,6 @@ const ProjectsListPage = () => {
 
   const handleDeleteConfirm = (projectId) => {
     setIsDeleteConfirmOpenIdx(null);
-    console.log("Preflight", userData._id, projectId);
     deleteProject({
       userId: userData._id,
       projectId: projectId,
@@ -54,7 +53,7 @@ const ProjectsListPage = () => {
     })
     .then((updatedData) => {
       console.log("Updated data:", updatedData);
-      updateUserData(updatedData); // If using state for projects
+      updateUserData(updatedData);
     })
     .catch((error) => {
       console.error("Unexpected error:", error);
@@ -81,7 +80,7 @@ const ProjectsListPage = () => {
       })
       .then((updatedData) => {
         console.log("Updated data:", updatedData);
-        updateUserData(updatedData); // If using state for projects
+        updateUserData(updatedData);
       })
       .catch((error) => {
         console.error("Unexpected error:", error);
@@ -232,7 +231,7 @@ const ProjectsListPage = () => {
                 </div>
               )}
               {(renamingId !== project._id) && (
-                <Dropdown icon={<Icon name="ellipsis vertical"  />}>
+                <Dropdown icon={<Icon name="ellipsis vertical" />}>
                   <Dropdown.Menu>
                     <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(project)} />
                     <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpenIdx(project._id)} />
@@ -243,7 +242,7 @@ const ProjectsListPage = () => {
                 className="delete-confirm"
                 open={isDeleteConfirmOpenIdx === project._id}
                 header={`Delete ${project.name}?`}
-                content={`Are you sure you want to delete this project? This action is irreversible.`}
+                content={"Are you sure you want to delete this project? This action is irreversible."}
                 size={"small"}
                 onConfirm={() => handleDeleteConfirm(project._id)}
                 onCancel={()=> setIsDeleteConfirmOpenIdx(null)}

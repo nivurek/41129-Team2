@@ -18,7 +18,7 @@ router.post('/create', async (req, res) => {
     };
 
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId },
+      { _id: userId, 'projects._id': projectId },
       { $push: { 'projects.$.pages': newPage } }, // Add the new page to the project's 'pages' array
       { new: true } // Return the updated user document
     );
@@ -35,12 +35,12 @@ router.post('/create', async (req, res) => {
 
 
 // Rename an existing page
-router.put('/rename', async (req, res) => {
+router.put('/update', async (req, res) => {
   const { userId, projectId, pageId, newPageName } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId, 'projects.pages.id': pageId },
+      { _id: userId, 'projects._id': projectId, 'projects.pages._id': pageId },
       { 
         $set: { 
           'projects.$[project].pages.$[page].name': newPageName,
@@ -50,8 +50,8 @@ router.put('/rename', async (req, res) => {
       {
         new: true, // Return the updated user document
         arrayFilters: [
-          { 'project.id': projectId }, // Filter to find the project
-          { 'page.id': pageId } // Filter to find the page
+          { 'project._id': projectId }, // Filter to find the project
+          { 'page._id': pageId } // Filter to find the page
         ]
       }
     );
@@ -69,12 +69,12 @@ router.put('/rename', async (req, res) => {
 
 // Delete an existing page
 router.delete('/delete', async (req, res) => {
-  const { userId, projectId, pageId } = req.body;
+  const { userId, projectId, pageId } = req.query;
 
   try {
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId },
-      { $pull: { 'projects.$.pages': { id: pageId } } }, // Remove the page from the project's 'pages' array
+      { _id: userId, 'projects._id': projectId },
+      { $pull: { 'projects.$.pages': { _id: pageId } } }, // Remove the page from the project's 'pages' array
       { new: true } // Return the updated user document
     );
 
