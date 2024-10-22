@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
 // Define Result Schema
 const resultSchema = new Schema({
-  id: { type: mongoose.Types.ObjectId, default: new mongoose.Types.ObjectId }, // Unique ID for each result
   updated: { type: Date, default: Date.now }, // Last updated timestamp
   analysis: { type: String }, // AI Analysis
   screenshotUrl: { type: String }, // Link to the uploaded screenshot
@@ -14,7 +14,6 @@ const resultSchema = new Schema({
 
 // Define Page Schema
 const pageSchema = new Schema({
-  id: { type: mongoose.Types.ObjectId, default: new mongoose.Types.ObjectId }, // Unique ID for each page
   name: { type: String, required: true }, // Name of the page
   updated: { type: Date, default: Date.now }, // Last updated timestamp
   results: [resultSchema] // Results related to the page
@@ -22,7 +21,6 @@ const pageSchema = new Schema({
 
 // Define Project Schema
 const projectSchema = new Schema({
-  id: { type: mongoose.Types.ObjectId, default: new mongoose.Types.ObjectId }, // Unique ID for each project
   name: { type: String, required: true }, // Name of the project
   updated: { type: Date, default: Date.now }, // Last updated timestamp
   pages: [pageSchema] // Array of pages within the project
@@ -50,4 +48,4 @@ userSchema.pre('save', async function (next) {
 // Export the User model
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

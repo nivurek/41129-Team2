@@ -25,11 +25,12 @@ import plusIcon from './assets/plusIcon.png';
 const PagesListPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const userData = useUser();
+	const { userData, updateUserData } = useUser();
 
 	const [isNewPageConfirmOpen, setIsNewPageConfirmOpen] = useState(false);
 	const { projectId } = useParams();
-	const projectData = userData.projects.find(project => project.id === projectId);
+  console.log("Located projectid being:", projectId);
+	const projectData = userData.projects.find(project => project._id === projectId);
 	
 	// console.log("Project data for this project:", projectData);
 

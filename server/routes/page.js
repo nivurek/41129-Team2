@@ -7,12 +7,11 @@ const router = express.Router();
 
 
 // Create a new page for a project
-router.post('/api/project/page/create', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { userId, projectId, pageName } = req.body;
 
   try {
     const newPage = {
-      id: new mongoose.Types.ObjectId(), // Generate a new ObjectId for the page
       name: pageName,
       updated: new Date(),
       results: []
@@ -36,7 +35,7 @@ router.post('/api/project/page/create', async (req, res) => {
 
 
 // Rename an existing page
-router.put('/api/project/page/rename', async (req, res) => {
+router.put('/rename', async (req, res) => {
   const { userId, projectId, pageId, newPageName } = req.body;
 
   try {
@@ -69,7 +68,7 @@ router.put('/api/project/page/rename', async (req, res) => {
 
 
 // Delete an existing page
-router.delete('/api/project/page/delete', async (req, res) => {
+router.delete('/delete', async (req, res) => {
   const { userId, projectId, pageId } = req.body;
 
   try {
@@ -88,3 +87,5 @@ router.delete('/api/project/page/delete', async (req, res) => {
     res.status(500).json({ message: 'Error deleting page', error });
   }
 });
+
+export default router;

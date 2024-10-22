@@ -7,12 +7,11 @@ const router = express.Router();
 
 
 // Create a new result for a page in a project
-router.post('/api/project/page/result/create', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { userId, projectId, pageId, analysis, screenshotUrl, imagePalette, suggestedPalettes } = req.body;
 
   try {
     const newResult = {
-      id: new mongoose.Types.ObjectId(),
       updated: new Date(),
       analysis: analysis || '', // Optional, defaults to empty string if not provided
       screenshotUrl: screenshotUrl || '',
@@ -45,7 +44,7 @@ router.post('/api/project/page/result/create', async (req, res) => {
 
 
 // Update an existing result
-router.put('/api/project/page/result/update', async (req, res) => {
+router.put('/update', async (req, res) => {
   const { userId, projectId, pageId, resultId, analysis, screenshotUrl, imagePalette, updatedImagePalette, suggestedPalettes } = req.body;
 
   try {
@@ -83,7 +82,7 @@ router.put('/api/project/page/result/update', async (req, res) => {
 
 
 // Delete an existing result
-router.delete('/api/project/page/result/delete', async (req, res) => {
+router.delete('/delete', async (req, res) => {
   const { userId, projectId, pageId, resultId } = req.body;
 
   try {
@@ -108,3 +107,5 @@ router.delete('/api/project/page/result/delete', async (req, res) => {
     res.status(500).json({ message: 'Error deleting result', error });
   }
 });
+
+export default router;

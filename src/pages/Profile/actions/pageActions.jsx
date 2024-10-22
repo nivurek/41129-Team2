@@ -1,9 +1,10 @@
 import axios from 'axios';
+const baseURL = process.env.REACT_APP_API_BASEURL;
 
 // Create a new page in a project
 const createPage = async (pageData) => {
   try {
-    const response = await axios.post('/api/project/page/create', pageData);
+    const response = await axios.post(`${baseURL}/api/page/create`, pageData);
     console.log('Page created:', response.data);
     return response;
   } catch (error) {
@@ -15,7 +16,7 @@ const createPage = async (pageData) => {
 // Update an existing page
 const updatePage = async (pageData) => {
   try {
-    const response = await axios.post('/api/project/page/update', pageData);
+    const response = await axios.post(`${baseURL}/api/page/update`, pageData);
     console.log('Page updated:', response.data);
     return response;
   } catch (error) {
@@ -27,7 +28,7 @@ const updatePage = async (pageData) => {
 // Delete a page
 const deletePage = async (pageData) => {
   try {
-    const response = await axios.post('/api/project/page/delete', pageData);
+    const response = await axios.post(`${baseURL}/api/page/delete`, pageData);
     console.log('Page deleted:', response.data);
     return response;
   } catch (error) {

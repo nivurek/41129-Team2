@@ -1,6 +1,6 @@
 import './App.css';
 import './styles/globals.css';
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useParams } from 'react-router-dom';
 
 import { UserProvider, useUser } from './contexts/userDataContext';
@@ -15,7 +15,6 @@ import ResultsListPage from './pages/Profile/ResultsListPage';
 
 import backgroundBanner from './assets/background_banner.png'; 
 import PrimaryScreenshotPage from './pages/PrimaryScreenshot/PrimaryScreenshotPage';
-import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
@@ -26,15 +25,49 @@ const About = () => <h1>About Us</h1>;
 const Services = () => <h1>Our Services</h1>;
 const Contact = () => <h1>Contact Us</h1>;
 
-const AppContent = ({ handleLogout, handleLogin }) => {
-  const loggedInUser = useUser();
-   
+
+const AppContent = () => {
+  const {userData, updateUserData } = useUser();
+  
+  // Use useEffect to load the stored user data when the component mounts
+  useEffect(() => {
+    const savedUser = localStorage.getItem('userData');
+    if (savedUser) {
+      updateUserData(JSON.parse(savedUser));
+    }
+  }, [updateUserData]);
+
+  // Use useEffect to update localStorage whenever userData changes
+  useEffect(() => {
+    if (userData) {
+      localStorage.setItem('userData', JSON.stringify(userData));
+    } else {
+      localStorage.removeItem('userData'); // Remove if userData is null or undefined
+    }
+  }, [userData]);
+
+  // Function to handle successful login
+  const handleLogin = (userData) => {
+    console.log("Login successful!", userData);
+    updateUserData(userData);
+    // Save the login state to local storage
+    localStorage.setItem('userData', JSON.stringify(userData));
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    console.log("Logout successful!");
+    updateUserData(null);
+    // Clear the login state from local storage
+    localStorage.removeItem('userData');
+  };
+
+
   const location = useLocation();
   const isLoginPage = ['/login'].includes(location.pathname);
-  console.log("isloginpage?", isLoginPage);
 
-  const isAuth = loggedInUser !== null;
-  const activeUser = (loggedInUser && loggedInUser.name) ?? "";
+  const isAuth = userData !== null;
+  const activeUser = (userData && userData.name) ?? "";
 
   const RedirectToPages = () => {
     const { projectId } = useParams();
@@ -45,10 +78,9 @@ const AppContent = ({ handleLogout, handleLogin }) => {
     return <Navigate to={`/projects/${projectId}/pages/${pageId}/results`} replace />;
   }
 
-  console.log('Logged In User Data:', loggedInUser);
+  console.log('Logged In User Data:', userData);
 
   return (
-    // <PrimeReactProvider>
       <div
         className="App"
         style={{
@@ -87,40 +119,14 @@ const AppContent = ({ handleLogout, handleLogin }) => {
           </div>
         )}
       </div>
-    // {/* </PrimeReactProvider> */}
   );
 };
 
 function App() {
-  // State to store the logged-in user's data
-  const [loggedInUser, setLoggedInUser] = useState(() => {
-    // Retrieve the login state from local storage
-    const savedUser = localStorage.getItem('loggedInUser');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
-
-  // Function to handle successful login
-  const handleLogin = (userData) => {
-    console.log("Login successful!", userData);
-    setLoggedInUser(userData);
-    // Save the login state to local storage
-    localStorage.setItem('loggedInUser', JSON.stringify(userData));
-  };
-
-  const handleLogout = () => {
-    console.log("Logout successful!");
-    setLoggedInUser(null);
-    // Clear the login state from local storage
-    localStorage.removeItem('loggedInUser');
-  };
-
   return (
     <Router>
-      <UserProvider value={loggedInUser}>
-        <AppContent
-          handleLogout={handleLogout}
-          handleLogin={handleLogin}
-        />
+      <UserProvider>
+        <AppContent/>
       </UserProvider>
     </Router>
   );

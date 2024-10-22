@@ -7,12 +7,11 @@ const router = express.Router();
 
 
 // Create a new project for a user
-router.post('/api/project/create', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { userId, projectName } = req.body;
 
   try {
     const newProject = {
-      id: new mongoose.Types.ObjectId(), // Generate a new ObjectId for the project
       name: projectName,
       updated: new Date(),
       pages: []
@@ -36,12 +35,12 @@ router.post('/api/project/create', async (req, res) => {
 
 
 // Rename an existing project
-router.put('/api/project/rename', async (req, res) => {
+router.put('/update', async (req, res) => {
   const { userId, projectId, newProjectName } = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
-      { _id: userId, 'projects.id': projectId },
+      { _id: userId, 'projects._id': projectId },
       { $set: { 'projects.$.name': newProjectName, 'projects.$.updated': new Date() } }, // Update the name and 'updated' fields
       { new: true } // Return the updated user document
     );
@@ -58,13 +57,13 @@ router.put('/api/project/rename', async (req, res) => {
 
 
 // Delete an existing project
-router.delete('/api/project/delete', async (req, res) => {
-  const { userId, projectId } = req.body;
+router.delete('/delete', async (req, res) => {
+  const { userId, projectId } = req.query;
 
   try {
     const user = await User.findByIdAndUpdate(
       userId,
-      { $pull: { projects: { id: projectId } } }, // Remove the project from the array
+      { $pull: { projects: { _id: projectId } } }, // Remove the project from the array
       { new: true } // Return the updated user document
     );
 
@@ -77,3 +76,5 @@ router.delete('/api/project/delete', async (req, res) => {
     res.status(500).json({ message: 'Error deleting project', error });
   }
 });
+
+export default router;

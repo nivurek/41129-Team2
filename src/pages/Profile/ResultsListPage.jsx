@@ -18,7 +18,7 @@ import ResultPreviewComponent from "./components/ResultPreviewComponent";
 
 const ResultsListPage = () => {
 	const navigate = useNavigate();
-	const userData = useUser();
+	const { userData } = useUser();
 
 	const { projectId, pageId } = useParams();
 	const pageData = userData.projects.find(
