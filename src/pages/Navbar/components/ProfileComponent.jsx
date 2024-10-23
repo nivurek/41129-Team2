@@ -6,8 +6,11 @@ import {
 	Menu,
 } from "semantic-ui-react";
 
+import { useUser } from 'contexts/userDataContext';
 
-const ProfileComponent = ({isAuth, activeUser, onLogoutMethod, active, onClickMethod}) => {
+const ProfileComponent = ({isAuth, onLogoutMethod, active, onClickMethod}) => {
+	const {userData} = useUser();
+
 	return (
 		<>
 			{isAuth ? (
@@ -15,8 +18,8 @@ const ProfileComponent = ({isAuth, activeUser, onLogoutMethod, active, onClickMe
 					<Dropdown
 						trigger={
 							<>
-								<Icon name="user" />
-								{activeUser}
+								<Icon name="user" className="mr-2" />
+								{userData.username}
 							</>
 						}
 						pointing="top right"

@@ -62,7 +62,6 @@ const AppContent = () => {
   const isLoginPage = ['/login'].includes(location.pathname);
 
   const isAuth = userData !== null;
-  const activeUser = (userData && userData.name) ?? "";
 
   const RedirectToPages = () => {
     const { projectId } = useParams();
@@ -80,7 +79,7 @@ const AppContent = () => {
 
       <div className="navbar-container">
         {!isLoginPage && (
-            <NavbarComponent isAuth={isAuth} activeUser={activeUser} onLogoutMethod={handleLogout} />
+            <NavbarComponent isAuth={isAuth} onLogoutMethod={handleLogout} />
         )}
       </div>
 
