@@ -12,7 +12,7 @@ import {
 import { withVersionContext, useVersion } from 'contexts/versionDataContext';
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
-import { createVersion } from "./actions/versionActions";
+import { createVersion } from "actions/versionActions";
 import { getUserById } from "actions/userActions";
 
 import VersionDataComponent from "./components/VersionDataComponent";

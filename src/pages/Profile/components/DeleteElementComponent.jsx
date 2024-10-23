@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {  Confirm } from "semantic-ui-react";
 import { Button } from "primereact/button";
 
-import { deleteVersion } from "../actions/versionActions";
+import { deleteVersion } from "actions/versionActions";
 import { getUserById } from "actions/userActions";
 import { useVersion } from 'contexts/versionDataContext';
 import { useUser } from "contexts/userDataContext";
