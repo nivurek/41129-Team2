@@ -17,8 +17,6 @@ import ResultsComponent from "pages/shared/Results/ResultsComponent";
 const VersionDataComponent = () => {
 
   const { openVersionIdx, versionData } = useVersion();
-  
-  console.log('VersionDataComponent', versionData);
 
   // =========== Controls for changing the name of a version ============ 
   //-----------------------TEMPORARILY DISABLED-------------------------

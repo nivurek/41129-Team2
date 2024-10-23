@@ -48,15 +48,20 @@ router.put('/update', async (req, res) => {
   const { userId, projectId, pageId, versionId, analysis, screenshotUrl, imagePalette, updatedImagePalette, suggestedPalettes } = req.body;
 
   try {
+    const versionData = (await User.findById(userId))
+                          .projects.find(project => project._id == projectId)
+                          .pages.find(page => page._id == pageId)
+                          .versions.find(version => version._id == versionId);
+
     const user = await User.findOneAndUpdate(
       { _id: userId, 'projects._id': projectId, 'projects.pages._id': pageId, 'projects.pages.versions._id': versionId },
       {
         $set: {
-          'projects.$[project].pages.$[page].versions.$[version].analysis': analysis || '',
-          'projects.$[project].pages.$[page].versions.$[version].screenshotUrl': screenshotUrl || '',
-          'projects.$[project].pages.$[page].versions.$[version].imagePalette': imagePalette || [],
-          'projects.$[project].pages.$[page].versions.$[version].updatedImagePalette': updatedImagePalette || [],
-          'projects.$[project].pages.$[page].versions.$[version].suggestedPalettes': suggestedPalettes || [],
+          'projects.$[project].pages.$[page].versions.$[version].analysis': analysis ?? versionData.analysis,
+          'projects.$[project].pages.$[page].versions.$[version].screenshotUrl': screenshotUrl ?? versionData.screenshotUrl,
+          'projects.$[project].pages.$[page].versions.$[version].imagePalette': imagePalette ?? versionData.imagePalette,
+          'projects.$[project].pages.$[page].versions.$[version].updatedImagePalette': updatedImagePalette ?? versionData.updatedImagePalette,
+          'projects.$[project].pages.$[page].versions.$[version].suggestedPalettes': suggestedPalettes ?? versionData.suggestedPalettes,
           'projects.$[project].pages.$[page].versions.$[version].updated': new Date()
         }
       },
