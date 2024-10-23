@@ -10,7 +10,7 @@ import NotFound from 'pages/NotFound/NotFoundPage';
 
 import ProjectsListPage from 'pages/Profile/ProjectsListPage';
 import PagesListPage from 'pages/Profile/PagesListPage';
-import ResultsListPage from 'pages/Profile/ResultsListPage';
+import VersionsListPage from 'pages/Profile/VersionsListPage';
 import LandingPage from 'pages/Landing/LandingPage';
 
 import 'styles/App.css';
@@ -68,9 +68,9 @@ const AppContent = () => {
     const { projectId } = useParams();
     return <Navigate to={`/projects/${projectId}/pages`} replace />;
   };
-  const RedirectToResults = () => {
+  const RedirectToVersions = () => {
     const {projectId, pageId} = useParams();
-    return <Navigate to={`/projects/${projectId}/pages/${pageId}/results`} replace />;
+    return <Navigate to={`/projects/${projectId}/pages/${pageId}/versions`} replace />;
   }
 
   console.log('Logged In User Data:', userData);
@@ -98,8 +98,8 @@ const AppContent = () => {
           <Route path="/projects" element={<ProjectsListPage />} />
           <Route path="/projects/:projectId" element={<RedirectToPages />} />
           <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
-          <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToResults />} />
-          <Route path="/projects/:projectId/pages/:pageId/results" element={<ResultsListPage />} />
+          <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToVersions />} />
+          <Route path="/projects/:projectId/pages/:pageId/versions" element={<VersionsListPage />} />
 
           <Route path="*" element={<NotFound />} />
           </>

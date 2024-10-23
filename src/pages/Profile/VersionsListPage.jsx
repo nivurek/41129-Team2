@@ -9,20 +9,20 @@ import {
   Segment,
 } from "semantic-ui-react";
 
-import { withResultContext, useResult } from 'contexts/resultDataContext';
+import { withVersionContext, useVersion } from 'contexts/versionDataContext';
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
-import { createResult } from "./actions/resultActions";
+import { createVersion } from "./actions/versionActions";
 import { getUserById } from "actions/userActions";
 
-import ResultDataComponent from "./components/ResultDataComponent";
-import ResultsListItemComponent from "./components/ResultsListItemComponent";
+import VersionDataComponent from "./components/VersionDataComponent";
+import VersionsListItemComponent from "./components/VersionsListItemComponent";
 
 
-const ResultsListPage = () => {
+const VersionsListPage = () => {
 	const navigate = useNavigate();
 	const { userData, updateUserData } = useUser();
-	const { openResultIdx, updateOpenResultIdx, updateResultData } = useResult();
+	const { openVersionIdx, updateOpenVersionIdx, updateVersionData } = useVersion();
 	const [pageData, setPageData] = useState({});
 	const { projectId, pageId } = useParams();
 
@@ -35,25 +35,27 @@ const ResultsListPage = () => {
 			page => page._id === pageId
 		);
 
+		console.log("New page data:", newPageData);
+
 		// TODO Add open index checking for index set on user data update
 		setPageData(newPageData);
-		updateOpenResultIdx(newPageData?.results?.length > 0 ? newPageData.results.length - 1 : null);
-		updateResultData(newPageData?.results?.length > 0 ? newPageData.results.at(-1) : null);
+		updateOpenVersionIdx(newPageData?.versions?.length > 0 ? newPageData.versions.length - 1 : null);
+		updateVersionData(newPageData?.versions?.length > 0 ? newPageData.versions.at(-1) : null);
 
 	}, [userData, projectId, pageId])
 
 	// Handlers
-	const createNewResultHandler = () => {
+	const createNewVersionHandler = () => {
 
-		createResult({
+		createVersion({
 			userId: userData._id,
 			projectId: projectId,
 			pageId: pageId,
 		})
 		.then((response) => {
-			console.log("Result created:", response.data);
-			updateOpenResultIdx(openResultIdx === null ? 0 : pageData.results.length); // Set the selected index to where the new result will be
-			updateResultData(response.data);
+			console.log("Version created:", response.data);
+			updateOpenVersionIdx(openVersionIdx === null ? 0 : pageData.versions.length); // Set the selected index to where the new verison will be
+			updateVersionData(response.data);
 			return getUserById(userData._id);
 		})
 		.then((updatedData) => {
@@ -81,7 +83,7 @@ const ResultsListPage = () => {
 					</Button>
 				</Grid.Column>
 				<Grid.Column width={10}>
-					<h1 style={{textAlign: 'center'}}>{pageData?.name} - Results</h1>
+					<h1 style={{textAlign: 'center'}}>{pageData?.name} - Versions</h1>
 				</Grid.Column>
 				</Grid>
 			</Segment>
@@ -89,13 +91,13 @@ const ResultsListPage = () => {
 			<Grid className='aligned-grid min-h-0'>
 				<Grid.Row stretched style={{ height: '100%' }}>
 					{/* ------------------------------------------------------------------ */}
-					{(openResultIdx != null) ? (
+					{(openVersionIdx != null) ? (
 
-						<ResultDataComponent pageData={pageData} />
+						<VersionDataComponent pageData={pageData} />
 					) : (
 						<Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
 							<div style={{ display: 'flex', flexDirection: 'column'}} >
-								<h3>No result selected</h3>
+								<h3>No version selected</h3>
 							</div>
 						</Grid.Column>
 					)}
@@ -108,17 +110,17 @@ const ResultsListPage = () => {
 								<h2 style={{textAlign: 'center'}}>Version History</h2>
 							</div>
 							<Divider/>
-							<Button onClick={() => createNewResultHandler()} style={{ margin: '10px', height: "70px" }}>
-								{pageData?.results?.length === 0 ? "Get started!" : <Icon name='plus' />}
+							<Button onClick={() => createNewVersionHandler()} style={{ margin: '10px', height: "70px" }}>
+								{pageData?.versions?.length === 0 ? "Get started!" : <Icon name='plus' />}
 							</Button>
 
 							<Container style={{ overflowY: 'auto', padding: '10px' }}>
-								{pageData?.results?.slice().reverse().map((result, resultIndex) => (
-									<ResultsListItemComponent
-										key={resultIndex}
-										data={result}
-										idx={pageData.results.length - resultIndex - 1}
-										active={openResultIdx === pageData.results.length - resultIndex - 1}
+								{pageData?.versions?.slice().reverse().map((version, versionIndex) => (
+									<VersionsListItemComponent
+										key={versionIndex}
+										data={version}
+										idx={pageData.versions.length - versionIndex - 1}
+										active={openVersionIdx === pageData.versions.length - versionIndex - 1}
 									/>
 								))}
 							</Container>
@@ -132,4 +134,4 @@ const ResultsListPage = () => {
 	)
 }
 
-export default withAuth(withResultContext(ResultsListPage));
+export default withAuth(withVersionContext(VersionsListPage));

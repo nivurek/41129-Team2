@@ -8,31 +8,31 @@ import {
 } from "semantic-ui-react";
 import { Button } from "primereact/button";
 
-import { useResult } from 'contexts/resultDataContext';
+import { useVersion } from 'contexts/versionDataContext';
 
 import DeleteElementComponent from "./DeleteElementComponent";
 import ResultsComponent from "pages/shared/Results/ResultsComponent";
 
 
-const ResultDataComponent = ({ pageData }) => {
+const VersionDataComponent = ({ pageData }) => {
 
-  const { openResultIdx, resultData } = useResult();
+  const { openVersionIdx, versionData } = useVersion();
   
-  console.log('ResultDataComponent', resultData);
+  console.log('VersionDataComponent', versionData);
 
-  // =========== Controls for changing the name of a result ============ 
+  // =========== Controls for changing the name of a version ============ 
   //-----------------------TEMPORARILY DISABLED-------------------------
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [inputValue, setInputValue] = useState(openResultIdx ? resultData.description : "");
+  const [inputValue, setInputValue] = useState(openVersionIdx ? versionData.description : "");
   
-  // Watch openResultIdx and results and auto-update the form value.
+  // Watch openVersionIdx and versions and auto-update the form value.
   useEffect(() => {
-    if (openResultIdx !== null && resultData) {
-      setInputValue(resultData.description);
+    if (openVersionIdx !== null && versionData) {
+      setInputValue(versionData.description);
     }
     setIsEditingTitle(false);
-  }, [openResultIdx, resultData, pageData.results]); 
+  }, [openVersionIdx, versionData, pageData.versions]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -40,14 +40,14 @@ const ResultDataComponent = ({ pageData }) => {
 
   const cancelEdit = (e) => {
     e.preventDefault();
-    setInputValue(resultData.description);
+    setInputValue(versionData.description);
     setIsEditingTitle(false);
   }
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
     // NEEDS PROPER DATABASE INTERACTION
-    pageData.results[openResultIdx].description = inputValue; // Temporary solution
+    pageData.versions[openVersionIdx].description = inputValue; // Temporary solution
     setIsEditingTitle(false);
   };
   // ===================================================================
@@ -71,16 +71,16 @@ const ResultDataComponent = ({ pageData }) => {
           ) : (
             <div className="flex flex-nowrap align-items-center">
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
-                {(openResultIdx != null) ? (
-                  resultData.updated
+                {(openVersionIdx != null) ? (
+                  versionData.updated
                 ) : (
-                  "No result selected"
+                  "No version selected"
                 ) }
               </span>
               <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled />
             </div>
           )}
-          <DeleteElementComponent elementId={resultData._id} type={"result"} name={`Version ${openResultIdx + 1}`} />
+          <DeleteElementComponent elementId={versionData._id} type={"version"} name={`Version ${openVersionIdx + 1}`} />
         </div>
       </Segment>
 
@@ -88,7 +88,7 @@ const ResultDataComponent = ({ pageData }) => {
 
       <div style={{ display: 'flex', flexDirection: 'column'}} >
         {/* <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
-          {resultData.screenshot !== "" ? (
+          {versionData.screenshot !== "" ? (
             <div>
               Screenshot data goes here
             </div>
@@ -109,4 +109,4 @@ const ResultDataComponent = ({ pageData }) => {
   )
 }
 
-export default ResultDataComponent;
+export default VersionDataComponent;

@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
-// Define Result Schema
-const resultSchema = new Schema({
+// Define Version Schema
+const versionSchema = new Schema({
   updated: { type: Date, default: Date.now }, // Last updated timestamp
   analysis: { type: String }, // AI Analysis
   screenshotUrl: { type: String }, // Link to the uploaded screenshot
@@ -16,7 +16,7 @@ const resultSchema = new Schema({
 const pageSchema = new Schema({
   name: { type: String, required: true }, // Name of the page
   updated: { type: Date, default: Date.now }, // Last updated timestamp
-  results: [resultSchema] // Results related to the page
+  versions: [versionSchema] // Versions related to the page
 });
 
 // Define Project Schema

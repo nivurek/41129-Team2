@@ -14,7 +14,7 @@ router.post('/create', async (req, res) => {
     const newPage = {
       name: pageName,
       updated: new Date(),
-      results: []
+      versions: []
     };
 
     const user = await User.findOneAndUpdate(

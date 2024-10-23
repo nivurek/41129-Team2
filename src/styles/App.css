@@ -286,8 +286,8 @@ html, body, #root, .app {
   padding: 10px;
 }
 
-/* Results List Styles */
-.results-list-item {
+/* Versions List Styles */
+.versions-list-item {
   height: 100px;
   cursor: pointer;
   display: flex;
@@ -295,16 +295,16 @@ html, body, #root, .app {
   justify-content: space-between;
   align-items: center;
 }
-.results-list-item:hover {
+.versions-list-item:hover {
   background-color: rgba(0,0,0,.05) !important;
 }
-.results-list-item.active {
+.versions-list-item.active {
   background-color: #c7c9ff !important;
 }
 
-.results-list-item .delete-element-button {
+.versions-list-item .delete-element-button {
   display: none;
 }
-.results-list-item:hover .delete-element-button {
+.versions-list-item:hover .delete-element-button {
   display: block;
 }

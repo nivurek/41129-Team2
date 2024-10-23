@@ -2,50 +2,50 @@ import React, { useState } from "react";
 import {  Confirm } from "semantic-ui-react";
 import { Button } from "primereact/button";
 
-import { deleteResult } from "../actions/resultActions";
+import { deleteVersion } from "../actions/versionActions";
 import { getUserById } from "actions/userActions";
-import { useResult } from 'contexts/resultDataContext';
+import { useVersion } from 'contexts/versionDataContext';
 import { useUser } from "contexts/userDataContext";
 import { useParams } from "react-router-dom";
 
 
 const DeleteElementComponent = ({ elementId, elementIdx, type, name }) => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const { openResultIdx, updateOpenResultIdx } = useResult();
+  const { openVersionIdx, updateOpenVersionIdx } = useVersion();
   const { userData, updateUserData } = useUser();
   const { projectId, pageId } = useParams();
 
-    // ============= Handler for the 'Delete Result' modal ==============
+    // ============= Handler for the 'Delete Version' modal ==============
     const handleDeleteConfirm = () => {
       setIsDeleteConfirmOpen(false);
 
       if (!elementId) return;
   
-      // Delete result
-      deleteResult({
+      // Delete version
+      deleteVersion({
         userId: userData._id,
         projectId: projectId,
         pageId: pageId,
-        resultId: elementId
+        versionId: elementId
       })
       .then((response) => {
-        console.log("Result deleted:", response.data);
+        console.log("Version deleted:", response.data);
         return getUserById(userData._id);
       })
       .then((updatedData) => {
         console.log("Updated data:", updatedData);
         updateUserData(updatedData);
 
-        var lastResultIdx = userData.projects.find(p => p._id === projectId).pages.find(pg => pg._id === pageId).results.length - 1;
+        var lastVersionIdx = userData.projects.find(p => p._id === projectId).pages.find(pg => pg._id === pageId).versions.length - 1;
 
-        console.log(openResultIdx, elementIdx);
+        console.log(openVersionIdx, elementIdx);
 
-        if (openResultIdx === elementIdx) {
-          updateOpenResultIdx(lastResultIdx - 1);
-        } else if (openResultIdx > elementIdx) {
-          updateOpenResultIdx(openResultIdx - 1);
+        if (openVersionIdx === elementIdx) {
+          updateOpenVersionIdx(lastVersionIdx - 1);
+        } else if (openVersionIdx > elementIdx) {
+          updateOpenVersionIdx(openVersionIdx - 1);
         } else {
-          updateOpenResultIdx(openResultIdx);
+          updateOpenVersionIdx(openVersionIdx);
         }
       })
       .catch((error) => {
