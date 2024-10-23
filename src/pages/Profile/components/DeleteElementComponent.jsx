@@ -9,7 +9,7 @@ import { useUser } from "contexts/userDataContext";
 import { useParams } from "react-router-dom";
 
 
-const DeleteElementComponent = ({ elementId, elementIdx, type, name }) => {
+const DeleteElementComponent = ({ elementId, elementIdx, type }) => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const { openVersionIdx, updateOpenVersionIdx } = useVersion();
   const { userData, updateUserData } = useUser();
@@ -59,7 +59,7 @@ const DeleteElementComponent = ({ elementId, elementIdx, type, name }) => {
       <Confirm
         className="delete-confirm"
         open={isDeleteConfirmOpen}
-        header={`Delete ${name}?`}
+        header={`Delete ${`Version ${elementIdx + 1}`}?`}
         content={`Are you sure you want to delete this ${type}? This action is irreversible.`}
         size={"small"}
         onConfirm={() => handleDeleteConfirm()}

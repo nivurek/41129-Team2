@@ -14,7 +14,7 @@ import DeleteElementComponent from "./DeleteElementComponent";
 import ResultsComponent from "pages/shared/Results/ResultsComponent";
 
 
-const VersionDataComponent = ({ pageData }) => {
+const VersionDataComponent = () => {
 
   const { openVersionIdx, versionData } = useVersion();
   
@@ -24,15 +24,15 @@ const VersionDataComponent = ({ pageData }) => {
   //-----------------------TEMPORARILY DISABLED-------------------------
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [inputValue, setInputValue] = useState(openVersionIdx ? versionData.description : "");
+  const [inputValue, setInputValue] = useState(versionData ? versionData.description : "");
   
-  // Watch openVersionIdx and versions and auto-update the form value.
+  // Watch versions and auto-update the form value.
   useEffect(() => {
-    if (openVersionIdx !== null && versionData) {
+    if (versionData) {
       setInputValue(versionData.description);
     }
     setIsEditingTitle(false);
-  }, [openVersionIdx, versionData, pageData.versions]); 
+  }, [versionData]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -47,7 +47,7 @@ const VersionDataComponent = ({ pageData }) => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
     // NEEDS PROPER DATABASE INTERACTION
-    pageData.versions[openVersionIdx].description = inputValue; // Temporary solution
+    // pageData.versions[openVersionIdx].description = inputValue; // Temporary solution
     setIsEditingTitle(false);
   };
   // ===================================================================
@@ -80,7 +80,7 @@ const VersionDataComponent = ({ pageData }) => {
               <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled />
             </div>
           )}
-          <DeleteElementComponent elementId={versionData._id} type={"version"} name={`Version ${openVersionIdx + 1}`} />
+          <DeleteElementComponent elementId={versionData._id} elementIdx={openVersionIdx} type={"version"} />
         </div>
       </Segment>
 
