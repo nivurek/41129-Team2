@@ -8,7 +8,7 @@ import {
 } from "semantic-ui-react";
 import { Button } from "primereact/button";
 
-import { useResultIdx } from 'contexts/openResultIdxContext';
+import { useResult } from 'contexts/resultDataContext';
 
 import DeleteElementComponent from "./DeleteElementComponent";
 import ResultsComponent from "pages/shared/Results/ResultsComponent";
@@ -16,7 +16,7 @@ import ResultsComponent from "pages/shared/Results/ResultsComponent";
 
 const ResultDataComponent = ({ pageData }) => {
 
-  const { openResultIdx } = useResultIdx();
+  const { openResultIdx } = useResult();
   const resultData = pageData.results[openResultIdx] ?? {};
   console.log('ResultInformationViewComponent', resultData);
 

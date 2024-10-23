@@ -9,7 +9,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 
-import { withOpenResultIdxCtx, useResultIdx } from 'contexts/openResultIdxContext';
+import { withResultContext, useResult } from 'contexts/resultDataContext';
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
 import { createResult } from "./actions/resultActions";
@@ -22,7 +22,7 @@ import ResultsListItemComponent from "./components/ResultsListItemComponent";
 const ResultsListPage = () => {
 	const navigate = useNavigate();
 	const { userData, updateUserData } = useUser();
-	const { openResultIdx, updateOpenResultIdx } = useResultIdx();
+	const { openResultIdx, updateOpenResultIdx } = useResult();
 
 	// Use useEffect to load the open result index when the component mounts
 	useEffect(() => {
@@ -127,4 +127,4 @@ const ResultsListPage = () => {
 	)
 }
 
-export default withAuth(withOpenResultIdxCtx(ResultsListPage));
+export default withAuth(withResultContext(ResultsListPage));

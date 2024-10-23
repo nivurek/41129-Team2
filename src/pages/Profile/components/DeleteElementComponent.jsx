@@ -4,14 +4,14 @@ import { Button } from "primereact/button";
 
 import { deleteResult } from "../actions/resultActions";
 import { getUserById } from "actions/userActions";
-import { useResultIdx } from 'contexts/openResultIdxContext';
+import { useResult } from 'contexts/resultDataContext';
 import { useUser } from "contexts/userDataContext";
 import { useParams } from "react-router-dom";
 
 
 const DeleteElementComponent = ({ elementId, elementIdx, type, name }) => {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const { openResultIdx, updateOpenResultIdx } = useResultIdx();
+  const { openResultIdx, updateOpenResultIdx } = useResult();
   const { userData, updateUserData } = useUser();
   const { projectId, pageId } = useParams();
 

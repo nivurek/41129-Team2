@@ -4,12 +4,12 @@ import {
   Segment,
 } from "semantic-ui-react";
 
-import { useResultIdx } from 'contexts/openResultIdxContext';
+import { useResult } from 'contexts/resultDataContext';
 
 import DeleteElementComponent from "./DeleteElementComponent";
 
 const ResultsListItemComponent = ({data, idx, active }) => {
-	const { updateOpenResultIdx } = useResultIdx();
+	const { updateOpenResultIdx } = useResult();
   return (
     <Segment onClick={() => updateOpenResultIdx(idx)} className={`results-list-item ${active ? 'active' : ''}`}>
       <div>
