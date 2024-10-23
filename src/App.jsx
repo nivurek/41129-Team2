@@ -107,7 +107,7 @@ const AppContent = () => {
           // Public routes
           <>
           <Route exact path="/" element={<LandingPage isAuth={false} />} />
-        
+
           <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
           <Route path="/projects/*" element={<Navigate to="/" replace />} />
 
