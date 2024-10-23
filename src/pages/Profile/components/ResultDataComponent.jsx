@@ -16,9 +16,9 @@ import ResultsComponent from "pages/shared/Results/ResultsComponent";
 
 const ResultDataComponent = ({ pageData }) => {
 
-  const { openResultIdx } = useResult();
-  const resultData = pageData.results[openResultIdx] ?? {};
-  console.log('ResultInformationViewComponent', resultData);
+  const { openResultIdx, resultData } = useResult();
+  
+  console.log('ResultDataComponent', resultData);
 
   // =========== Controls for changing the name of a result ============ 
   //-----------------------TEMPORARILY DISABLED-------------------------
@@ -32,7 +32,7 @@ const ResultDataComponent = ({ pageData }) => {
       setInputValue(resultData.description);
     }
     setIsEditingTitle(false);
-  }, [openResultIdx, pageData.results, resultData]); 
+  }, [openResultIdx, resultData, pageData.results]); 
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);

@@ -9,9 +9,15 @@ import { useResult } from 'contexts/resultDataContext';
 import DeleteElementComponent from "./DeleteElementComponent";
 
 const ResultsListItemComponent = ({data, idx, active }) => {
-	const { updateOpenResultIdx } = useResult();
+	const { updateOpenResultIdx, updateResultData } = useResult();
+
+  const resultSelectedHandler = () => {
+    updateOpenResultIdx(idx);
+    updateResultData(data);
+  }
+  
   return (
-    <Segment onClick={() => updateOpenResultIdx(idx)} className={`results-list-item ${active ? 'active' : ''}`}>
+    <Segment onClick={() => resultSelectedHandler()} className={`results-list-item ${active ? 'active' : ''}`}>
       <div>
         <h3>Version {idx + 1}</h3>
         <p>{data.updated}</p>

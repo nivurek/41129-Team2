@@ -22,24 +22,30 @@ import ResultsListItemComponent from "./components/ResultsListItemComponent";
 const ResultsListPage = () => {
 	const navigate = useNavigate();
 	const { userData, updateUserData } = useUser();
-	const { openResultIdx, updateOpenResultIdx } = useResult();
-
-	// Use useEffect to load the open result index when the component mounts
-	useEffect(() => {
-		updateOpenResultIdx(pageData?.results.length === 0 ? null : pageData.results.length - 1);
-	}, [updateOpenResultIdx]);
-
+	const { openResultIdx, updateOpenResultIdx, updateResultData } = useResult();
+	const [pageData, setPageData] = useState({});
 	const { projectId, pageId } = useParams();
-	const pageData = userData.projects.find(
-		project => project._id === projectId
-	).pages.find(
-		page => page._id === pageId
-	);
-	console.log("Results page, data:", pageData);
 
-	const createNewResult = () => {
-		// Create result
-    createResult({
+	// Use Effect Hooks
+	useEffect(() => {
+
+		const newPageData = userData.projects.find(
+			project => project._id === projectId
+		).pages.find(
+			page => page._id === pageId
+		);
+
+		// TODO Add open index checking for index set on user data update
+		setPageData(newPageData);
+		updateOpenResultIdx(newPageData?.results?.length > 0 ? newPageData.results.length - 1 : null);
+		updateResultData(newPageData?.results?.length > 0 ? newPageData.results.at(-1) : null);
+
+	}, [userData, projectId, pageId])
+
+	// Handlers
+	const createNewResultHandler = () => {
+
+		createResult({
 			userId: userData._id,
 			projectId: projectId,
 			pageId: pageId,
@@ -47,6 +53,7 @@ const ResultsListPage = () => {
 		.then((response) => {
 			console.log("Result created:", response.data);
 			updateOpenResultIdx(openResultIdx === null ? 0 : pageData.results.length); // Set the selected index to where the new result will be
+			updateResultData(response.data);
 			return getUserById(userData._id);
 		})
 		.then((updatedData) => {
@@ -57,9 +64,7 @@ const ResultsListPage = () => {
 		.catch((error) => {
 			console.error("Unexpected error:", error);
 		});
-		
-    
-  }
+	}
 	
 	return (
 		<> 
@@ -76,7 +81,7 @@ const ResultsListPage = () => {
 					</Button>
 				</Grid.Column>
 				<Grid.Column width={10}>
-					<h1 style={{textAlign: 'center'}}>{pageData.name} - Results</h1>
+					<h1 style={{textAlign: 'center'}}>{pageData?.name} - Results</h1>
 				</Grid.Column>
 				</Grid>
 			</Segment>
@@ -103,8 +108,8 @@ const ResultsListPage = () => {
 								<h2 style={{textAlign: 'center'}}>Version History</h2>
 							</div>
 							<Divider/>
-							<Button onClick={() => createNewResult()} style={{ margin: '10px', height: "70px" }}>
-								{pageData.results.length === 0 ? "Get started!" : <Icon name='plus' />}
+							<Button onClick={() => createNewResultHandler()} style={{ margin: '10px', height: "70px" }}>
+								{pageData?.results?.length === 0 ? "Get started!" : <Icon name='plus' />}
 							</Button>
 
 							<Container style={{ overflowY: 'auto', padding: '10px' }}>
