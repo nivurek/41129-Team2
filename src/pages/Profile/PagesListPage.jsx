@@ -37,6 +37,7 @@ const PagesListPage = () => {
   
 	const { projectId } = useParams();
 	const projectData = userData.projects.find(project => project._id === projectId);
+  console.log("Project data PAGES COMP:", projectData);
 
 	const selectPage = (pageId) => {
     if (!(isDeleteConfirmOpenIdx || (renamingId === pageId))) {
@@ -297,7 +298,7 @@ const PagesListPage = () => {
               </CardContent>
               <CardContent extra>
                 <Icon name='file' />
-                {page.results.length} version{page.results.length === 1 ? '' : 's'}
+                {page.versions.length} version{page.versions.length === 1 ? '' : 's'}
               </CardContent>
             </Card>
           ))}

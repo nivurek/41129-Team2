@@ -53,12 +53,12 @@ router.post('/api/upload/:userId/:projectName/:pageName', upload.single('image')
   
   uploadStream.on('finish', async (file) => {
     try {
-      // Update the user document to store the GridFS file ID in the Results.Image field
+      // Update the user document to store the GridFS file ID in the Versions.Image field
       const user = await db.collection('users').findOneAndUpdate(
         { _id: new ObjectId(userId), "Projects.Name": projectName, "Projects.Pages.PageName": pageName },
         {
           $set: {
-            "Projects.$[project].Pages.$[page].Results.Image": {
+            "Projects.$[project].Pages.$[page].Versions.Image": {
               fileId: file._id,  // Store the GridFS file ID here
               filename: file.filename,
               contentType: file.metadata.contentType

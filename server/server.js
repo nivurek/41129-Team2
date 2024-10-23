@@ -13,7 +13,7 @@ import user from "./routes/user.js";
 import records from "./routes/record.js";
 import project from "./routes/project.js"
 import page from "./routes/page.js"
-import result from "./routes/result.js"
+import version from "./routes/version.js"
 
 import connectDB from "./db/connection.js";
 import AuthRoute from "./routes/auth.js";
@@ -41,7 +41,7 @@ app.use("/auth", AuthRoute);
 app.use("/api/user", user);
 app.use("/api/project", project);
 app.use("/api/page", page);
-app.use("/api/result", result);
+app.use("/api/version", version);
 
 app.use(express.json());
 
