@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ProfileComponent from "./ProfileComponent"
 
 
+
 const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
@@ -19,14 +20,13 @@ const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
         as={Link}        // Use Link component from react-router-dom
         to='/'           // Set route for Home
       />
-
-      <Menu.Item
-        name='About'
-        active={activeItem === 'about'}
-        onClick={handleItemClick}
-        as={Link}        // Use Link component from react-router-dom
-        to='/about'           // Set route for Home
-      />
+        <Menu.Item
+          name='About'
+          active={activeItem === 'about'}
+          onClick={handleItemClick}
+          as={Link}
+          to='/about'
+        />
 
       <ProfileComponent
         isAuth={isAuth}
@@ -35,7 +35,6 @@ const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
         active={activeItem === 'profile'}
         onClickMethod={handleItemClick}
       />
-
     </Menu>
   );
 };

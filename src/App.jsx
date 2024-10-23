@@ -92,9 +92,8 @@ const AppContent = () => {
           // Protected routes
           <>
           <Route exact path="/" element={<Navigate to="/projects" replace />} />
-
           <Route path="/ai" element={<AIPage/>} />
-
+          <Route path="/about" element={< AboutPage/>} />
           <Route path="/projects" element={<ProjectsListPage />} />
           <Route path="/projects/:projectId" element={<RedirectToPages />} />
           <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
@@ -107,7 +106,7 @@ const AppContent = () => {
           // Public routes
           <>
           <Route exact path="/" element={<LandingPage isAuth={false} />} />
-
+          <Route path="/about" element={< AboutPage/>} />
           <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
           <Route path="/projects/*" element={<Navigate to="/" replace />} />
 
