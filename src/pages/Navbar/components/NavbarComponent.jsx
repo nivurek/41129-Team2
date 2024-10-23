@@ -3,6 +3,7 @@ import { Menu } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 
 import ProfileComponent from "./ProfileComponent";
+import AboutPage from "pages/AboutPage/AboutPage";
 
 
 const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
@@ -18,6 +19,14 @@ const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
         onClick={handleItemClick}
         as={Link}        // Use Link component from react-router-dom
         to='/'           // Set route for Home
+      />
+
+      <Menu.Item
+        name='About'
+        active={activeItem === 'about'}
+        onClick={handleItemClick}
+        as={Link}        // Use Link component from react-router-dom
+        to='/AboutPage'           // Set route for Home
       />
 
       <ProfileComponent

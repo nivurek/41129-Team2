@@ -7,7 +7,7 @@ import NavbarComponent from 'pages/Navbar/components/NavbarComponent';
 import LoginPage from 'pages/Login/LoginPage';
 import AIPage from 'pages/AI/AIPage';
 import NotFound from 'pages/NotFound/NotFoundPage';
-
+import AboutPage from 'pages/AboutPage/AboutPage';
 import ProjectsListPage from 'pages/Profile/ProjectsListPage';
 import PagesListPage from 'pages/Profile/PagesListPage';
 import ResultsListPage from 'pages/Profile/ResultsListPage';
