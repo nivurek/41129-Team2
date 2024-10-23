@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import * as Vibrant from 'node-vibrant';
 
+import { updateVersionHelper } from 'utils/api.helper';
+
 import ColorPaletteComponent from './components/ColorPaletteComponent';
 import ColorContrastComponent from './components/ColorContrastComponent';
 
-const ColorResultsComponent = ({imageUrl}) => {
-
+const ColorResultsComponent = ({versionProps, imageUrl}) => {
+    const { path, updateUserData, versionData } = versionProps;
     const [imageColorPalette, updateImageColorPalette] = useState({});
 
     const processVibrantData = (palette) => {
@@ -21,12 +23,27 @@ const ColorResultsComponent = ({imageUrl}) => {
         };
 
         updateImageColorPalette({ ...processedPalette });
+
+        // If there is a path to a version, update the version with the new image - try catch block used because no try catch higher up
+        if (versionData) try {
+            updateVersionHelper(path, { imagePalette: processedPalette })
+                .then((updatedUserData) => updateUserData(updatedUserData));
+        } catch (error) {
+            console.error('Error updating version with image color palette:', error);
+        } 
     }
 
     useEffect(() => {
-        if (!imageUrl) { updateImageColorPalette({}); return; }
-        Vibrant.from(imageUrl).quality(1).getPalette((err, palette) => { processVibrantData(palette); });
-        // Set user.project[id].page[id].result[id].screenshot to imageUrl
+        console.log("ColorResultsComponent loaded with:", imageUrl, {...versionData});
+
+        if (!imageUrl) {
+            updateImageColorPalette({});
+            return;
+        } else if (versionData?.imagePalette && Object.keys(versionData?.imagePalette).length > 0) {
+            updateImageColorPalette(versionData.imagePalette);
+        } else {
+            Vibrant.from(imageUrl).quality(1).getPalette((err, palette) => { processVibrantData(palette); });
+        }
     }, [imageUrl]);
 
     // Rendered Component
@@ -34,7 +51,7 @@ const ColorResultsComponent = ({imageUrl}) => {
 
         <div>
             <h1>Results</h1>
-            <ColorPaletteComponent imageColorPalette={imageColorPalette} />
+            <ColorPaletteComponent versionProps={versionProps} imageColorPalette={imageColorPalette} imageUrl={imageUrl}/>
             <ColorContrastComponent />
         </div>
 

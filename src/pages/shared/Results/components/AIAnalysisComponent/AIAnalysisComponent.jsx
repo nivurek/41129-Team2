@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown';
 
+import { updateVersionHelper } from "utils/api.helper";
+
 const enableGemini = process.env.REACT_APP_ENABLE_GEMINI || false;
 
-const AIAnalysisComponent = ({ imageUrl }) => {
+const AIAnalysisComponent = ({ versionProps, imageUrl }) => {
+    const { path, updateUserData, versionData } = versionProps;
     const [analysis, setAnalysis] = useState('');
 
     useEffect(() => {
         if (!imageUrl) {
             setAnalysis('');
             return;
-        };
-        if(enableGemini) {
+        } else if (versionData?.analysis) {
+            setAnalysis(versionData.analysis);
+            return;
+        } else if (enableGemini) {
             analyzeWithGemini(imageUrl);
         }
     }, [imageUrl]);
@@ -33,6 +38,12 @@ const AIAnalysisComponent = ({ imageUrl }) => {
         
             const result = await response.json();
             setAnalysis(result.analysis); 
+
+            // If there is a version, update the version with the new image
+            if (versionData) {
+                updateVersionHelper(path, { analysis: result.analysis })
+                    .then((updatedUserData) => updateUserData(updatedUserData));
+            }
         
         } catch (error) {
             console.error('Error analyzing UI/UX with Gemini API:', error);

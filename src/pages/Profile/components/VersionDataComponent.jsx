@@ -70,7 +70,7 @@ const VersionDataComponent = () => {
             <div className="flex flex-nowrap align-items-center">
               <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
                 {(openVersionIdx != null) ? (
-                  versionData.updated
+                  versionData?.updated
                 ) : (
                   "No version selected"
                 ) }
@@ -78,29 +78,13 @@ const VersionDataComponent = () => {
               <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled />
             </div>
           )}
-          <DeleteElementComponent elementId={versionData._id} elementIdx={openVersionIdx} type={"version"} />
+          <DeleteElementComponent elementId={versionData?._id} elementIdx={openVersionIdx} type={"version"} />
         </div>
       </Segment>
 
       {/* =============================== BODY =============================== */}
 
-      <div style={{ display: 'flex', flexDirection: 'column'}} >
-        {/* <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto', marginBottom: '0px'}}>
-          {versionData.screenshot !== "" ? (
-            <div>
-              Screenshot data goes here
-            </div>
-          ) : (
-            <Button>
-              {"(Screenshot uploader goes here)"}
-            </Button>
-          )}
-        </Segment>
-        <Segment style={{ display: 'flex', flexGrow: 1, overflowY: 'auto'}}>
-          <div>
-            AI Generated data goes here
-          </div>
-        </Segment> */}
+      <div className="flex flex-column min-h-0" >
         <ResultsComponent isAuth={true} />
       </div>
     </Grid.Column>

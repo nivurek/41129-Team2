@@ -4,8 +4,7 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 import { Button } from 'primereact/button';
 import * as filestack from 'filestack-js'; 
 
-import { updateVersion } from "actions/versionActions";
-import { getUserById } from "actions/userActions";
+import { updateVersionHelper } from "utils/api.helper";
 
 const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
 const enableFilestack = process.env.REACT_APP_ENABLE_FILESTACK || false;
@@ -24,7 +23,9 @@ const Controls = ({ removeAllowed, handleRemove }) => {
     );
 };
 
-const ScreenshotUploadComponent = ({ pathProps, updateUserData, imageUrl, setImageUrl }) => {
+const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
+
+    const {path, versionData, updateUserData} = versionProps;
 
     const imageSrc = React.createRef();
 
@@ -39,24 +40,10 @@ const ScreenshotUploadComponent = ({ pathProps, updateUserData, imageUrl, setIma
 
                 if (!imageUrl) setImageUrl(publicUrl);
 
-                 // If there is a version Id, update the version with the new image
-                if (pathProps.versionId) {
-                    const payload = {
-                        userId: pathProps.userId,
-                        projectId: pathProps.projectId,
-                        pageId: pathProps.pageId,
-                        versionId: pathProps.versionId,
-                        screenshotUrl: publicUrl
-                    }
-
-                    updateVersion(payload)
-                    .then((response) => {
-                        console.log(response.data);
-                        return getUserById(pathProps.userId);
-                    })
-                    .then((updatedData) => {
-                        updateUserData(updatedData);
-                    });
+                // If there is a path to a version, update the version with the new image
+                if (versionData) {
+                    updateVersionHelper(path, { screenshotUrl: publicUrl })
+                        .then((updatedUserData) => updateUserData(updatedUserData));
                 }
             } catch (error) {
                 console.error('Error uploading image to Filestack:', error);
@@ -69,13 +56,13 @@ const ScreenshotUploadComponent = ({ pathProps, updateUserData, imageUrl, setIma
     };
 
     return (
-        <div>
+        <>
         {imageUrl ? (
 
             <TransformWrapper>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <>
-                <Controls removeAllowed={!pathProps.versionId} handleRemove={onRemove} />
+                <Controls removeAllowed={!path.versionId} handleRemove={onRemove} />
                 <TransformComponent>
                 <img className="image-preview" ref={imageSrc} src={imageUrl} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
                 </TransformComponent>
@@ -84,7 +71,7 @@ const ScreenshotUploadComponent = ({ pathProps, updateUserData, imageUrl, setIma
             </TransformWrapper>
         ) : (
             <FileUpload
-                className="w-30rem"
+                className="w-30rem m-auto"
                 accept="image/*"
                 maxFileSize={1000000}
                 customUpload
@@ -94,7 +81,7 @@ const ScreenshotUploadComponent = ({ pathProps, updateUserData, imageUrl, setIma
                 chooseLabel="Browse"
             />
         )}
-        </div>
+        </>
     );
 };
 

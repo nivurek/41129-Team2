@@ -17,12 +17,16 @@ const ResultsComponent = ({isAuth}) => {
 
     const [imageUrl, setImageUrl] = useState('');
 
-    // Generate path props for api calls
-    const pathProps = {
-        userId: userContext?.userData?._id,
-        projectId: pathParams?.projectId,
-        pageId: pathParams?.pageId,
-        versionId: versionContext?.versionData?._id
+    // Generate version related props for api calls
+    const versionProps = {
+        path: {
+            userId: userContext?.userData?._id,
+            projectId: pathParams?.projectId,
+            pageId: pathParams?.pageId,
+            versionId: versionContext?.versionData?._id
+        },
+        updateUserData: userContext?.updateUserData,
+        versionData: versionContext?.versionData
     }
 
     useEffect(() => {
@@ -38,17 +42,17 @@ const ResultsComponent = ({isAuth}) => {
     return (
         <Splitter className="h-full">
             <SplitterPanel className="screenshot-upload-container" size={65} minSize={35}>
-                <ScreenshotUploadComponent pathProps={pathProps} updateUserData={userContext.updateUserData} imageUrl={imageUrl} setImageUrl={setImageUrl} />
+                <ScreenshotUploadComponent versionProps={versionProps} imageUrl={imageUrl} setImageUrl={setImageUrl} />
                 
                 {isAuth ? (
-                    <AIAnalysisComponent imageUrl={imageUrl} />
+                    <AIAnalysisComponent versionProps={versionProps} imageUrl={imageUrl} />
                 ) : imageUrl && (
                     <AIPaywallComponent />
                 )}
 
             </SplitterPanel>
             <SplitterPanel className="results-container" size={35} minSize={15}>
-                <ColorResultsComponent imageUrl={imageUrl} />
+                <ColorResultsComponent versionProps={versionProps} imageUrl={imageUrl} />
             </SplitterPanel>
         </Splitter>
     )
