@@ -7,8 +7,8 @@ const versionSchema = new Schema({
   updated: { type: Date, default: Date.now }, // Last updated timestamp
   analysis: { type: String }, // AI Analysis
   screenshotUrl: { type: String }, // Link to the uploaded screenshot
-  imagePalette: { type: [String], default: [] }, // Array of colors for the real palette
-  updatedImagePalette: { type: [String], default: [] }, // Saved array of colors for an updated palette choice
+  imagePalette: { type: Object, default: {} }, // Array of colors for the real palette
+  updatedImagePalette: { type: Object, default: {} }, // Saved array of colors for an updated palette choice
   suggestedPalettes: [{ type: [String], default: [] }] // Array of imagePalette arrays
 });
 

@@ -19,7 +19,7 @@ import {
 
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
-import { createPage, updatePage, deletePage } from "./actions/pageActions";
+import { createPage, updatePage, deletePage } from "actions/pageActions";
 import { getUserById } from "actions/userActions";
 
 import plusIcon from 'assets/plusIcon.png';

@@ -12,7 +12,7 @@ import {
 import { withVersionContext, useVersion } from 'contexts/versionDataContext';
 import { useUser } from 'contexts/userDataContext';
 import withAuth from 'utils/withAuth';
-import { createVersion } from "./actions/versionActions";
+import { createVersion } from "actions/versionActions";
 import { getUserById } from "actions/userActions";
 
 import VersionDataComponent from "./components/VersionDataComponent";
@@ -28,21 +28,24 @@ const VersionsListPage = () => {
 
 	// Use Effect Hooks
 	useEffect(() => {
-
-		const newPageData = userData.projects.find(
+		const updatedPageData = userData.projects.find(
 			project => project._id === projectId
 		).pages.find(
 			page => page._id === pageId
 		);
 
-		console.log("New page data:", newPageData);
+		setPageData(updatedPageData);
 
-		// TODO Add open index checking for index set on user data update
-		setPageData(newPageData);
-		updateOpenVersionIdx(newPageData?.versions?.length > 0 ? newPageData.versions.length - 1 : null);
-		updateVersionData(newPageData?.versions?.length > 0 ? newPageData.versions.at(-1) : null);
+		if (updatedPageData?.versions?.length === 0) {
+			updateOpenVersionIdx(null);
+			updateVersionData(null);
+		} else {
+			// TODO INDEX OUT OF BOUNDS
+			updateVersionData(updatedPageData?.versions[openVersionIdx ?? updatedPageData.versions.length - 1]);
 
-	}, [userData, projectId, pageId])
+			if (openVersionIdx === null) updateOpenVersionIdx(updatedPageData.versions.length - 1);
+		}
+	}, [projectId, pageId, userData])
 
 	// Handlers
 	const createNewVersionHandler = () => {
@@ -54,7 +57,7 @@ const VersionsListPage = () => {
 		})
 		.then((response) => {
 			console.log("Version created:", response.data);
-			updateOpenVersionIdx(openVersionIdx === null ? 0 : pageData.versions.length); // Set the selected index to where the new verison will be
+			updateOpenVersionIdx(pageData?.versions?.length ?? 0); // Set the selected index to where the new verison will be
 			updateVersionData(response.data);
 			return getUserById(userData._id);
 		})
@@ -93,7 +96,7 @@ const VersionsListPage = () => {
 					{/* ------------------------------------------------------------------ */}
 					{(openVersionIdx != null) ? (
 
-						<VersionDataComponent pageData={pageData} />
+						<VersionDataComponent />
 					) : (
 						<Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
 							<div style={{ display: 'flex', flexDirection: 'column'}} >

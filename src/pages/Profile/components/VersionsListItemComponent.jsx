@@ -23,7 +23,7 @@ const VersionsListItemComponent = ({data, idx, active }) => {
         <p>{data.updated}</p>
       </div>
       
-      <DeleteElementComponent elementId={data._id} elementIdx={idx} type="version" name={`Version ${idx + 1}`} />
+      <DeleteElementComponent elementId={data._id} elementIdx={idx} type="version" />
       
 
       {/* Thumbnail goes here */}

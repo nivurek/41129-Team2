@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ProfileComponent from "./ProfileComponent";
 
 
-const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
+const NavbarComponent = ({isAuth, onLogoutMethod}) => {
   
   const [activeItem, setActiveItem] = React.useState('home');
   const handleItemClick = (e, { name }) => setActiveItem(name);
@@ -22,7 +22,6 @@ const NavbarComponent = ({isAuth, activeUser, onLogoutMethod}) => {
 
       <ProfileComponent
         isAuth={isAuth}
-        activeUser={activeUser}
         onLogoutMethod={onLogoutMethod}
         active={activeItem === 'profile'}
         onClickMethod={handleItemClick}

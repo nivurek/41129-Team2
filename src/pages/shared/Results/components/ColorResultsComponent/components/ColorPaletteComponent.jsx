@@ -6,7 +6,11 @@ import { HexColorPicker } from 'react-colorful';
 import * as Color from 'utils/color.helpers';
 import _ from 'lodash';
 
-const ColorPaletteComponent = ({imageColorPalette}) => {
+import { updateVersionHelper } from 'utils/api.helper';
+
+const ColorPaletteComponent = ({versionProps, imageColorPalette, imageUrl}) => {
+
+    const { path, updateUserData, versionData } = versionProps;
 
     // State Hooks
     const [colormindSuggestions, setColormindSuggestions] = useState([]);
@@ -22,12 +26,51 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
     };
     
     // Image Color Palette Controllers
-    const updateImageColorPalette = (key, e) => {
-        setUpdatedImageColorPalette({...updatedImageColorPalette, [key]: e});
+    const handleUpdateImagePaletteByKey = (key, e) => {
+        const updatedImagePaletteAfterKeyChange = {...updatedImageColorPalette, [key]: e};
+        setUpdatedImageColorPalette({...updatedImagePaletteAfterKeyChange});
+
+        if (versionData) try {
+            updateVersionHelper(path, { updatedImagePalette: {...updatedImagePaletteAfterKeyChange} })
+                .then((updatedUserData) => updateUserData(updatedUserData));
+        } catch (error) {
+            console.error('Error updating version with new updated image color palette:', error);
+        }
     }
 
-    const resetImageColorPalette = () => {
+    const handleResetImagePalette = () => {
         setUpdatedImageColorPalette({...imageColorPalette});
+
+        if (versionData) try {
+            updateVersionHelper(path, { updatedImagePalette: {...imageColorPalette} })
+                .then((updatedUserData) => updateUserData(updatedUserData));
+        } catch (error) {
+            console.error('Error updating version with resetted image color palette:', error);
+        }
+    }
+
+    const handleSetSuggestionAsPalette = (suggestion) => {
+        const updatedImagePaletteAfterSuggestion = _.zipObject(Object.keys(updatedImageColorPalette), [...suggestion]);
+        setUpdatedImageColorPalette(updatedImagePaletteAfterSuggestion);
+
+        if (versionData) try {
+            updateVersionHelper(path, { updatedImagePalette: updatedImagePaletteAfterSuggestion })
+                .then((updatedUserData) => updateUserData(updatedUserData));
+        } catch (error) {
+            console.error('Error updating version with new suggested image color palette:', error);
+        }
+    }
+
+    const handleDeleteSuggestion = (indexToDelete) => {
+        const suggestionsAfterDelete = _.cloneDeep(colormindSuggestions).filter((_, index) => index !== indexToDelete);
+        setColormindSuggestions(_.cloneDeep(suggestionsAfterDelete));
+
+        if (versionData) try {
+            updateVersionHelper(path, { suggestedPalettes: _.cloneDeep(suggestionsAfterDelete) ?? [] })
+                .then((updatedUserData) => updateUserData(updatedUserData));
+        } catch (error) {
+            console.error('Error updating version with deleted colormind suggestion:', error);
+        }
     }
 
     // Colormind Suggestion Controllers
@@ -52,7 +95,15 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                 let suggestionsHex = data.result.map((suggestion) => Color.rgbToHex(suggestion[0], suggestion[1], suggestion[2]));
 
                 // Append to colormind suggestion store
-                setColormindSuggestions([...colormindSuggestions, suggestionsHex]);
+                const suggestionsAfterAppend = [..._.cloneDeep(colormindSuggestions), suggestionsHex];
+                setColormindSuggestions(_.cloneDeep(suggestionsAfterAppend));
+
+                if (versionData) try {
+                    updateVersionHelper(path, { suggestedPalettes: _.cloneDeep(suggestionsAfterAppend) })
+                        .then((updatedUserData) => updateUserData(updatedUserData));
+                } catch (error) {
+                    console.error('Error updating version with new colormind suggestion:', error);
+                }
             })
             .catch((err) => {
                 console.log(err.message);
@@ -61,10 +112,32 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
     }
 
     useEffect(() => {
-        setUpdatedImageColorPalette({...imageColorPalette});
-        setColormindSuggestions([]);
-        generateNewSuggestion();
-    }, [imageColorPalette]);
+
+        if (!imageUrl) {
+            setUpdatedImageColorPalette({});
+            setColormindSuggestions([]);
+            return;
+        } else if (versionData?.updatedImagePalette && Object.keys(versionData?.updatedImagePalette).length > 0) {
+            setUpdatedImageColorPalette(versionData.updatedImagePalette);
+        } else {
+            setUpdatedImageColorPalette({...imageColorPalette});
+
+            if (versionData) try {
+                updateVersionHelper(path, { updatedImagePalette: {...imageColorPalette} })
+                    .then((updatedUserData) => updateUserData(updatedUserData));
+            } catch (error) {
+                console.error('Error updating version with initial updated image color palette:', error);
+            }
+        }
+
+        if (versionData) {
+            setColormindSuggestions(versionData.suggestedPalettes);
+        } else {
+            setColormindSuggestions([]);
+            generateNewSuggestion();
+        }
+
+    }, [imageUrl]);
 
     // Rendered Component
     return (
@@ -73,7 +146,7 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                 <div className="flex mb-3" style={{height: '2.5rem'}}>
                     <h2 className="mb-0 mr-3">Your Palette</h2>
                     {_.isEqual(updatedImageColorPalette, imageColorPalette) ? null :
-                        <Button label="Reset Palette" icon="pi pi-refresh" size="small" outlined severity="danger" onClick={resetImageColorPalette} />
+                        <Button label="Reset Palette" icon="pi pi-refresh" size="small" outlined severity="danger" onClick={handleResetImagePalette} />
                     }
                 </div>
                 <div className="palette-container">
@@ -85,7 +158,7 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                             { displayColorPicker === key ? 
                                 <div className="popover ml-2">
                                     <div className="cover" onClick={handlePaletteClose} />
-                                    <HexColorPicker className="right-0" color={updatedImageColorPalette[key]} onChange={(e) => updateImageColorPalette(key, e)} />
+                                    <HexColorPicker className="right-0" color={updatedImageColorPalette[key]} onChange={(e) => handleUpdateImagePaletteByKey(key, e)} />
                                 </div>
                             : null}
                         </div>
@@ -109,9 +182,9 @@ const ColorPaletteComponent = ({imageColorPalette}) => {
                                         )
                                     })}
                                     {_.isEqual(updatedImageColorPalette, suggestion) ? <div className="palette-button" /> :
-                                        <Button className="palette-button" icon="pi pi-upload" severity="info" tooltipOptions={{ position: 'bottom' }} tooltip="Set as your palette" text onClick={() => setUpdatedImageColorPalette(suggestion)} />
+                                        <Button className="palette-button" icon="pi pi-upload" severity="info" tooltipOptions={{ position: 'bottom' }} tooltip="Set as your palette" text onClick={() => handleSetSuggestionAsPalette(suggestion)} />
                                     }
-                                    <Button className="palette-button" icon="pi pi-times" severity="danger" tooltipOptions={{ position: 'bottom' }} tooltip="Delete suggestion" text onClick={() => setColormindSuggestions(colormindSuggestions.filter((_, index) => index !== i))} />
+                                    <Button className="palette-button" icon="pi pi-times" severity="danger" tooltipOptions={{ position: 'bottom' }} tooltip="Delete suggestion" text onClick={() => handleDeleteSuggestion(i)} />
                                 </div>
                             )
                         })}
