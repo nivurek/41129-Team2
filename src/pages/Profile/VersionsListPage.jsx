@@ -40,10 +40,10 @@ const VersionsListPage = () => {
 			updateOpenVersionIdx(null);
 			updateVersionData(null);
 		} else {
-			// TODO INDEX OUT OF BOUNDS
-			updateVersionData(updatedPageData?.versions[openVersionIdx ?? updatedPageData.versions.length - 1]);
-
-			if (openVersionIdx === null) updateOpenVersionIdx(updatedPageData.versions.length - 1);
+			const maxIndex = updatedPageData.versions.length - 1;
+			const newIndex = Math.min(maxIndex, openVersionIdx ?? maxIndex);
+			updateVersionData(updatedPageData?.versions[newIndex]);
+			updateOpenVersionIdx(newIndex);
 		}
 	}, [projectId, pageId, userData])
 
