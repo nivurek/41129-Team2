@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Tooltip } from "primereact/tooltip";
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
@@ -8,35 +8,92 @@ import _ from 'lodash';
 
 import { updateVersionHelper } from 'utils/api.helper';
 
-const ColorPaletteComponent = ({versionProps, imageColorPalette, imageUrl}) => {
-
+const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) => {
     const { path, updateUserData, versionData } = versionProps;
-
+  
     // State Hooks
     const [colormindSuggestions, setColormindSuggestions] = useState([]);
     const [updatedImageColorPalette, setUpdatedImageColorPalette] = useState({});
     const [displayColorPicker, setDisplayColorPicker] = useState(null);
+  
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [paletteHasChanged, setPaletteHasChanged] = useState(false);
+  
+    // Use a ref to track paletteHasChanged
+    const paletteHasChangedRef = useRef(false);
+  
+    // console.log("TOP==== paletteHasChanged:", paletteHasChanged);
+  
+    // Handle mouse down
+    const handleMouseDown = (event) => {
+      if (event.button === 0) {
+        setIsMouseDown(true);
+      }
+    };
 
+    // Handle mouse up
+    const handleMouseUp = (event) => {
+      if (event.button === 0) {
+        // console.log('triggered mouse up. Palette changed?', paletteHasChangedRef.current);
+        setIsMouseDown(false);
+        if (paletteHasChangedRef.current) {
+          handleSavePaletteChanges();
+        }
+      }
+    };
+
+    useEffect(() => {
+      // Add event listeners
+      window.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener('mouseup', handleMouseUp);
+  
+      // Cleanup event listeners on unmount
+      return () => {
+        window.removeEventListener('mousedown', handleMouseDown);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }, []);
+  
     // Palette Handlers
     const handlePaletteClick = (key) => {
-        setDisplayColorPicker(key);
-    }
-    const handlePaletteClose = () => {
-        setDisplayColorPicker(null);
+      setDisplayColorPicker(key);
     };
-    
+  
+    const handlePaletteClose = () => {
+      setDisplayColorPicker(null);
+    };
+  
     // Image Color Palette Controllers
     const handleUpdateImagePaletteByKey = (key, e) => {
-        const updatedImagePaletteAfterKeyChange = {...updatedImageColorPalette, [key]: e};
-        setUpdatedImageColorPalette({...updatedImagePaletteAfterKeyChange});
-
-        if (versionData) try {
-            updateVersionHelper(path, { updatedImagePalette: {...updatedImagePaletteAfterKeyChange} })
-                .then((updatedUserData) => updateUserData(updatedUserData));
+      console.log('Updating image palette', e, paletteHasChanged);
+      const updatedImagePaletteAfterKeyChange = {
+        ...updatedImageColorPalette,
+        [key]: e,
+      };
+      setUpdatedImageColorPalette(updatedImagePaletteAfterKeyChange);
+  
+      if (!paletteHasChanged) {
+        console.log('TOGGLING HASCHANGED TO true');
+        setPaletteHasChanged(true);
+        paletteHasChangedRef.current = true; // Update ref value
+      }
+    };
+  
+    const handleSavePaletteChanges = () => {
+      console.log('TRIGGERING DATABASE SAVE');
+      if (versionData) {
+        try {
+          updateVersionHelper(path, { updatedImagePalette: { ...updatedImageColorPalette } })
+            .then((updatedUserData) => {
+              updateUserData(updatedUserData);
+              setPaletteHasChanged(false);
+              paletteHasChangedRef.current = false; // Reset ref value
+            });
         } catch (error) {
-            console.error('Error updating version with new updated image color palette:', error);
+          console.error('Error updating version with new updated image color palette:', error);
         }
-    }
+      }
+    };
 
     const handleResetImagePalette = () => {
         setUpdatedImageColorPalette({...imageColorPalette});
