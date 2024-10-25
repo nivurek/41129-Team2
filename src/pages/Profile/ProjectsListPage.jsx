@@ -27,7 +27,7 @@ const ProjectsListPage = () => {
   const navigate = useNavigate();
   const { userData, updateUserData } = useUser();
 
-  const projectData = userData.projects;
+  const projectData = userData.projects ?? [];
 
 	const [isNewProjectConfirmOpen, setIsNewProjectConfirmOpen] = useState(false);
   const [isDeleteConfirmOpenIdx, setIsDeleteConfirmOpenIdx] = useState(null);
