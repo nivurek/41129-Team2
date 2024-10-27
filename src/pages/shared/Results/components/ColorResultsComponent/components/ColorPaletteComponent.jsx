@@ -195,6 +195,11 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
 
     }, [imageUrl]);
 
+    useEffect(() => {
+        console.log('Colormind suggestions:', colormindSuggestions);
+        if (colormindSuggestions.length === 0) generateNewSuggestion();
+    }, [updatedImageColorPalette])
+
     // Rendered Component
     return (
         <>
