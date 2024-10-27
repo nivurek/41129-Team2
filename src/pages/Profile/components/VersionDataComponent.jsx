@@ -55,7 +55,7 @@ const VersionDataComponent = () => {
       {/* =============================== HEADER =============================== */}
       <Segment style={{ maxHeight: '72px', backgroundColor: '#b5b8ff' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {isEditingTitle ? (
+          {/* {isEditingTitle ? (
             <Form onSubmit={handleEditSubmit} style={{ display: 'flex', alignItems: 'center' }}>
               <Input
                 value={inputValue}
@@ -66,18 +66,19 @@ const VersionDataComponent = () => {
               <Icon name="check" circular type="submit" onClick={handleEditSubmit} />
               <Icon name="cancel" circular onClick={(e) => cancelEdit(e)} />
             </Form>
-          ) : (
+          ) : ( */}
             <div className="flex flex-nowrap align-items-center">
-              <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
-                {(openVersionIdx != null) ? (
-                  versionData?.updated
-                ) : (
-                  "No version selected"
-                ) }
-              </span>
-              <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled />
-            </div>
-          )}
+                <span style={{ fontWeight: 'bold', marginRight: '15px', fontSize: '20px' }}>
+                  {(openVersionIdx != null) ? (
+                    "Version " + (openVersionIdx + 1)
+                  ) : (
+                    "No version selected"
+                  ) }
+                </span>
+                <small style={{ lineHeight: '1.5rem' }}>Last updated: {versionData?.updated}</small>
+              </div>
+              {/* <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled /> */}
+          {/* )} */}
           <DeleteElementComponent elementId={versionData?._id} elementIdx={openVersionIdx} type={"version"} />
         </div>
       </Segment>
