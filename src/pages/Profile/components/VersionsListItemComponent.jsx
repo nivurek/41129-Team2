@@ -1,8 +1,9 @@
 import React from "react";
 import {
-  Image,
   Segment,
 } from "semantic-ui-react";
+
+import { ReactComponent as ImageNotFound } from 'assets/image_not_uploaded.svg';
 
 import { useVersion } from 'contexts/versionDataContext';
 
@@ -18,22 +19,21 @@ const VersionsListItemComponent = ({data, idx, active }) => {
 
   return (
     <Segment onClick={() => versionSelectedHandler()} className={`versions-list-item ${active ? 'active' : ''}`}>
+
       <div>
         <h3>Version {idx + 1}</h3>
         <p>{data.updated}</p>
       </div>
       
-      <DeleteElementComponent elementId={data._id} elementIdx={idx} type="version" />
+      <div className="image-thumbnail">
+        {data?.screenshotUrl ? 
+          <img src={data.screenshotUrl} alt="No Image" />
+          : 
+          <ImageNotFound />
+        }
+        <DeleteElementComponent elementId={data._id} elementIdx={idx} type="version" />
+      </div>
       
-
-      {/* Thumbnail goes here */}
-      {/* <Image
-        size='tiny'
-        spaced
-        verticalAlign="middle"
-        floated="right"
-        src={'https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg'}
-      /> */}
       
     </Segment>
   )

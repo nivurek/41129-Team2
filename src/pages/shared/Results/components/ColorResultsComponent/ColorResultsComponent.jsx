@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Vibrant from 'node-vibrant';
+import { Divider } from 'primereact/divider';
 
 import { updateVersionHelper } from 'utils/api.helper';
 
@@ -49,11 +50,12 @@ const ColorResultsComponent = ({versionProps, imageUrl}) => {
     // Rendered Component
     if (Object.keys(imageColorPalette).length > 0) return (
 
-        <div>
+        <>
             <h1>Results</h1>
             <ColorPaletteComponent versionProps={versionProps} imageColorPalette={imageColorPalette} imageUrl={imageUrl}/>
+            <Divider pt={{root: {className: 'mt-auto'}}} />
             <ColorContrastComponent />
-        </div>
+        </>
 
     ); else return (
         <div className="mx-4 my-auto">

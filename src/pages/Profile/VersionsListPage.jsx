@@ -8,6 +8,7 @@ import {
   Icon,
   Segment,
 } from "semantic-ui-react";
+import { Tooltip } from "primereact/tooltip";
 
 import { withVersionContext, useVersion } from 'contexts/versionDataContext';
 import { useUser } from 'contexts/userDataContext';
@@ -113,11 +114,14 @@ const VersionsListPage = () => {
 								<h2 style={{textAlign: 'center'}}>Version History</h2>
 							</div>
 							<Divider/>
-							<Button onClick={() => createNewVersionHandler()} style={{ margin: '10px', height: "70px" }}>
-								{pageData?.versions?.length === 0 ? "Get started!" : <Icon name='plus' />}
-							</Button>
+							<Tooltip target={".new-version-button-disabled"} content={"An empty version already exists. \nUpload an image to create a new one!"}  mouseTrack mouseTrackLeft={10} />
+							<div className={`m-2 flex ${!pageData?.versions?.at(-1).screenshotUrl && "new-version-button-disabled"}`}>
+								<Button className="h-5rem w-full" onClick={() => createNewVersionHandler()} disabled={!pageData?.versions?.at(-1).screenshotUrl}>
+									{pageData?.versions?.length === 0 ? "Get started!" : <Icon name='plus' />}
+								</Button>
+							</div>
 
-							<Container style={{ overflowY: 'auto', padding: '10px' }}>
+							<Container className="p-2 overflow-y-auto" >
 								{pageData?.versions?.slice().reverse().map((version, versionIndex) => (
 									<VersionsListItemComponent
 										key={versionIndex}

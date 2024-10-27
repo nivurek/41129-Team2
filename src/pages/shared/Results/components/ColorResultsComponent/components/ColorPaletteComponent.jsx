@@ -224,7 +224,7 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
             </div>
             <div className="suggested-palettes mt-3">
                 <h2>Suggested Palettes</h2>
-                <div className="flex flex-nowrap">
+                <div className="flex flex-nowrap h-full overflow-y-auto">
                     <Divider layout="vertical" />
                     <div>
                         {colormindSuggestions.map((suggestion, i) => {
