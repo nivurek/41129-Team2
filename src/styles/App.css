@@ -14,6 +14,29 @@ html, body, #root, .app {
   background-color: rgb(195, 167, 160);
 }
 
+.welcome-message {
+  position: relative;
+  font-size: 30px;
+  font-weight: bold;
+}
+.welcome-message span {
+  position: relative;
+  display: inline-block;
+  line-height: 50px;
+  letter-spacing: 5px;
+  animation: waveAnim 1.5s infinite;
+  animation-delay: calc(.025s * var(--i))
+}
+
+@keyframes waveAnim{
+  0%, 40%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+}
+
 /* Navbar Styles */
 .navbar-container {
   background-color: #f9fafb;

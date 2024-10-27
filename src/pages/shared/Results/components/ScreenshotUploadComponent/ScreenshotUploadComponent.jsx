@@ -29,13 +29,6 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
     const imageSrc = React.createRef();
     const transformSrc = React.createRef();
 
-    useEffect(() => {
-        setTimeout(() => {
-            transformSrc?.current?.zoomOut(1, 1);
-        }, 100)
-        
-    }, [imageUrl]);
-
     const uploadHandler = async (event) => {
         const file = event.files[0];
         if (!file) return;
@@ -66,12 +59,12 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
         <>
         {imageUrl ? (
 
-            <TransformWrapper ref={transformSrc}>
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+            <TransformWrapper ref={transformSrc} centerZoomedOut={true}>
+            {({ centerView, zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <>
                 <Controls removeAllowed={!path.versionId} handleRemove={onRemove} />
                 <TransformComponent>
-                <img className="image-preview" ref={imageSrc} src={imageUrl} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                <img className="image-preview" ref={imageSrc} src={imageUrl} onLoad={() => {centerView(undefined, 0)}} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
                 </TransformComponent>
                 </>
             )}
