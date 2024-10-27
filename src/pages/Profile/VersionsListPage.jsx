@@ -115,8 +115,8 @@ const VersionsListPage = () => {
 							</div>
 							<Divider/>
 							<Tooltip target={".new-version-button-disabled"} content={"An empty version already exists. \nUpload an image to create a new one!"}  mouseTrack mouseTrackLeft={10} />
-							<div className={`m-2 flex ${!pageData?.versions?.at(-1).screenshotUrl && "new-version-button-disabled"}`}>
-								<Button className="h-5rem w-full" onClick={() => createNewVersionHandler()} disabled={!pageData?.versions?.at(-1).screenshotUrl}>
+							<div className={`m-2 flex ${pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl && "new-version-button-disabled"}`}>
+								<Button className="h-5rem w-full" onClick={() => createNewVersionHandler()} disabled={pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl}>
 									{pageData?.versions?.length === 0 ? "Get started!" : <Icon name='plus' />}
 								</Button>
 							</div>

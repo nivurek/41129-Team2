@@ -22,6 +22,7 @@ import withAuth from 'utils/withAuth';
 import { createPage, updatePage, deletePage } from "actions/pageActions";
 import { getUserById } from "actions/userActions";
 
+import { ReactComponent as ImageNotFound } from 'assets/image_not_uploaded.svg';
 import plusIcon from 'assets/plusIcon.png';
 
 
@@ -105,7 +106,7 @@ const PagesListPage = () => {
 
 	const AddNewPageCardElement = () => {
     return (
-      <Card style={{ margin: '50px 7px 50px 20px' }} onClick={() => setIsNewPageConfirmOpen(true)}>
+      <Card style={{ margin: '50px 7px 50px 7px' }} onClick={() => setIsNewPageConfirmOpen(true)}>
         <Image
           src={plusIcon}
           wrapped
@@ -197,8 +198,20 @@ const PagesListPage = () => {
     );
   };
 
+  function getLatestScreenshotUrl(page) {
+    // Filter out versions with empty screenshotUrl and sort by updated in descending order
+    const validVersions = page.versions
+        .filter(version => version.screenshotUrl !== "")
+        .map(({ updated, screenshotUrl }) => ({ updated, screenshotUrl }))
+        .sort((a, b) => new Date(b.updated) - new Date(a.updated));
+    
+    // Return the screenshotUrl of the most recent valid version, or null if none exist
+    console.log("For page:", page.name, "Screenshots valid are:", validVersions);
+    return validVersions.length > 0 ? validVersions[0].screenshotUrl : null;
+  }
+
 	return (
-    <Segment.Group style={{width: '100%', height: '100%'}}>
+    <Segment.Group style={{ display: 'flex', flexGrow: '1' }}>
       {/* ================================ Header ================================ */}
       <Segment secondary>
         <Grid className='aligned-grid' columns={3}>
@@ -219,16 +232,18 @@ const PagesListPage = () => {
       </Segment>
       {/* ================================ Card List ================================ */}
       <Segment style={{height: '100%'}}>
-        <h3>Pages</h3>
         <Card.Group>
           {projectData.pages.map((page, pageIndex) => (
             <Card key={pageIndex} onClick={() => selectPage(page._id)}>
-              <Image
-                src='https://replicate.delivery/mgxm/8b4d747d-feca-477d-8069-ee4d5f89ad8e/a_high_detail_shot_of_a_cat_wearing_a_suit_realism_8k_-n_9_.png'
-                wrapped
-                ui={false}
-              />
-              <CardContent>
+              <div className="image-thumbnail" >
+                {(getLatestScreenshotUrl(page) !== null) ? 
+                  <img src={ getLatestScreenshotUrl(page) } wrapped ui={false}/>
+                  : 
+                  <ImageNotFound />
+                }
+              </div>
+              
+              <CardContent style={{ paddingBottom: '100px' }}>
                 {/* ================================================================== */}
                 <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
                   {renamingId === page._id ? (
