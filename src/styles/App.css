@@ -324,6 +324,24 @@ html, body, #root, .app {
   background-color: #c7c9ff !important;
 }
 
+.card > .image-thumbnail {
+  height: 163px;
+  width: 290px;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card > .image-thumbnail img,
+.card > .image-thumbnail svg {
+  border-top-right-radius: .28571429rem;
+  border-top-left-radius: .28571429rem;
+  max-height: 165px;
+  max-width: 292px;
+}
+
 .versions-list-item .image-thumbnail {
   height: 72px;
   width: 128px;

@@ -9,10 +9,12 @@ import {
   Confirm,
   Dropdown,
   Form,
+  Grid,
   Icon,
   Image,
   Input,
   Popup,
+  Segment,
 } from 'semantic-ui-react';
 
 import { useUser } from "contexts/userDataContext";
@@ -20,6 +22,7 @@ import withAuth from "utils/withAuth";
 import { createProject, updateProject, deleteProject } from "actions/projectActions";
 import { getUserById } from "actions/userActions";
 
+import { ReactComponent as ImageNotFound } from 'assets/image_not_uploaded.svg';
 import plusIcon from 'assets/plusIcon.png';
 
 
@@ -98,7 +101,7 @@ const ProjectsListPage = () => {
 
   const AddNewProjectCardElement = () => {
     return (
-      <Card style={{ margin: '50px 7px 50px 20px' }} onClick={() => setIsNewProjectConfirmOpen(true)}>
+      <Card style={{ margin: '50px 7px 50px 7px' }} onClick={() => setIsNewProjectConfirmOpen(true)}>
         <Image
           src={plusIcon}
           wrapped
@@ -186,87 +189,141 @@ const ProjectsListPage = () => {
     );
   };
 
+  function getMostRecentScreenshotUrl(project) {
+    let latestScreenshot = null;
+
+    project.pages.forEach(page => {
+        const validVersions = page.versions
+            .filter(version => version.screenshotUrl !== "")
+            .map(({ updated, screenshotUrl }) => ({ updated, screenshotUrl }))
+            .sort((a, b) => new Date(b.updated) - new Date(a.updated));
+        
+        // Check if this page has a valid screenshot, and if it's more recent than the current latest
+        if (validVersions.length > 0) {
+            const mostRecentVersion = validVersions[0];
+            if (!latestScreenshot || new Date(mostRecentVersion.updated) > new Date(latestScreenshot.updated)) {
+                latestScreenshot = mostRecentVersion;
+            }
+        }
+        
+        console.log("For page:", page.name, "Screenshots valid are:", validVersions);
+    });
+
+    return latestScreenshot ? latestScreenshot.screenshotUrl : null;
+  }
+
   return (
-    <Card.Group>
-      {projectData.map((project, idx) => (
-        <Card key={idx} onClick={() => selectProject(project._id)}>
-          <Image src='https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' wrapped ui={false} />
-          <CardContent>
-            {/* ====================================================================================================== */}
-            <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
-              {renamingId === project._id ? (
-                <Form
-                  onBlur={(e) => {
-                    // Cancel form if the focus is leaving to a target OUTSIDE the form (not including the button) (idk how this works)
-                    if (!e.currentTarget.contains(e.relatedTarget)) {
-                      setRenamingId(null);
-                    }
-                  }}
-                  onSubmit={(e) => {
-                    handleEditSubmit(e, project._id);
-                  }}
-                  style={{ display: 'flex', alignItems: 'center', width: '85%' }}
-                >
-                  <Input
-                    value={renameValue}
-                    onChange={handleInputChange}
-                    placeholder="Name this project"
-                    autoFocus
-                    action={
-                      <Button
-                        icon={<Icon name="check" />}
-                        color="green"
-                        onClick={(e) => {
-                          handleEditSubmit(e, project._id);
-                        }}
+    <Segment.Group style={{ display: 'flex', flexGrow: '1' }}>
+      {/* ================================ Header ================================ */}
+      <Segment secondary>
+        <Grid className='aligned-grid' columns={3}>
+          <Grid.Column width={3}>
+            {/* <Button
+              onClick={()=>{navigate(-1)}}
+              icon
+              labelPosition='left'
+            >
+              <Icon name={'arrow left'} />
+              Go back
+            </Button> */}
+          </Grid.Column>
+          <Grid.Column width={10}>
+            <h1 style={{textAlign: 'center'}}>{userData.username} - Projects</h1>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+      {/* ================================ Card List ================================ */}
+      <Segment style={{ height: '100%' }}>
+        <Card.Group>
+          {projectData.map((project, idx) => (
+            <Card key={idx} onClick={() => selectProject(project._id)}>
+              <div className="image-thumbnail" >
+                {(getMostRecentScreenshotUrl(project) !== null) ? 
+                  <img src={ getMostRecentScreenshotUrl(project) } wrapped ui={false}/>
+                  : 
+                  <ImageNotFound />
+                }
+              </div>
+              <CardContent>
+                {/* ====================================================================================================== */}
+                <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {renamingId === project._id ? (
+                    <Form
+                      onBlur={(e) => {
+                        // Cancel form if the focus is leaving to a target OUTSIDE the form (not including the button) (idk how this works)
+                        if (!e.currentTarget.contains(e.relatedTarget)) {
+                          setRenamingId(null);
+                        }
+                      }}
+                      onSubmit={(e) => {
+                        handleEditSubmit(e, project._id);
+                      }}
+                      style={{ display: 'flex', alignItems: 'center', width: '85%' }}
+                    >
+                      <Input
+                        value={renameValue}
+                        onChange={handleInputChange}
+                        placeholder="Name this project"
+                        autoFocus
+                        action={
+                          <Button
+                            icon={<Icon name="check" />}
+                            color="green"
+                            onClick={(e) => {
+                              handleEditSubmit(e, project._id);
+                            }}
+                          />
+                        }
                       />
-                    }
+                    </Form>
+                  ) : (
+                    <div>
+                      <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
+                        {project.name}
+                      </span>
+                    </div>
+                  )}
+                  {(renamingId !== project._id) && (
+                    <Dropdown icon={<Icon name="ellipsis vertical" />}>
+                      <Dropdown.Menu>
+                        <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(project)} />
+                        <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpenIdx(project._id)} />
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  )}
+                  <Confirm
+                    className="delete-confirm"
+                    open={isDeleteConfirmOpenIdx === project._id}
+                    header={`Delete ${project.name}?`}
+                    content={"Are you sure you want to delete this project? This action is irreversible."}
+                    size={"small"}
+                    onConfirm={() => handleDeleteConfirm(project._id)}
+                    onCancel={()=> setIsDeleteConfirmOpenIdx(null)}
+                    confirmButton={"Delete"}
                   />
-                </Form>
-              ) : (
-                <div>
-                  <span style={{ fontWeight: 'bold', marginRight: '10px', fontSize: '20px' }}>
-                    {project.name}
-                  </span>
-                </div>
-              )}
-              {(renamingId !== project._id) && (
-                <Dropdown icon={<Icon name="ellipsis vertical" />}>
-                  <Dropdown.Menu>
-                    <Dropdown.Item icon={'edit'} text={"Rename"} onClick={() => handleStartEdit(project)} />
-                    <Dropdown.Item icon={'trash'} text={"Delete"} onClick={() => setIsDeleteConfirmOpenIdx(project._id)} />
-                  </Dropdown.Menu>
-                </Dropdown>
-              )}
-              <Confirm
-                className="delete-confirm"
-                open={isDeleteConfirmOpenIdx === project._id}
-                header={`Delete ${project.name}?`}
-                content={"Are you sure you want to delete this project? This action is irreversible."}
-                size={"small"}
-                onConfirm={() => handleDeleteConfirm(project._id)}
-                onCancel={()=> setIsDeleteConfirmOpenIdx(null)}
-                confirmButton={"Delete"}
-              />
-            </CardHeader>
+                </CardHeader>
 
-            {/* ====================================================================================================== */}
-            
-            <CardMeta>
-              <span className='date'>Last edited {project.updated}</span>
-            </CardMeta>
+                {/* ====================================================================================================== */}
+                
+                <CardMeta>
+                  <span className='date'>Last edited {project.updated}</span>
+                </CardMeta>
 
-            {/* ====================================================================================================== */}
-          </CardContent>
-          <CardContent extra>
-            <Icon name='file' />
-            {project.pages.length} page{project.pages.length === 1 ? '' : 's'}
-          </CardContent>
-        </Card>
-      ))}
-      <AddNewProjectCardElement/>
-      <AddNewProjectConfirmer isOpen={isNewProjectConfirmOpen} />
-    </Card.Group>
+                {/* ====================================================================================================== */}
+              </CardContent>
+              <CardContent extra>
+                <Icon name='file' />
+                {project.pages.length} page{project.pages.length === 1 ? '' : 's'}
+              </CardContent>
+            </Card>
+          ))}
+          <AddNewProjectCardElement/>
+          <AddNewProjectConfirmer isOpen={isNewProjectConfirmOpen} />
+        </Card.Group>
+      </Segment>
+    </Segment.Group>
+
+    
   )
 };
 
