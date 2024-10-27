@@ -67,18 +67,20 @@ const VersionDataComponent = () => {
               <Icon name="cancel" circular onClick={(e) => cancelEdit(e)} />
             </Form>
           ) : ( */}
-            <div className="flex flex-nowrap align-items-center">
-                <span style={{ fontWeight: 'bold', marginRight: '15px', fontSize: '20px' }}>
-                  {(openVersionIdx != null) ? (
-                    "Version " + (openVersionIdx + 1)
-                  ) : (
-                    "No version selected"
-                  ) }
-                </span>
-                <small style={{ lineHeight: '1.5rem' }}>Last updated: {versionData?.updated}</small>
-              </div>
-              {/* <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled /> */}
+          {/* <Button text size="small" icon="pi pi-pencil" severity="secondary" onClick={() => setIsEditingTitle(true)} disabled /> */}
           {/* )} */}
+
+          <div className="flex flex-nowrap align-items-center">
+            {(openVersionIdx != null) ? (
+              <>
+              <span style={{ fontWeight: 'bold', marginRight: '15px', fontSize: '20px' }}>{"Version " + (openVersionIdx + 1)}</span>
+              <small style={{ lineHeight: '1.5rem' }}>Last updated: {versionData?.updated}</small>
+              </>
+            ) : (
+              <span style={{ fontWeight: 'bold', marginRight: '15px', fontSize: '20px' }}>No Version Selected</span>
+            ) }
+          </div>
+
           <DeleteElementComponent elementId={versionData?._id} elementIdx={openVersionIdx} type={"version"} />
         </div>
       </Segment>
@@ -86,7 +88,13 @@ const VersionDataComponent = () => {
       {/* =============================== BODY =============================== */}
 
       <div className="flex flex-column min-h-0 h-full" >
-        <ResultsComponent isAuth={true} />
+        {(openVersionIdx != null) ? (
+          <ResultsComponent isAuth={true} />
+        ) : (
+          <div className="no-version-container">
+            <h2 style={{color: '#aaaaaa'}}>Select a version or create a new one to start your ChromaUX Journey...</h2>
+          </div>
+        )}
       </div>
     </>
   )

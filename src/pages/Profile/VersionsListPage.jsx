@@ -99,13 +99,7 @@ const VersionsListPage = () => {
 
 			<div className="versions-list-page-container">
 				<div className="versions-data-container">
-					{(openVersionIdx != null) ? (
-						<VersionDataComponent />
-					) : (
-						<div style={{ display: 'flex', flexDirection: 'column'}} >
-							<h3>No version selected</h3>
-						</div>
-					)}
+					<VersionDataComponent />
 				</div>
 				<div className={`versions-list-container ${versionsListCollapsed && "collapsed"}`}>
 					<Segment style={{ display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto' }}>
