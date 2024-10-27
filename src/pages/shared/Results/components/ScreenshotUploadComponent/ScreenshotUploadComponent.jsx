@@ -31,8 +31,8 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
 
     useEffect(() => {
         setTimeout(() => {
-            transformSrc?.current?.zoomOut(1, 0);
-        }, 1)
+            transformSrc?.current?.zoomOut(1, 1);
+        }, 100)
         
     }, [imageUrl]);
 

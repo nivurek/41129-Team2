@@ -107,11 +107,7 @@ const PagesListPage = () => {
 	const AddNewPageCardElement = () => {
     return (
       <Card style={{ margin: '50px 7px 50px 7px' }} onClick={() => setIsNewPageConfirmOpen(true)}>
-        <Image
-          src={plusIcon}
-          wrapped
-          ui={true}
-        />
+        <img src={plusIcon} />
         <CardContent style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CardHeader>Add new page</CardHeader>
         </CardContent>
@@ -237,7 +233,7 @@ const PagesListPage = () => {
             <Card key={pageIndex} onClick={() => selectPage(page._id)}>
               <div className="image-thumbnail" >
                 {(getLatestScreenshotUrl(page) !== null) ? 
-                  <img src={ getLatestScreenshotUrl(page) } wrapped ui={false}/>
+                  <img src={ getLatestScreenshotUrl(page) } />
                   : 
                   <ImageNotFound />
                 }

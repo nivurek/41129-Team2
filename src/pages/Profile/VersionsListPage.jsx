@@ -104,11 +104,11 @@ const VersionsListPage = () => {
 				<div className={`versions-list-container ${versionsListCollapsed && "collapsed"}`}>
 					<Segment style={{ display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto' }}>
 						
-						<div>
-							<Button onClick={()=>{toggleVersionList()}} icon>
+						<div className="flex align-items-center relative">
+							<Button className="versions-list-collapse-toggle" onClick={()=>{toggleVersionList()}} icon>
 								<Icon name={`arrow ${versionsListCollapsed ? 'left' : 'right'}`} />
 							</Button>
-							<h2 style={{textAlign: 'center'}}>Version History</h2>
+							<h2 className="text-center m-0 px-7 w-full white-space-nowrap">Version History</h2>
 						</div>
 						<Divider/>
 						<Tooltip target={".new-version-button-disabled"} content={pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl && "An empty version already exists. \nUpload an image to create a new one!"} position="left" mouseTrack mouseTrackLeft={2} mouseTrackTop={-1} />

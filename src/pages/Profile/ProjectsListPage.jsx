@@ -102,11 +102,7 @@ const ProjectsListPage = () => {
   const AddNewProjectCardElement = () => {
     return (
       <Card style={{ margin: '50px 7px 50px 7px' }} onClick={() => setIsNewProjectConfirmOpen(true)}>
-        <Image
-          src={plusIcon}
-          wrapped
-          ui={true}
-        />
+        <img src={plusIcon} />
         <CardContent style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CardHeader>Add new project</CardHeader>
         </CardContent>
@@ -239,7 +235,7 @@ const ProjectsListPage = () => {
             <Card key={idx} onClick={() => selectProject(project._id)}>
               <div className="image-thumbnail" >
                 {(getMostRecentScreenshotUrl(project) !== null) ? 
-                  <img src={ getMostRecentScreenshotUrl(project) } wrapped ui={false}/>
+                  <img src={ getMostRecentScreenshotUrl(project) } />
                   : 
                   <ImageNotFound />
                 }

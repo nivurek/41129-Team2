@@ -369,6 +369,9 @@ html, body, #root, .app {
   border-radius: 5px;
   padding: 0.5rem;
 }
+.versions-list-container.collapsed .versions-list-item.active .version-description.collapsed {
+  border: 1px solid #a3a3a3;
+}
 
 .versions-list-container .versions-list-item .version-description.expanded {
   display: flex;
@@ -382,6 +385,11 @@ html, body, #root, .app {
 
 .versions-list-container.collapsed .versions-list-item .image-thumbnail {
   margin-left: 1rem !important;
+}
+
+.versions-list-collapse-toggle {
+  position: absolute;
+  left: 0;
 }
 
 .versions-list-item {
@@ -408,6 +416,7 @@ html, body, #root, .app {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .card > .image-thumbnail img,

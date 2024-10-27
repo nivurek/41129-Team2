@@ -222,7 +222,7 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
                 </div>
                 <div className="flex align-items-center px-2 mt-1">
                     {_.isEqual(updatedImageColorPalette, imageColorPalette) ? 
-                        <><i className="pi pi-info-circle" style={{color: '#4b5563', 'font-size': '80%'}} /><small className="ml-1">Click a color above to modify it, or apply a palette from below</small></>
+                        <><i className="pi pi-info-circle" style={{color: '#4b5563', fontSize: '80%'}} /><small className="ml-1">Click a color above to modify it, or apply a palette from below</small></>
                     : <small>&nbsp;</small>}
                 </div>
             </div>
