@@ -51,7 +51,7 @@ const VersionDataComponent = () => {
   // ===================================================================
 
   return (
-    <Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
+    <>
       {/* =============================== HEADER =============================== */}
       <Segment style={{ maxHeight: '72px', backgroundColor: '#b5b8ff' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -85,10 +85,10 @@ const VersionDataComponent = () => {
 
       {/* =============================== BODY =============================== */}
 
-      <div className="flex flex-column min-h-0" >
+      <div className="flex flex-column min-h-0 h-full" >
         <ResultsComponent isAuth={true} />
       </div>
-    </Grid.Column>
+    </>
   )
 }
 

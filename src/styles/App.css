@@ -309,8 +309,59 @@ html, body, #root, .app {
 }
 
 /* Versions List Styles */
+.versions-list-page-container {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  min-height: 0;
+}
+
+.versions-data-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.versions-list-container {
+  margin-left: 1em;
+  width: 500px;
+  transition: all 0.5s;
+}
+
+.versions-list-container.collapsed {
+  width: 256px;
+}
+
+.versions-list-container.collapsed .versions-list-item .version-description.expanded {
+  /* width: 0; */
+  visibility: hidden !important;
+}
+.versions-list-container.collapsed .versions-list-item .version-description.collapsed {
+  display: flex;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.versions-list-container .versions-list-item .version-description.expanded {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.versions-list-container .versions-list-item .version-description.collapsed {
+  display: none;
+}
+
+.versions-list-container.collapsed .versions-list-item .image-thumbnail {
+  margin-left: 1rem !important;
+}
+
 .versions-list-item {
   height: 100px;
+  overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-wrap: nowrap;
@@ -326,13 +377,16 @@ html, body, #root, .app {
 
 .versions-list-item .image-thumbnail {
   height: 72px;
+  min-width: 128px;
   width: 128px;
+  margin-left: 8rem;
   border-radius: 5px;
   position: relative;
   border: 1px dashed rgba(34, 36, 38, .15);
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: margin-left 0.5s;
 }
 
 .versions-list-item .image-thumbnail img,
