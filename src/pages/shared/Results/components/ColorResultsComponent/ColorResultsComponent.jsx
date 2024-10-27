@@ -59,7 +59,7 @@ const ColorResultsComponent = ({versionProps, imageUrl}) => {
 
     ); else return (
         <div className="mx-4 my-auto">
-            <h2 style={{color:'#aaaaaa', 'white-space': 'nowrap'}}>Upload a screenshot on the left to explore your UI...</h2>
+            <h2 style={{color:'#aaaaaa'}}>Upload a screenshot on the left to explore your UI...</h2>
         </div>
     )
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 import { Button } from 'primereact/button';
@@ -8,7 +8,6 @@ import { updateVersionHelper } from "utils/api.helper";
 
 const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
 const enableFilestack = process.env.REACT_APP_ENABLE_FILESTACK || false;
-
 
 const Controls = ({ removeAllowed, handleRemove }) => {
     const { zoomIn, zoomOut, resetTransform } = useControls();
@@ -28,6 +27,14 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
     const {path, versionData, updateUserData} = versionProps;
 
     const imageSrc = React.createRef();
+    const transformSrc = React.createRef();
+
+    useEffect(() => {
+        setTimeout(() => {
+            transformSrc?.current?.zoomOut(1, 0);
+        }, 1)
+        
+    }, [imageUrl]);
 
     const uploadHandler = async (event) => {
         const file = event.files[0];
@@ -59,7 +66,7 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
         <>
         {imageUrl ? (
 
-            <TransformWrapper>
+            <TransformWrapper ref={transformSrc}>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <>
                 <Controls removeAllowed={!path.versionId} handleRemove={onRemove} />
