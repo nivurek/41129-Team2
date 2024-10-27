@@ -51,7 +51,6 @@ const ColorResultsComponent = ({versionProps, imageUrl}) => {
     if (Object.keys(imageColorPalette).length > 0) return (
 
         <>
-            <h1>Results</h1>
             <ColorPaletteComponent versionProps={versionProps} imageColorPalette={imageColorPalette} imageUrl={imageUrl}/>
             <Divider pt={{root: {className: 'mt-auto'}}} />
             <ColorContrastComponent />
