@@ -22,7 +22,7 @@ import 'primeflex/primeflex.css';
 
 
 const AppContent = () => {
-  const {userData, updateUserData } = useUser();
+  const {userData, updateUserData} = useUser();
   
   // Use useEffect to load the stored user data when the component mounts
   useEffect(() => {
@@ -61,7 +61,8 @@ const AppContent = () => {
   const location = useLocation();
   const isLoginPage = ['/login'].includes(location.pathname);
 
-  const isAuth = userData !== null;
+  const isAuth = userData != null ? Boolean(userData) : null;
+  console.log(userData);
 
   const RedirectToPages = () => {
     const { projectId } = useParams();
@@ -94,11 +95,11 @@ const AppContent = () => {
 
           <Route path="/ai" element={<AIPage/>} />
 
-          <Route path="/projects" element={<ProjectsListPage />} />
-          <Route path="/projects/:projectId" element={<RedirectToPages />} />
-          <Route path="/projects/:projectId/pages" element={<PagesListPage />} />
-          <Route path="/projects/:projectId/pages/:pageId" element={<RedirectToVersions />} />
-          <Route path="/projects/:projectId/pages/:pageId/versions" element={<VersionsListPage />} />
+          <Route exact path="/projects/:projectId/pages/:pageId/versions" element={<VersionsListPage />} />
+          <Route exact path="/projects/:projectId/pages/:pageId" element={<RedirectToVersions />} />
+          <Route exact path="/projects/:projectId/pages" element={<PagesListPage />} />
+          <Route exact path="/projects/:projectId" element={<RedirectToPages />} />
+          <Route exact path="/projects" element={<ProjectsListPage />} />
 
           <Route path="*" element={<NotFound />} />
           </>

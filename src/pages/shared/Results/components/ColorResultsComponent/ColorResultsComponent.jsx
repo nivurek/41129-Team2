@@ -51,7 +51,6 @@ const ColorResultsComponent = ({versionProps, imageUrl}) => {
     if (Object.keys(imageColorPalette).length > 0) return (
 
         <>
-            <h1>Results</h1>
             <ColorPaletteComponent versionProps={versionProps} imageColorPalette={imageColorPalette} imageUrl={imageUrl}/>
             <Divider pt={{root: {className: 'mt-auto'}}} />
             <ColorContrastComponent />
@@ -59,7 +58,29 @@ const ColorResultsComponent = ({versionProps, imageUrl}) => {
 
     ); else return (
         <div className="mx-4 my-auto">
-            <h2>Upload a screenshot on the left to start your ChromaUX journey...</h2>
+            {!versionData && 
+                <div className="welcome-message">
+                    <span style={{'--i': '1'}}>W</span>
+                    <span style={{'--i': '2'}}>e</span>
+                    <span style={{'--i': '3'}}>l</span>
+                    <span style={{'--i': '4'}}>c</span>
+                    <span style={{'--i': '5'}}>o</span>
+                    <span style={{'--i': '6'}}>m</span>
+                    <span style={{'--i': '7'}}>e</span>
+                    <span style={{'--i': '8'}}>&nbsp;</span>
+                    <span style={{'--i': '9'}}>t</span>
+                    <span style={{'--i': '10'}}>o</span>
+                    <span style={{'--i': '11'}}>&nbsp;</span>
+                    <span style={{'--i': '12'}}>C</span>
+                    <span style={{'--i': '13'}}>h</span>
+                    <span style={{'--i': '14'}}>r</span>
+                    <span style={{'--i': '15'}}>o</span>
+                    <span style={{'--i': '16'}}>m</span>
+                    <span style={{'--i': '17'}}>a</span>
+                    <span style={{'--i': '18'}}>U</span>
+                    <span style={{'--i': '19'}}>X</span>
+                </div>}
+            <h2 style={versionData && {color:'#aaaaaa'}}>Upload a screenshot on the left to explore your UI...</h2>
         </div>
     )
 };

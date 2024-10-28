@@ -51,14 +51,19 @@ const AIAnalysisComponent = ({ versionProps, imageUrl }) => {
     };
 
     return (
-    <div>
-        {analysis && (
+        <>
+        {imageUrl &&
             <div className="analysis-result">
-            <h3>AI Analysis Result:</h3>
-                <ReactMarkdown>{analysis}</ReactMarkdown>
+                <h3>AI Analysis Result</h3>
+                <div className="overflow-y-auto pr-2">
+                    {analysis ? 
+                        <ReactMarkdown>{analysis}</ReactMarkdown>
+                        : <i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem' }}></i>
+                    }
+                </div>
             </div>
-        )}
-    </div>
+        }
+        </>
     );
 };
 

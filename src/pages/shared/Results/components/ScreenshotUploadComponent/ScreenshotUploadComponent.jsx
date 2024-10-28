@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FileUpload } from "primereact/fileupload";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 import { Button } from 'primereact/button';
@@ -8,7 +8,6 @@ import { updateVersionHelper } from "utils/api.helper";
 
 const client = filestack.init(process.env.REACT_APP_FILESTACK_API_KEY); 
 const enableFilestack = process.env.REACT_APP_ENABLE_FILESTACK || false;
-
 
 const Controls = ({ removeAllowed, handleRemove }) => {
     const { zoomIn, zoomOut, resetTransform } = useControls();
@@ -28,6 +27,7 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
     const {path, versionData, updateUserData} = versionProps;
 
     const imageSrc = React.createRef();
+    const transformSrc = React.createRef();
 
     const uploadHandler = async (event) => {
         const file = event.files[0];
@@ -59,12 +59,12 @@ const ScreenshotUploadComponent = ({ versionProps, imageUrl, setImageUrl }) => {
         <>
         {imageUrl ? (
 
-            <TransformWrapper>
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+            <TransformWrapper ref={transformSrc} centerZoomedOut={true}>
+            {({ centerView, zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <>
                 <Controls removeAllowed={!path.versionId} handleRemove={onRemove} />
                 <TransformComponent>
-                <img className="image-preview" ref={imageSrc} src={imageUrl} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                <img className="image-preview" ref={imageSrc} src={imageUrl} onLoad={() => {centerView(undefined, 0)}} alt="No Img" style={{ maxWidth: '100%', maxHeight: '100%' }} />
                 </TransformComponent>
                 </>
             )}

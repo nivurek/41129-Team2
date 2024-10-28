@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Tooltip } from "primereact/tooltip";
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
+import { OverlayPanel } from 'primereact/overlaypanel';
 import { HexColorPicker } from 'react-colorful';
 import * as Color from 'utils/color.helpers';
 import _ from 'lodash';
@@ -19,10 +20,9 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
     const [isMouseDown, setIsMouseDown] = useState(false);
     const [paletteHasChanged, setPaletteHasChanged] = useState(false);
   
-    // Use a ref to track paletteHasChanged
+    // Refs setup
     const paletteHasChangedRef = useRef(false);
-  
-    // console.log("TOP==== paletteHasChanged:", paletteHasChanged);
+    const helpPanel = useRef(null);
   
     // Handle mouse down
     const handleMouseDown = (event) => {
@@ -34,7 +34,6 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
     // Handle mouse up
     const handleMouseUp = (event) => {
       if (event.button === 0) {
-        // console.log('triggered mouse up. Palette changed?', paletteHasChangedRef.current);
         setIsMouseDown(false);
         if (paletteHasChangedRef.current) {
           handleSavePaletteChanges();
@@ -196,12 +195,17 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
 
     }, [imageUrl]);
 
+    useEffect(() => {
+        console.log('Colormind suggestions:', colormindSuggestions);
+        if (colormindSuggestions.length === 0) generateNewSuggestion();
+    }, [updatedImageColorPalette])
+
     // Rendered Component
     return (
         <>
             <div className="your-palette">
                 <div className="flex mb-3" style={{height: '2.5rem'}}>
-                    <h2 className="mb-0 mr-3">Your Palette</h2>
+                    <h2 className="mb-0 mr-3">Your UI Colour Palette</h2>
                     {_.isEqual(updatedImageColorPalette, imageColorPalette) ? null :
                         <Button label="Reset Palette" icon="pi pi-refresh" size="small" outlined severity="danger" onClick={handleResetImagePalette} />
                     }
@@ -221,9 +225,22 @@ const ColorPaletteComponent = ({ versionProps, imageColorPalette, imageUrl }) =>
                         </div>
                     )})}
                 </div>
+                <div className="flex align-items-center px-2 mt-1">
+                    {_.isEqual(updatedImageColorPalette, imageColorPalette) ? 
+                        <><i className="pi pi-info-circle" style={{color: '#4b5563', fontSize: '80%'}} /><small className="ml-1">Click a color above to modify it, or apply a palette from below</small></>
+                    : <small>&nbsp;</small>}
+                </div>
             </div>
             <div className="suggested-palettes mt-3">
-                <h2>Suggested Palettes</h2>
+                <div className="flex align-items-center mb-2">
+                    <h2 className="mb-0">Suggested Colour Palettes</h2>
+                    <Button icon="pi pi-question-circle" rounded text onClick={(e) => helpPanel.current.toggle(e)} />
+                    <OverlayPanel ref={helpPanel} pt={{root: {className: 'w-3'}}}>
+                        <p>This tool lets you generate suggested colour palettes from the one extracted from your UI screenshot.</p>
+                        <p>It works using the colormind.io api, <a href="http://colormind.io/" target="_blank" rel="noreferrer">find out more here.</a></p>
+                        
+                    </OverlayPanel>
+                </div>
                 <div className="flex flex-nowrap h-full overflow-y-auto">
                     <Divider layout="vertical" />
                     <div>

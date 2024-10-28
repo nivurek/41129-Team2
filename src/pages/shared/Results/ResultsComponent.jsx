@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import { useParams } from 'react-router-dom';
+import { Divider } from 'primereact/divider';
 
 import ScreenshotUploadComponent from './components/ScreenshotUploadComponent/ScreenshotUploadComponent';
 import ColorResultsComponent from "./components/ColorResultsComponent/ColorResultsComponent";
@@ -43,13 +44,12 @@ const ResultsComponent = ({isAuth}) => {
         <Splitter className="h-full">
             <SplitterPanel className="screenshot-upload-container" size={65} minSize={35}>
                 <ScreenshotUploadComponent versionProps={versionProps} imageUrl={imageUrl} setImageUrl={setImageUrl} />
-                
+                <Divider />
                 {isAuth ? (
                     <AIAnalysisComponent versionProps={versionProps} imageUrl={imageUrl} />
                 ) : imageUrl && (
                     <AIPaywallComponent />
                 )}
-
             </SplitterPanel>
             <SplitterPanel className="results-container" size={35} minSize={15}>
                 <ColorResultsComponent versionProps={versionProps} imageUrl={imageUrl} />

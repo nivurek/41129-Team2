@@ -25,6 +25,7 @@ const VersionsListPage = () => {
 	const { userData, updateUserData } = useUser();
 	const { openVersionIdx, updateOpenVersionIdx, updateVersionData } = useVersion();
 	const [pageData, setPageData] = useState({});
+	const [versionsListCollapsed, setVersionsListCollapsed] = useState(false);
 	const { projectId, pageId } = useParams();
 
 	// Use Effect Hooks
@@ -49,6 +50,10 @@ const VersionsListPage = () => {
 	}, [projectId, pageId, userData])
 
 	// Handlers
+	const toggleVersionList = () => {
+		setVersionsListCollapsed(!versionsListCollapsed);
+	}
+
 	const createNewVersionHandler = () => {
 
 		createVersion({
@@ -92,51 +97,41 @@ const VersionsListPage = () => {
 				</Grid>
 			</Segment>
 
-			<Grid className='aligned-grid min-h-0'>
-				<Grid.Row stretched style={{ height: '100%' }}>
-					{/* ------------------------------------------------------------------ */}
-					{(openVersionIdx != null) ? (
+			<div className="versions-list-page-container">
+				<div className="versions-data-container">
+					<VersionDataComponent />
+				</div>
+				<div className={`versions-list-container ${versionsListCollapsed && "collapsed"}`}>
+					<Segment style={{ display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto' }}>
+						
+						<div className="flex align-items-center relative">
+							<Button className="versions-list-collapse-toggle" onClick={()=>{toggleVersionList()}} icon>
+								<Icon name={`arrow ${versionsListCollapsed ? 'left' : 'right'}`} />
+							</Button>
+							<h2 className="text-center m-0 px-7 w-full white-space-nowrap">Version History</h2>
+						</div>
+						<Divider/>
+						<Tooltip target={".new-version-button-disabled"} content={pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl && "An empty version already exists. \nUpload an image to create a new one!"} position="left" mouseTrack mouseTrackLeft={2} mouseTrackTop={-1} />
+						<div className="m-2 flex new-version-button-disabled">
+							<Button className="h-5rem w-full" onClick={() => createNewVersionHandler()} disabled={pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl}>
+								{pageData?.versions?.length === 0 ? "Get started!" : <Icon name='plus' />}
+							</Button>
+						</div>
 
-						<VersionDataComponent />
-					) : (
-						<Grid.Column width={10} style={{ height: 'inherit', paddingRight: '0px' }}>
-							<div style={{ display: 'flex', flexDirection: 'column'}} >
-								<h3>No version selected</h3>
-							</div>
-						</Grid.Column>
-					)}
-					{/* ------------------------------------------------------------------ */}
-					<Grid.Column width={6} style={{ height: 'inherit' }}>
-						<Segment
-							style={{ display: 'flex', flexDirection: 'column', height: '100%', overflowY: 'auto' }}
-						>
-							<div>
-								<h2 style={{textAlign: 'center'}}>Version History</h2>
-							</div>
-							<Divider/>
-							<Tooltip target={".new-version-button-disabled"} content={"An empty version already exists. \nUpload an image to create a new one!"}  mouseTrack mouseTrackLeft={10} />
-							<div className={`m-2 flex ${pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl && "new-version-button-disabled"}`}>
-								<Button className="h-5rem w-full" onClick={() => createNewVersionHandler()} disabled={pageData?.versions?.at(-1) && !pageData?.versions?.at(-1)?.screenshotUrl}>
-									{pageData?.versions?.length === 0 ? "Get started!" : <Icon name='plus' />}
-								</Button>
-							</div>
-
-							<Container className="p-2 overflow-y-auto" >
-								{pageData?.versions?.slice().reverse().map((version, versionIndex) => (
-									<VersionsListItemComponent
-										key={versionIndex}
-										data={version}
-										idx={pageData.versions.length - versionIndex - 1}
-										active={openVersionIdx === pageData.versions.length - versionIndex - 1}
-									/>
-								))}
-							</Container>
-							
-						</Segment>
-					</Grid.Column>
-					{/* ------------------------------------------------------------------ */}
-				</Grid.Row>
-			</Grid>
+						<div className="p-2 overflow-y-auto" >
+							{pageData?.versions?.slice().reverse().map((version, versionIndex) => (
+								<VersionsListItemComponent
+									key={versionIndex}
+									data={version}
+									idx={pageData.versions.length - versionIndex - 1}
+									active={openVersionIdx === pageData.versions.length - versionIndex - 1}
+								/>
+							))}
+						</div>
+						
+					</Segment>
+				</div>
+			</div>
 		</>
 	)
 }

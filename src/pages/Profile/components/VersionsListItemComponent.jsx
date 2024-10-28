@@ -20,9 +20,12 @@ const VersionsListItemComponent = ({data, idx, active }) => {
   return (
     <Segment onClick={() => versionSelectedHandler()} className={`versions-list-item ${active ? 'active' : ''}`}>
 
-      <div>
+      <div className="version-description expanded">
         <h3>Version {idx + 1}</h3>
-        <p>{data.updated}</p>
+        <p className="white-space-nowrap">{data.updated}</p>
+      </div>
+      <div className="version-description collapsed">
+        <h3>V{idx + 1}</h3>
       </div>
       
       <div className="image-thumbnail">
